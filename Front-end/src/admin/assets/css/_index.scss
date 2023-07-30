@@ -1,0 +1,46 @@
+@import './color';
+
+body {
+	font-family: 'Roboto', sans-serif !important;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	letter-spacing: 0.7px;
+}
+
+.layout {
+	color: $txt-color;
+	&__content {
+		padding-left: $sidebar-width;
+		min-height: 100vh;
+		&-main {
+			padding: 0 30px;
+		}
+	}
+  .information-showDashboard {
+    display: none;
+  }
+}
+
+
+@media screen and (max-width: 1023.98px) {
+	.layout {
+		.sidebar {
+			display: none;
+		}
+		&__content {
+			display: none;
+		}
+	}
+  .information-showDashboard {
+    font-size: 30px;
+  }
+}
+
+.icon-edit:hover{
+  transition: all 0.5s ease;
+  color: $main-color-cyan;
+}
+.icon-delete:hover{
+  transition: all 0.5s ease;
+  color: $main-color-red;
+}

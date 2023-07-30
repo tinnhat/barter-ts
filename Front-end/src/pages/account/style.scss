@@ -1,0 +1,55 @@
+@import '../../assets/style/_color.scss';
+
+.account-info {
+  margin: 60px 0;
+  .title {
+    text-align: center;
+    font-weight: 500;
+    font-size: 40px;
+    margin-bottom: 40px;
+  }
+  .account-info-container {
+    padding: 20px;
+    width: 40%;
+    margin: auto;
+    .label-input {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .input-form {
+      width: 100%;
+      padding: 10px;
+      border-radius: 26px;
+      outline: none;
+      // border: 1px solid $gray-color;
+      margin-bottom: 20px;
+    }
+    .btn-login {
+      width: 100%;
+      padding: 14px 30px;
+      border: none;
+      color: #fff;
+      background-color: $black-color;
+      border-radius: 20px;
+      margin-bottom: 5px;
+    }
+  }
+  @media screen and (max-width: 1023.98px) {
+    .account-info-container {
+      width: 60%;
+    }
+  }
+  @media screen and (max-width: 767.98px) {
+    .account-info-container {
+      width: 80%;
+    }
+  }
+  @media screen and (max-width: 374.98px) {
+    .account-info-container {
+      width: 100%;
+    }
+  }
+  
+  
+  
+}
