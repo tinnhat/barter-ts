@@ -1,0 +1,76 @@
+@import "../../assets/css/color";
+.dashboard-admin {
+	.page-header {
+		margin-bottom: 40px;
+		text-transform: capitalize;
+	}
+
+	.card {
+		padding: 30px;
+		margin-bottom: 30px;
+		background-color: $main-bg;
+		box-shadow: $box-shadow;
+		border-radius: $border-radius;
+	}
+
+	.full-height {
+		height: 100%;
+	}
+
+	.card.full-height {
+		height: calc(100% - 30px);
+	}
+
+	.card__header {
+		text-transform: capitalize;
+	}
+
+	.card > div ~ div {
+		margin-top: 30px;
+	}
+
+	.card__footer {
+		text-align: center;
+		text-transform: capitalize;
+	}
+
+	.light-background {
+		background-color: $main-bg-light;
+		color: #000;
+	}
+
+	.dark-background {
+		background-color: $main-bg-dark;
+		color: #fff;
+	}
+
+	.blue-color {
+		background-color: $main-color-blue;
+		color: #fff;
+	}
+
+	.red-color {
+		background-color: $main-color-red;
+		color: #fff;
+	}
+
+	.cyan-color {
+		background-color: $main-color-cyan;
+		color: #fff;
+	}
+
+	.green-color {
+		background-color: $main-color-green;
+		color: #fff;
+	}
+
+	.orange-color {
+		background-color: $main-color-orange;
+		color: #fff;
+	}
+
+	.row {
+		margin-left: 0;
+		margin-right: 0;
+	}
+}

@@ -1,0 +1,56 @@
+@import '../../assets/css/color';
+
+.topnav {
+	padding: 30px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: $topnav-height;
+	&__search {
+		position: relative;
+		height: 50px;
+		background-color: $main-bg;
+		display: flex;
+		align-items: center;
+		box-shadow: $box-shadow;
+		border-radius: $border-radius;
+		overflow: hidden;
+		& > input {
+			height: 100%;
+			width: 100%;
+			padding: 10px 60px 10px 20px;
+			font-size: 1rem;
+			border-radius: $border-radius;
+			color: $txt-color;
+			background-color: $main-bg;
+		}
+		& > i {
+			font-size: 1.5rem;
+			position: absolute;
+			right: 20px;
+		}
+	}
+	&__right {
+		display: flex;
+		align-items: center;
+		&-item ~ &-item {
+			margin-left: 30px;
+		}
+		&-user-name {
+			font-weight: 600;
+			font-size: 1rem;
+		}
+	}
+	.notification-item {
+		display: flex;
+		align-items: center;
+		padding: 20px;
+		&:hover {
+			background-color: $second-bg;
+		}
+		& > i {
+			margin-right: 20px;
+			font-size: 1.5rem;
+		}
+	}
+}

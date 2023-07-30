@@ -1,0 +1,48 @@
+@import "../../assets/style/color";
+.singleBlog {
+  .banner {
+    background-image: url("../../assets/img/contact-banner.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10em;
+    .time {
+      font-size: 20px;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+    &-title {
+      font-size: 60px;
+      font-weight: 600;
+      color: #fff;
+    }
+  }
+  &-container {
+    margin: 60px 0;
+    .content{
+      margin: auto;
+      min-height: 60vh;
+      width: 70%;
+      background-color: $gray-color;
+      color: #ffff;
+      padding: 20px;
+      border-radius: 4px;
+    }
+  }
+  .backToAll {
+    text-align: center;
+    .btn-back {
+      background-color: $gray-color;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      outline: none;
+      border-radius: 30px;
+      width: max-content;
+    }
+  }
+}

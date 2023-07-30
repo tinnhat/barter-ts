@@ -1,0 +1,32 @@
+@import '../../../assets/css/color';
+
+.modal-category-content {
+	.input-form {
+		.PhoneInput input {
+			width: 100%;
+			padding: 10px;
+			border-radius: 26px;
+			outline: none;
+			// border: 1px solid $gray-color;
+			border-radius: 0.375rem;
+			margin-left: 10px;
+			&:focus {
+				border: 1.5px solid #3182ce;
+			}
+		}
+		.PhoneInput input {
+			border: 1.5px solid #333;
+			margin-bottom: 0;
+			padding: 8px;
+		}
+		.chakra-radio-group {
+			.chakra-stack {
+				.chakra-radio {
+					.chakra-radio__control {
+						border-color: #3182ce;
+					}
+				}
+			}
+		}
+	}
+}

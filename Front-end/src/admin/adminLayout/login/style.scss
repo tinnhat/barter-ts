@@ -1,0 +1,40 @@
+@import '../../assets/css/color';
+
+.admin-login {
+  width: 100vw;
+  height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+  background-color: #F5F5F5;
+	&-container {
+    background-color: $main-bg;
+		width: 350px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 4px;
+    .box-login{
+      &__title{
+        margin-top: 20px;
+        font-weight: 700;
+        color: $main-color;
+        font-size: 24px;
+        text-align: center;
+        text-transform: uppercase;
+
+      }
+      .login-form{
+        .btn-admin-login{
+          width: 100%;
+          background-color: $main-color-hover;
+          color: $main-bg;
+          transition: all 0.5s linear;
+          cursor: pointer;
+          &:hover{
+            background-color: $main-color;
+          }
+        }
+      }
+    }
+	}
+}
