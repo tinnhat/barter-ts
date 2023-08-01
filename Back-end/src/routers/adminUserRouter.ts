@@ -12,7 +12,7 @@ userAdminRouter.get(
 	isAuthAdmin,
 	asyncHandler(async (req: Request, res: Response) => {
 		const users = await UserModel.find().select('-password')
-
+    users.sort(x => x.isDelete ? 1 : -1)
 		res.json(users)
 	})
 )

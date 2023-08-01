@@ -99,7 +99,7 @@ export default function CategoryPage() {
 							</Tooltip>
 						</td>
 						<td className='table-column__use'>
-							<Checkbox defaultChecked={category.isUse ? true : false} readOnly />
+							<Checkbox isChecked={category.isUse ? true : false} readOnly />
 						</td>
 						<td className='table-column__action'>
 							<i className='fa-solid icon-edit fa-pen-to-square' onClick={() => handleEdit(category)}></i>
