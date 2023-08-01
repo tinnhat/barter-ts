@@ -1,18 +1,18 @@
-import express, { Request, Response } from 'express'
-import { sampleProducts } from './data'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import express from 'express'
 import mongoose from 'mongoose'
+import { categoryAdminRouter } from './routers/adminCategoryRouter'
+import { ordersAdminRouter } from './routers/adminOrderRouter'
+import { productAdminRouter } from './routers/adminProductRouter'
+import { userAdminRouter } from './routers/adminUserRouter'
+import { blogRouter } from './routers/blogRouter'
+import { keyRouter } from './routers/keyRouter'
+import { orderRouter } from './routers/orderRouter'
 import { productRouter } from './routers/productRouter'
 import { seedRouter } from './routers/seedRouter'
 import { userRouter } from './routers/userRouter'
-import { orderRouter } from './routers/orderRouter'
-import { keyRouter } from './routers/keyRouter'
-import { blogRouter } from './routers/blogRouter'
-import { userAdminRouter } from './routers/adminUserRouter'
-import { ordersAdminRouter } from './routers/adminOrderRouter'
-import { productAdminRouter } from './routers/adminProductRouter'
-import { categoryAdminRouter } from './routers/adminCategoryRouter'
+import { adminDashboardRouter } from './routers/adminDashboardRouter'
 dotenv.config()
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/barterdb'
 mongoose.set('strictQuery', true)
@@ -35,6 +35,8 @@ app.use('/admin/users', userAdminRouter)
 app.use('/admin/orders', ordersAdminRouter)
 app.use('/admin/products', productAdminRouter)
 app.use('/admin/category', categoryAdminRouter)
+app.use('/admin/dashboard', adminDashboardRouter)
+
 
 
 

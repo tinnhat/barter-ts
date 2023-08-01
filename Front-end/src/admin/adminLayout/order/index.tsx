@@ -1,15 +1,15 @@
-import { Button, Checkbox, Input, Text, Tooltip } from '@chakra-ui/react'
+import {Button, Checkbox, Input, Text, Tooltip} from '@chakra-ui/react'
 import moment from 'moment'
-import { useMemo, useRef, useState } from 'react'
-import { toast } from 'react-hot-toast'
-import { typeEnum } from '../../../common/enum'
+import {useMemo, useRef, useState} from 'react'
+import {toast} from 'react-hot-toast'
+import {typeEnum} from '../../../common/enum'
 import Pagination from '../../../components/pagination'
-import { useDeleteOrderMutation, useGetAllOrdersQuery } from '../../../hooks/orderHooks'
-import { Order } from '../../../types/Order'
+import {useDeleteOrderMutation, useGetAllOrdersQuery} from '../../../hooks/orderHooks'
+import {Order} from '../../../types/Order'
 import ModalCustomer from './modalCreateAndEdit'
 import './style.scss'
-import { getError } from '../../../utils'
-import { ApiError } from '../../../types/ApiError'
+import {getError} from '../../../utils'
+import {ApiError} from '../../../types/ApiError'
 
 type Props = {}
 
@@ -114,10 +114,6 @@ export default function Orders({}: Props) {
 		})
 	}
 
-	const handleRefetchData = () => {
-		refetch()
-	}
-
 	const renderBody = (data: Order[]) => {
 		return (
 			data &&
@@ -145,7 +141,7 @@ export default function Orders({}: Props) {
 							</Tooltip>
 						</td>
 						<td className='table-column__paid'>
-							<Checkbox defaultChecked={order.isPaid ? true : false} readOnly />
+							<Checkbox isChecked={order.isPaid ? true : false} readOnly />
 						</td>
 						<td className='table-column__createAt'>
 							<Tooltip label={moment(order.createdAt).format('MM-DD-YYYY')}>
@@ -172,15 +168,15 @@ export default function Orders({}: Props) {
 	}
 	const handleDeleteOrder = async (id: string) => {
 		try {
-      const result = await deleteOrder(id)
-      if(result){
-        toast.success("Delete Order successfully")
-      }
-      refetch()
-    } catch (error) {
-      const message: string = getError(error as ApiError)
+			const result = await deleteOrder(id)
+			if (result) {
+				toast.success('Delete Order successfully')
+			}
+			refetch()
+		} catch (error) {
+			const message: string = getError(error as ApiError)
 			toast.error(message)
-    }
+		}
 	}
 
 	const handleSearchById = () => {
@@ -235,7 +231,7 @@ export default function Orders({}: Props) {
 						<Pagination siblingCount={1} currentPage={currentPage} totalCount={data ? data.length : 0} pageSize={PageSize} onPageChange={(page) => setCurrentPage(page)} />
 					</div>
 				</div>
-				{showModal.show && <ModalCustomer showModal={showModal} setShowModal={setShowModal} handleRefectchData={handleRefetchData} />}
+				{showModal.show && <ModalCustomer showModal={showModal} setShowModal={setShowModal} handleRefetchData={refetch} />}
 			</div>
 		</>
 	)

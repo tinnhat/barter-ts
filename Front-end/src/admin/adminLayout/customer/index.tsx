@@ -56,10 +56,8 @@ export default function Customers({}: Props) {
 		const lastPageIndex = firstPageIndex + PageSize
 		if (data) {
 			const dataInTable = data.slice(firstPageIndex, lastPageIndex)
-			const dataAfterSort = sortByAlphabetical(dataInTable, 'name')
-      dataAfterSort.sort(x => x.isDelete ? 1 : -1)
-			setDataShow(dataAfterSort)
-			return dataAfterSort
+			setDataShow(dataInTable)
+			return dataInTable
 		}
 		return []
 	}, [currentPage, data])
@@ -116,7 +114,7 @@ export default function Customers({}: Props) {
 							</Tooltip>
 						</td>
 						<td className='table-column__role'>
-							<Checkbox defaultChecked={user.isAdmin ? true : false} readOnly />
+							<Checkbox isChecked={user.isAdmin ? true : false} readOnly />
 						</td>
 						<td className='table-column__action'>
 							{user.isDelete ? (

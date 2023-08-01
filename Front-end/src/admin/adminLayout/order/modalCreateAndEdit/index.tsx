@@ -55,9 +55,9 @@ type ShowModalType = {
 type Props = {
 	showModal: ShowModalType
 	setShowModal: React.Dispatch<React.SetStateAction<ShowModalType>>
-	handleRefectchData: () => void
+	handleRefetchData: () => void
 }
-const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => {
+const ModalCustomer = ({showModal, setShowModal, handleRefetchData}: Props) => {
 	const {mutateAsync: createOrderAdmin} = useCreateOrderAdminMutation()
 	const {mutateAsync: updateOrderAdmin} = useUpdateOrderAdminMutation()
 
@@ -83,13 +83,13 @@ const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => 
 	const [paymentMethod, setPaymentMethod] = useState('1')
 
 	const handleCloseModal = () => {
+    handleRefetchData()
 		setShowModal((state) => {
 			return {
 				...state,
 				show: false,
 			}
 		})
-		handleRefectchData()
 	}
 	useEffect(() => {
 		allProduct?.forEach((item) => {
@@ -161,9 +161,11 @@ const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => 
 		}
 		if (showModal.type === typeEnum.Add) {
 			handleAddOrder(payload)
+      handleRefetchData()
 			return
 		}
 		handleEditOrder(payload)
+    handleRefetchData()
 	}
 
 	const handleAddOrder = async (values: Order) => {
@@ -195,7 +197,6 @@ const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => 
 		setLoading(true)
 		try {
 			const result = await updateOrderAdmin({...values,_id:showModal.order._id!})
-			console.log(result)
 			if (result) {
 				toast.success('Edit order successfully')
 				handleCloseModal()
