@@ -13,32 +13,6 @@ type Props = {}
 const userInfo = getDataFromLocalStorage('userInfo')
 
 export default function AdminLayout({}: Props) {
-	//not use when implement for admin
-	// const {dispatch} = useContext(Store)
-	// const checkTokenExpired = async () => {
-	// 	try {
-	// 		const result = await apiClient.post('api/users/me', {token: userInfo.token})
-  //     console.log(result);
-      
-	// 		if (!result.data.hasOwnProperty('user') || result.data === 'Token expired') {
-	// 			dispatch({type: 'USER_SIGNOUT'})
-	// 			localStorage.clear()
-	// 			window.location.reload
-	// 		}
-	// 	} catch (error) {
-  //     console.log(error);
-
-	// 		dispatch({type: 'USER_SIGNOUT'})
-	// 		localStorage.clear()
-	// 		window.location.reload
-	// 		throw error
-	// 	}
-	// }
-	// useEffect(() => {
-	// 	if (userInfo) {
-	// 		checkTokenExpired()
-	// 	}
-	// }, [])
 	return (
 		<>
 			<div className={`layout`}>

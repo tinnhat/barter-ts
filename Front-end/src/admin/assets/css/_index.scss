@@ -14,13 +14,13 @@ body {
 		min-height: 100vh;
 		&-main {
 			padding: 0 30px;
+      padding-bottom: 20px;
 		}
 	}
-  .information-showDashboard {
-    display: none;
-  }
 }
-
+.information-showDashboard {
+	display: none;
+}
 
 @media screen and (max-width: 1023.98px) {
 	.layout {
@@ -31,16 +31,24 @@ body {
 			display: none;
 		}
 	}
-  .information-showDashboard {
-    font-size: 30px;
-  }
+	.information-showDashboard {
+		display: block;
+		font-size: 30px;
+	}
 }
 
-.icon-edit:hover{
-  transition: all 0.5s ease;
-  color: $main-color-cyan;
+.icon-edit:hover {
+	transition: all 0.2s ease;
+	color: $main-color-green;
 }
-.icon-delete:hover{
-  transition: all 0.5s ease;
-  color: $main-color-red;
+.icon-delete:hover {
+	transition: all 0.2s ease;
+	color: $main-color-red;
+}
+
+.center-table-loading {
+  padding: 250px 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }

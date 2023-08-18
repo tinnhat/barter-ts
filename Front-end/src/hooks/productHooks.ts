@@ -17,12 +17,13 @@ export const useGetProductDetailBySlugQuery = (slug: string) =>
 //admin
 export const useCreateProductMutation = () =>
 	useMutation({
-		mutationFn: async ({image, category, countInStock, description, name, price}: {image: string; category: string; countInStock: number; description: string; name: string; price: number}) => {
+		mutationFn: async ({image, category, categoryId, countInStock, description, name, price}: {image: string; category: string; categoryId: string; countInStock: number; description: string; name: string; price: number}) => {
 			return (
 				await apiClient.post<Product>(`admin/products`, {
 					image,
 					category,
 					countInStock,
+          categoryId,
 					description,
 					name,
 					price,
@@ -37,6 +38,7 @@ export const useUpdateProductMutation = () =>
 			_id,
 			image,
 			category,
+      categoryId,
 			countInStock,
 			description,
 			name,
@@ -44,7 +46,8 @@ export const useUpdateProductMutation = () =>
 		}: {
 			_id: string
 			image?: string
-			category: string
+			category: string,
+      categoryId: string,
 			countInStock: number
 			description: string
 			name: string
@@ -55,6 +58,7 @@ export const useUpdateProductMutation = () =>
 				await apiClient.patch<Product>(`admin/products/edit/${_id}`, {
 					image,
 					category,
+          categoryId,
 					countInStock,
 					description,
 					name,

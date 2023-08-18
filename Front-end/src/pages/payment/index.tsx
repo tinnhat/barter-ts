@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { Store } from '../../Store'
 import { Helmet } from 'react-helmet-async'
 import { saveDataFromLocalStorage } from '../../utils'
-import { Button } from '@chakra-ui/react'
+import { Button, Radio, RadioGroup, Stack } from '@chakra-ui/react'
 type Props = {}
 
 export default function Payment({}: Props) {
@@ -35,30 +35,12 @@ export default function Payment({}: Props) {
           <h1 className='title'>Payment Method</h1>
           <fieldset>
             <div className='radio-item-container'>
-              <div className='radio-item'>
-                <label htmlFor='vanilla'>
-                  <input
-                    type='radio'
-                    id='vanilla'
-                    name='flavor'
-                    value='Paypal'
-                    onClick={() => setPaymentName('Paypal')}
-                  />
-                  <span>Paypal</span>
-                </label>
-              </div>
-              <div className='radio-item'>
-                <label htmlFor='chocolate'>
-                  <input
-                    type='radio'
-                    id='chocolate'
-                    name='flavor'
-                    value='COD'
-                    onClick={() => setPaymentName('COD')}
-                  />
-                  <span>COD</span>
-                </label>
-              </div>
+            <RadioGroup defaultValue='1' onChange={setPaymentName} value={paymentName}>
+								<Stack spacing={5} direction='row'>
+									<Radio value='Paypal'>Paypal</Radio>
+									<Radio value='COD'>COD</Radio>
+								</Stack>
+							</RadioGroup>
             </div>
           </fieldset>
           <Button className='btn-continue' onClick={handleSubmit}>Continue</Button>

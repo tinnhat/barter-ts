@@ -1,54 +1,36 @@
-import { Link } from 'react-router-dom'
-import notification from '../../assets/JsonData/notification.json'
-import user_menu from '../../assets/JsonData/user_menus.json'
-import Dropdown from '../dropdown'
-import './topnav.scss'
+import { useOutsideClick } from '@chakra-ui/react'
+import { useRef, useState } from 'react'
 import { getDataFromLocalStorage } from '../../../utils'
+import './topnav.scss'
 
-
-const renderNotificationItem = (item:any, index:number) => {
-	return (
-		<div className='notification-item' key={index}>
-			<i className={item.icon}></i>
-			<span>{item.content}</span>
-		</div>
-	)
-}
-
-const renderUserToggle = (name:string) => {
-	return (
-		<div className='topnav__right-user'>
-			<div className='topnav__right-user-name'>Hello, {name}</div>
-		</div>
-	)
-}
-const renderUserMenu = (item:any, index:number) => {
-	return (
-		<Link to={'/'} key={index}>
-			<div className='notification-item'>
-				<i className={item.icon}></i>
-				<span>{item.content}</span>
-			</div>
-		</Link>
-	)
-}
 function Topnav() {
-  const adminInfo = getDataFromLocalStorage('userInfo')
+	const adminInfo = getDataFromLocalStorage('userInfo')
+	const ref: any = useRef()
+	const [isModalOpen, setIsModalOpen] = useState(false)
+	useOutsideClick({
+		ref: ref,
+		handler: () => setIsModalOpen(false),
+	})
+  const handleLogout = () => {
+    localStorage.clear()
+    window.location.href = '/admin/signin'
+  }
+
 	return (
 		<div className='topnav'>
-			<div className='topnav__search'>
-				<input type='text' placeholder='search here...' />
-				<i className='bx bx-search'></i>
-			</div>
+			<div className='topnav__search'></div>
 			<div className='topnav__right'>
-				<div className='topnav__right-item'>
-					{/* dropdown */}
-					<Dropdown customToggle={() => renderUserToggle(adminInfo.name)} contentData={user_menu} renderItems={(item:any, idx:number) => renderUserMenu(item, idx)} />
-				</div>
-				<div className='topnav__right-item'>
-					{/* dropdown */}
-					<Dropdown icon='bx bx-bell' badge='12' contentData={notification} renderItems={(item:any, idx:number) => renderNotificationItem(item, idx)} renderFooter={() => <Link to={'/'}>View All</Link>} />
-				</div>
+				<p className='topnav__right-user-name' onClick={() => setIsModalOpen(true)}>
+					Welcome, {adminInfo.name}
+				</p>
+				{isModalOpen ? (
+					<ul className='topnav-menu' ref={ref}>
+						<li className='topnav-menu__item' onClick={() => (window.location.href = '/')}>
+							Homepage
+						</li>
+						<li className='topnav-menu__item' onClick={handleLogout}>Logout</li>
+					</ul>
+				) : null}
 			</div>
 		</div>
 	)

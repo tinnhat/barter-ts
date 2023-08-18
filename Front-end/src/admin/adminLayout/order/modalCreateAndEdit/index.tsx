@@ -83,7 +83,7 @@ const ModalCustomer = ({showModal, setShowModal, handleRefetchData}: Props) => {
 	const [paymentMethod, setPaymentMethod] = useState('1')
 
 	const handleCloseModal = () => {
-    handleRefetchData()
+		handleRefetchData()
 		setShowModal((state) => {
 			return {
 				...state,
@@ -161,11 +161,11 @@ const ModalCustomer = ({showModal, setShowModal, handleRefetchData}: Props) => {
 		}
 		if (showModal.type === typeEnum.Add) {
 			handleAddOrder(payload)
-      handleRefetchData()
+			handleRefetchData()
 			return
 		}
 		handleEditOrder(payload)
-    handleRefetchData()
+		handleRefetchData()
 	}
 
 	const handleAddOrder = async (values: Order) => {
@@ -196,7 +196,7 @@ const ModalCustomer = ({showModal, setShowModal, handleRefetchData}: Props) => {
 		}
 		setLoading(true)
 		try {
-			const result = await updateOrderAdmin({...values,_id:showModal.order._id!})
+			const result = await updateOrderAdmin({...values, _id: showModal.order._id!})
 			if (result) {
 				toast.success('Edit order successfully')
 				handleCloseModal()
@@ -432,7 +432,12 @@ const ModalCustomer = ({showModal, setShowModal, handleRefetchData}: Props) => {
 									</TabPanel>
 									<TabPanel>
 										<FormLabel htmlFor='Postal Code'>User Owner</FormLabel>
-										<Select placeholder='Select option' disabled={showModal.type == typeEnum.Edit} value={userSelected} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setUserSelected(e.target.value!)}>
+										<Select
+											placeholder='Select option'
+											disabled={showModal.type == typeEnum.Edit}
+											value={userSelected}
+											onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setUserSelected(e.target.value!)}
+										>
 											{listUsers &&
 												listUsers.map((user, idx) => {
 													return (

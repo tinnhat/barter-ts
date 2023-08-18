@@ -93,9 +93,12 @@ export default function Account({}: Props) {
 				<div className='account-info-container'>
 					<form onSubmit={handleSubmit(onSubmit)}>
 						<FormControl>
-							<FormLabel htmlFor='email'>email</FormLabel>
-							<Input className='input-form' type='email' id='email' readOnly placeholder='Enter your email' isInvalid={!!errors.email} {...register('email')} />
+							<FormLabel htmlFor='email'>Email</FormLabel>
+							<Input className='input-form' type='email' id='email' readOnly disabled placeholder='Enter your email' isInvalid={!!errors.email} {...register('email')} />
 							<Text color='red'>{errors.email && errors.email.message}</Text>
+						</FormControl>
+
+						<FormControl isRequired>
 							<FormLabel htmlFor='name' mt={2}>
 								Name
 							</FormLabel>
@@ -110,6 +113,8 @@ export default function Account({}: Props) {
 								})}
 							/>
 							<Text color='red'>{errors.name && errors.name.message}</Text>
+						</FormControl>
+						<FormControl>
 							<FormLabel mt={2} htmlFor='phone'>
 								Phone
 							</FormLabel>
@@ -128,7 +133,8 @@ export default function Account({}: Props) {
 								})}
 							/>
 							<Text color='red'>{errors.phone && errors.phone.message}</Text>
-
+						</FormControl>
+						<FormControl>
 							<FormLabel htmlFor='password' mt={2}>
 								New Password
 							</FormLabel>
@@ -140,6 +146,7 @@ export default function Account({}: Props) {
 							<Input className='input-form' type='password' id='rePassword' placeholder='Confirm your new password' {...register('rePassword')} />
 							<Text color='red'>{errors.rePassword && errors.rePassword.message}</Text>
 						</FormControl>
+
 						<Button isLoading={isLoading} loadingText='Updating' type='submit' className='btn-login'>
 							Update Information
 						</Button>

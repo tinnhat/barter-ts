@@ -6,6 +6,8 @@ import apiClient from './apiClient'
 import Footer from './components/footer'
 import Header from './components/header'
 import {getDataFromLocalStorage} from './utils'
+import 'react-quill/dist/quill.snow.css';
+
 
 const userLocalStorage = getDataFromLocalStorage('userInfo')
 function App() {
@@ -33,9 +35,9 @@ function App() {
 
 	return (
 		<>
-			<Toaster position='top-right' reverseOrder={false} />
 			<Header />
 			<main>
+				<Toaster position='bottom-right' reverseOrder={false} />
 				<Outlet />
 			</main>
 			<Footer />

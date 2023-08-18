@@ -6,6 +6,7 @@ import apiClient from '../../../apiClient'
 import {BlogType} from '../../../types/Blog'
 import {getDataFromLocalStorage} from '../../../utils'
 import {typeEnum, widthModal} from '../../../common/enum'
+import ReactQuill from 'react-quill'
 
 type ShowModalType = {
 	show: boolean
@@ -35,11 +36,30 @@ export default function ModalEditAddBlog({isShowModal, setShowModal, handleRefec
 		handleSubmit,
 		register,
 		setValue,
-		formState: {errors,},
+		formState: {errors},
 	} = useForm<IFormInputs>()
 	const finalRef = useRef(null)
 	const userInfo = getDataFromLocalStorage('userInfo')
 	const [isLoading, setIsLoading] = useState(false)
+	const [content, setContent] = useState({
+		content: '',
+		theme: 'snow',
+	})
+
+	const formats = ['header', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'list', 'bullet', 'indent', 'link', 'image']
+
+	const modules = {
+		toolbar: [[{header: [1, 2, false]}], ['bold', 'italic', 'underline', 'strike', 'blockquote'], [{list: 'ordered'}, {list: 'bullet'}, {indent: '-1'}, {indent: '+1'}], ['link', 'image'], ['clean']],
+	}
+
+	const handleChange = (html: string) => {
+		setContent({
+			...content,
+			content: html,
+		})
+		console.log(content.content)
+	}
+
 	const handleCloseModal = () => {
 		setShowModal((state) => {
 			return {
@@ -53,7 +73,7 @@ export default function ModalEditAddBlog({isShowModal, setShowModal, handleRefec
 		setIsLoading(true)
 		const payload = {
 			title: value.title,
-			content: value.content,
+			content: content.content,
 			user: userInfo._id,
 		}
 		try {
@@ -74,7 +94,7 @@ export default function ModalEditAddBlog({isShowModal, setShowModal, handleRefec
 		setIsLoading(true)
 		const payload = {
 			title: values.title,
-			content: values.content,
+			content: content.content,
 		}
 		try {
 			const result = await apiClient.patch(`/api/blogs/${isShowModal.blog._id}`, payload)
@@ -95,18 +115,27 @@ export default function ModalEditAddBlog({isShowModal, setShowModal, handleRefec
 			setValue('title', isShowModal.blog.title)
 		}
 		if (isShowModal.blog.content) {
-			setValue('content', isShowModal.blog.content)
+      setContent({
+        ...content,
+        content: isShowModal.blog.content,
+      })
 		}
 	}, [isShowModal.blog])
 
 	const onSubmit = (values: IFormInputs) => {
+		if (!content.content) {
+			toast.error('Please enter your content')
+			return
+		}
 		if (isShowModal.type === typeEnum.Add) {
 			handleAddBlog(values)
 			return
 		}
 		handleEditBlog(values)
 	}
-  
+	
+
+
 	return (
 		<Modal
 			finalFocusRef={finalRef}
@@ -140,19 +169,7 @@ export default function ModalEditAddBlog({isShowModal, setShowModal, handleRefec
 							<FormLabel htmlFor='content' mt={2}>
 								Content
 							</FormLabel>
-							<Textarea
-								id='content'
-								isInvalid={!!errors.content}
-								placeholder='Enter your content'
-								{...register('content', {
-									required: 'Content is required',
-									minLength: {
-										value: 200,
-										message: 'Content at least 200 characters',
-									},
-								})}
-							/>
-							<Text color='red'>{errors.content && errors.content.message}</Text>
+							<ReactQuill theme={content.theme} onChange={handleChange} value={content.content} modules={modules} formats={formats} />
 						</FormControl>
 					</ModalBody>
 					<ModalFooter w={{sm: widthModal.sm, md: widthModal.md, lg: widthModal.lg, xl: widthModal.xl}}>

@@ -9,6 +9,8 @@ import { useGetProductDetailBySlugQuery } from '../../hooks/productHooks'
 import { ApiError } from '../../types/ApiError'
 import { convertProductToCartItem, getError } from '../../utils'
 import './style.scss'
+import parse from 'html-react-parser';
+import { toast } from 'react-hot-toast'
 
 
 export default function ProductDetail() {
@@ -26,10 +28,11 @@ export default function ProductDetail() {
   const handleAddProductToCart = () => {
     const existItem = cart.cartItems.find(x => x._id === product!._id)
     const quantity = existItem
-      ? existItem.quantity + quantityRef.current?.value!
+      ? existItem.quantity + Number(quantityRef.current?.value!)
       : quantityRef.current?.value
     if (product!.countInStock < Number(quantity)) {
-      alert('product is out of stock')
+      toast.error('product is out of stock')
+      // quantityRef.current?.value = 1
       return
     }
     dispatch({
@@ -39,8 +42,16 @@ export default function ProductDetail() {
         quantity: Number(quantity),
       },
     })
-    alert(`add product ${product!.name} to cart`)
+    toast.success(`Add product successfully`)
   }
+
+  const renderDescription = () => {
+    return (
+      <div className='review'>
+        <div className='ql-editor'>{product && parse(product.description)}</div>
+      </div>
+    );
+  };
   return (
     <>
       {isLoading ? (
@@ -62,10 +73,10 @@ export default function ProductDetail() {
                 </div>
                 <div className='product-info'>
                   <h2 className='product-name'>{product.name}</h2>
-                  <p className='price'>${product.price}</p>
-                  <p className='product-desr'>{product.description}</p>
+                  <p className='price'>Price: <span>${product.price}</span></p>
+                  
                   <p className='count-in-stock'>
-                    In stock:{' '}
+                    In stock:
                     <span
                       className={product.countInStock ? 'inStock' : 'outStock'}
                     >
@@ -97,6 +108,11 @@ export default function ProductDetail() {
                   </div>
                   <p className='category'>
                     Category: <span>{product.category}</span>
+                  </p>
+                  <p className='description-title'>Description: </p>
+
+                  <p className='product-desr'>
+                    {renderDescription()}
                   </p>
                 </div>
               </div>

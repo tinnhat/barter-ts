@@ -41,6 +41,11 @@
       .item-info {
         display: flex;
         align-items: center;
+        padding-bottom: 4px;
+        border-bottom: 1px solid $gray-color;
+        &:last-child{
+          border-bottom: none;
+        }
         .title-item,
         .item-name,
         .item-price,
@@ -49,11 +54,12 @@
           padding: 20px 0;
           width: 25%;
         }
+        .item-price-total{
+          font-weight: bold;
+        }
         .item-name {
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          display: -webkit-box;
+          padding-left: 4px;
+          padding-right: 4px;
         }
         .item-quantity {
           display: flex;
@@ -68,7 +74,9 @@
             padding: 10px;
           }
           button {
-            font-size: 14px;
+            width: 30px;
+            height: 30px;
+            font-size: 10px;
             background-color: $brown-color;
             color: #fff;
             cursor: pointer;
@@ -99,7 +107,6 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: 40px;
       padding-top: 20px;
       border-top: 1px solid $gray-color;
       .coupon-box {

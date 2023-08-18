@@ -55,10 +55,10 @@
 			.summary-text {
 				font-size: 15px;
 				line-height: 1.4;
-				-webkit-line-clamp: 3;
-				-webkit-box-orient: vertical;
-				overflow: hidden;
-				display: -webkit-box;
+				text-align: center;
+        cursor: pointer;
+        color: $brown-color;
+        display: block;
 			}
 
 			.group-btn {

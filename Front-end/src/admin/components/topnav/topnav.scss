@@ -1,50 +1,49 @@
 @import '../../assets/css/color';
 
 .topnav {
-	padding: 30px;
+	padding: 10px 30px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	height: $topnav-height;
-	&__search {
-		position: relative;
-		height: 50px;
-		background-color: $main-bg;
-		display: flex;
-		align-items: center;
-		box-shadow: $box-shadow;
-		border-radius: $border-radius;
-		overflow: hidden;
-		& > input {
-			height: 100%;
-			width: 100%;
-			padding: 10px 60px 10px 20px;
-			font-size: 1rem;
-			border-radius: $border-radius;
-			color: $txt-color;
-			background-color: $main-bg;
-		}
-		& > i {
-			font-size: 1.5rem;
-			position: absolute;
-			right: 20px;
-		}
-	}
+
 	&__right {
 		display: flex;
 		align-items: center;
-		&-item ~ &-item {
-			margin-left: 30px;
-		}
+		position: relative;
 		&-user-name {
 			font-weight: 600;
-			font-size: 1rem;
+			font-size: 1.2rem;
+      cursor: pointer;
+		}
+		.topnav-menu {
+			position: absolute;
+			top: 30px;
+			right: 0;
+			background-color: #fff;
+			border-radius: 2px;
+			z-index: 99;
+			box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.23);
+			-webkit-box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.23);
+			-moz-box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.23);
+			&__item {
+				padding: 10px;
+				font-size: 17px;
+				font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s linear;
+        &:hover{
+          background-color: $main-color-hover;
+          color: $main-bg;
+          border-radius: 2px;
+        }
+			}
 		}
 	}
 	.notification-item {
 		display: flex;
 		align-items: center;
-		padding: 20px;
+		padding: 10px;
 		&:hover {
 			background-color: $second-bg;
 		}

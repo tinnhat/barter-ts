@@ -1,14 +1,13 @@
-import {Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Radio, RadioGroup, Stack, Text} from '@chakra-ui/react'
-import React, {useEffect, useRef, useState} from 'react'
-import {useForm} from 'react-hook-form'
-import {REGEX_PHONE, typeEnum, widthModal} from '../../../../common/enum'
-import {Category} from '../../../../types/Category'
+import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Radio, RadioGroup, Stack, Text } from '@chakra-ui/react'
+import React, { useEffect, useRef, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
+import { typeEnum, widthModal } from '../../../../common/enum'
+import { useCreateCategoryMutation, useUpdateCategoryMutation } from '../../../../hooks/categoryHooks'
+import { ApiError } from '../../../../types/ApiError'
+import { Category } from '../../../../types/Category'
+import { getError } from '../../../../utils'
 import './style.scss'
-import {useAdminSignupMutation, useAdminUpdateInforMutation} from '../../../../hooks/userHooks'
-import {toast} from 'react-hot-toast'
-import {getError} from '../../../../utils'
-import {ApiError} from '../../../../types/ApiError'
-import {useCreateCategoryMutation, useUpdateCategoryMutation} from '../../../../hooks/categoryHooks'
 
 interface IFormInputs {
 	name: string
@@ -20,17 +19,7 @@ type ShowModalType = {
 }
 type Props = {
 	showModal: ShowModalType
-	setShowModal: React.Dispatch<
-		React.SetStateAction<{
-			show: boolean
-			type: number
-			category: {
-				_id: string
-				name: string
-				isUse: boolean
-			}
-		}>
-	>
+	setShowModal: React.Dispatch<React.SetStateAction<ShowModalType>>
 	handleRefetchData: () => void
 }
 const ModalCategory = ({showModal, setShowModal, handleRefetchData}: Props) => {
@@ -126,7 +115,7 @@ const ModalCategory = ({showModal, setShowModal, handleRefetchData}: Props) => {
 				<form className='input-form' onSubmit={handleSubmit(onSubmit)}>
 					<ModalHeader>{+showModal.type == typeEnum.Add ? 'Add Category' : 'Edit Category'}</ModalHeader>
 					<ModalBody w={{sm: widthModal.sm, md: widthModal.md, lg: widthModal.lg, xl: widthModal.xl}}>
-						<FormControl>
+						<FormControl isRequired>
 							<FormLabel htmlFor='name'>Name</FormLabel>
 							<Input
 								id='name'

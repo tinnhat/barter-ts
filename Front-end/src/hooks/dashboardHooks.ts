@@ -13,3 +13,15 @@ export const useChartDashboardMutation = () =>
 			return (await apiClient.get(`admin/dashboard/chart`)).data
 		},
 	})
+export const useTableCustomerMutation = () =>
+	useMutation({
+		mutationFn: async () => {
+			return (await apiClient.get(`admin/dashboard/top-customers`)).data
+		},
+	})
+export const useTableProductsMutation = () =>
+	useMutation({
+		mutationFn: async () => {
+			return (await apiClient.get(`admin/dashboard/top-products`)).data
+		},
+	})
