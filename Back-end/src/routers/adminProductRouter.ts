@@ -10,7 +10,7 @@ productAdminRouter.post(
 	'/',
 	isAuthAdmin,
 	asyncHandler(async (req: Request, res: Response) => {
-		const {image, category, countInStock, description, name, price} = req.body
+		const {image, category, categoryId, countInStock, description, name, price} = req.body
 		const nameRemoveWhiteSpace = name.replace(/\s+/g, ' ').trim()
 		const slug = nameRemoveWhiteSpace.split(' ').join('-')
 		try {
@@ -19,6 +19,7 @@ productAdminRouter.post(
 				slug: slug,
 				image: image,
 				category,
+				categoryId,
 				countInStock: +countInStock,
 				description,
 				price: +price,
@@ -39,7 +40,7 @@ productAdminRouter.patch(
 			res.status(502).json({message: 'Error params'})
 			return
 		}
-		const {image, name, category, price, countInStock, description} = req.body
+		const {image, name, category,categoryId, price, countInStock, description} = req.body
 		if (product) {
 			const allOrder = await OrderModel.find()
 			allOrder.forEach((order) => {
@@ -47,7 +48,8 @@ productAdminRouter.patch(
 					if (item._id === req.params.id) {
 						return {
 							...item,
-              category,
+							category,
+              categoryId,
 							image,
 							name,
 							price,
@@ -61,6 +63,7 @@ productAdminRouter.patch(
 			product.image = image
 			product.name = name
 			product.category = category
+			product.categoryId = categoryId
 			product.price = price
 			product.countInStock = countInStock
 			product.description = description

@@ -23,19 +23,7 @@ type ShowModalType = {
 }
 type Props = {
 	showModal: ShowModalType
-	setShowModal: React.Dispatch<
-		React.SetStateAction<{
-			show: boolean
-			type: number
-			customer: {
-				_id: string
-				email: string
-				name: string
-				phone: string
-				isAdmin: boolean
-			}
-		}>
-	>
+	setShowModal: React.Dispatch<React.SetStateAction<ShowModalType>>
 	handleRefectchData: () => void
 }
 const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => {
@@ -64,7 +52,7 @@ const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => 
 			const {name, email, phone, isAdmin} = showModal.customer
 			setValue('name', name)
 			setValue('email', email)
-			setValue('phone', phone)
+			setValue('phone', phone!)
 			if (isAdmin) {
 				setRole('2')
 			} else {
@@ -119,9 +107,9 @@ const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => 
 			setLoading(false)
 		}
 	}
-  const handleResetPassword = () => {
-    toast.success('Check your email to reset password')
-  }
+	const handleResetPassword = () => {
+		toast.success('Check your email to reset password')
+	}
 
 	return (
 		<Modal
@@ -137,7 +125,7 @@ const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => 
 				<form className='input-form' onSubmit={handleSubmit(onSubmit)}>
 					<ModalHeader>{+showModal.type == typeEnum.Add ? 'Add Customer' : 'Edit Customer'}</ModalHeader>
 					<ModalBody w={{sm: widthModal.sm, md: widthModal.md, lg: widthModal.lg, xl: widthModal.xl}}>
-						<FormControl>
+						<FormControl isRequired>
 							<FormLabel htmlFor='name'>Name</FormLabel>
 							<Input
 								id='name'
@@ -152,7 +140,11 @@ const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => 
 								})}
 							/>
 							<Text color='red'>{errors.name && errors.name.message}</Text>
-							<FormLabel mt={2} htmlFor='email'>Email</FormLabel>
+						</FormControl>
+						<FormControl isRequired>
+							<FormLabel mt={2} htmlFor='email'>
+								Email
+							</FormLabel>
 							<Input
 								id='email'
 								placeholder='Enter your email'
@@ -163,26 +155,28 @@ const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => 
 								disabled={showModal.type === typeEnum.Add ? false : true}
 							/>
 							<Text color='red'>{errors.email && errors.email.message}</Text>
-							<FormLabel mt={2} htmlFor='phone'>
-								Phone
-							</FormLabel>
-							<Input
-								type='tel'
-								id='phone'
-								placeholder='Enter your phone'
-								isInvalid={!!errors.phone}
-								{...register('phone', {
-									required: 'Phone is required',
-									pattern: {
-										value: REGEX_PHONE,
-										message: 'Invalid Phone number',
-									},
-								})}
-							/>
-							<Text color='red'>{errors.phone && errors.phone.message}</Text>
+						</FormControl>
+						<FormLabel mt={2} htmlFor='phone'>
+							Phone
+						</FormLabel>
+						<Input
+							type='tel'
+							id='phone'
+							placeholder='Enter your phone'
+							isInvalid={!!errors.phone}
+							{...register('phone', {
+								required: 'Phone is required',
+								pattern: {
+									value: REGEX_PHONE,
+									message: 'Invalid Phone number',
+								},
+							})}
+						/>
+						<Text color='red'>{errors.phone && errors.phone.message}</Text>
 
-							{showModal.type === typeEnum.Add ? (
-								<>
+						{showModal.type === typeEnum.Add ? (
+							<>
+								<FormControl isRequired>
 									<FormLabel mt={2} htmlFor='password'>
 										Password
 									</FormLabel>
@@ -195,23 +189,23 @@ const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => 
 										{...register('password', {required: 'Password is required'})}
 									/>
 									<Text color='red'>{errors.password && errors.password.message}</Text>
-								</>
-							) : (
-								<>
-									<FormLabel mt={2} htmlFor='password'>
-										Password
-									</FormLabel>
-									<Button onClick={handleResetPassword}>Reset Password</Button>
-								</>
-							)}
-							<FormLabel htmlFor='title'>Role</FormLabel>
-							<RadioGroup defaultValue='1' onChange={setRole} value={role}>
-								<Stack spacing={5} direction='row'>
-									<Radio value='1'>User</Radio>
-									<Radio value='2'>Admin</Radio>
-								</Stack>
-							</RadioGroup>
-						</FormControl>
+								</FormControl>
+							</>
+						) : (
+							<>
+								<FormLabel mt={2} htmlFor='password'>
+									Password
+								</FormLabel>
+								<Button onClick={handleResetPassword}>Reset Password</Button>
+							</>
+						)}
+						<FormLabel htmlFor='title'>Role</FormLabel>
+						<RadioGroup defaultValue='1' onChange={setRole} value={role}>
+							<Stack spacing={5} direction='row'>
+								<Radio value='1'>User</Radio>
+								<Radio value='2'>Admin</Radio>
+							</Stack>
+						</RadioGroup>
 					</ModalBody>
 					<ModalFooter w={{sm: widthModal.sm, md: widthModal.md, lg: widthModal.lg, xl: widthModal.xl}}>
 						<Button mr={3} onClick={handleCloseModal}>

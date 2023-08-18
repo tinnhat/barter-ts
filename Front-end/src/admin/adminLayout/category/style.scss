@@ -47,19 +47,12 @@
 				.table-column__id {
 					text-align: center;
 				}
-				.table-column__email {
-					text-align: center;
-				}
 				.table-column__name {
 					text-align: center;
 				}
-				.table-column__phone {
+				.table-column__use {
 					text-align: center;
-					width: 10vw;
-				}
-				.table-column__role {
-					text-align: center;
-					width: 6vw;
+					width: 8vw;
 				}
 				.table-column__action {
 					text-align: center;
@@ -104,6 +97,7 @@
 			border-bottom: solid 1px rgba(255, 255, 255, 0.1);
 		}
 		.row-table {
+			background-color: $row-table-default;
 			td {
 				line-height: 1.4;
 			}
@@ -116,17 +110,10 @@
 			.table-column__id {
 				text-align: center;
 			}
-			.table-column__email {
-				text-align: center;
-			}
 			.table-column__name {
 				text-align: center;
 			}
-			.table-column__phone {
-				text-align: center;
-				width: 10vw;
-			}
-			.table-column__role {
+			.table-column__use {
 				text-align: center;
 				.chakra-checkbox__control {
 					cursor: default;
@@ -135,14 +122,11 @@
 						border-color: #2b6cb0;
 					}
 				}
-				width: 6vw;
+				width: 8vw;
 			}
 			.table-column__action {
 				text-align: center;
 				width: 8vw;
-				.not-action {
-					cursor: not-allowed;
-				}
 			}
 		}
 		tbody tr:hover {

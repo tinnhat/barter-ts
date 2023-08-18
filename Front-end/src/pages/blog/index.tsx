@@ -88,7 +88,7 @@ export default function Blog({}: Props) {
 											{blog.title}
 										</Link>
 									</Tooltip>
-									<p className='summary-text'>{blog.content}</p>
+									<a className='summary-text' href={`/blog/${blog._id}`}>Read more</a>
 									{userInfo && userInfo.isAdmin ? (
 										<div className='group-btn'>
 											<i className='fa-solid fa-pen-to-square icon-edit' onClick={() => handleEditBlog(blog)}></i>

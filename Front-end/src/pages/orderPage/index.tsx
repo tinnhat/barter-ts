@@ -6,6 +6,8 @@ import {useGetOrderDetailsQuery, useGetPaypalClientIdQuery, usePayOrderMutation}
 import {ApiError} from '../../types/ApiError'
 import {getError} from '../../utils'
 import './style.scss'
+import {Button, Text, Tooltip} from '@chakra-ui/react'
+import {toast} from 'react-hot-toast'
 type Props = {}
 
 export default function OrderPage({}: Props) {
@@ -14,15 +16,12 @@ export default function OrderPage({}: Props) {
 	const {state} = useContext(Store)
 	const {userInfo} = state
 	const {id: orderId} = params
-	const {
-		data: order,
-		refetch,
-	} = useGetOrderDetailsQuery(orderId!)
+	const {data: order, refetch} = useGetOrderDetailsQuery(orderId!)
 	const {mutateAsync: payOrder} = usePayOrderMutation()
 	const testPayHandler = async () => {
 		await payOrder({orderId: orderId!})
 		refetch()
-		alert('Order is paid')
+		toast.success('Order is paid')
 	}
 
 	const [{}, paypalDispatch] = usePayPalScriptReducer()
@@ -50,8 +49,8 @@ export default function OrderPage({}: Props) {
 	const paypalbuttonTransactionProps: PayPalButtonsComponentProps = {
 		style: {layout: 'vertical'},
 		createOrder(data, actions) {
-      console.log(data);
-      
+			console.log(data)
+
 			return actions.order
 				.create({
 					purchase_units: [
@@ -67,20 +66,20 @@ export default function OrderPage({}: Props) {
 				})
 		},
 		onApprove(data, actions) {
-      console.log(data);
+			console.log(data)
 
 			return actions.order!.capture().then(async (details) => {
 				try {
 					await payOrder({orderId: orderId!, ...details})
 					refetch()
-					alert('Order is paid successfully')
+					toast.success('Order is paid successfully')
 				} catch (err) {
-					alert(getError(err as ApiError))
+					toast.error(getError(err as ApiError))
 				}
 			})
 		},
 		onError: (err) => {
-			alert(getError(err as ApiError))
+			toast.error(getError(err as ApiError))
 		},
 	}
 	useEffect(() => {
@@ -91,7 +90,7 @@ export default function OrderPage({}: Props) {
 	return (
 		<section className='orderPage'>
 			<div className='container'>
-				<h1 className='orderPage-title'>Order - {orderId}</h1>
+				<h1 className='orderPage-title'>Checkout Order</h1>
 				<div className='orderPage-container'>
 					<div className='info-box'>
 						<div className='shipping-box'>
@@ -125,7 +124,11 @@ export default function OrderPage({}: Props) {
 									<div className='item-info' key={item._id}>
 										<div className='img-name'>
 											<img src={item.image} alt='' />
-											<div className='name'>{item.name}</div>
+											<div className='name'>
+												<Tooltip label={item.name}>
+													<Text noOfLines={2}>{item.name}</Text>
+												</Tooltip>
+											</div>
 										</div>
 										<p className='quantity'>{item.quantity}</p>
 										<p className='price'>${item.price}</p>
@@ -148,8 +151,14 @@ export default function OrderPage({}: Props) {
 						<p className='total'>
 							Total <span>${order?.totalPrice}</span>
 						</p>
-						<PayPalButtons {...paypalbuttonTransactionProps} />
-						<button onClick={testPayHandler}>Test Pay</button>
+						{order?.isPaid ? (
+							<p className='checkout-complete'>Checkout complete</p>
+						) : (
+							<>
+								<PayPalButtons {...paypalbuttonTransactionProps} />
+								<Button onClick={testPayHandler}>Checkout test</Button>
+							</>
+						)}
 					</div>
 				</div>
 			</div>

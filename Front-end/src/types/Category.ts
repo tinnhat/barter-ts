@@ -1,5 +1,5 @@
 export type Category = {
-	_id: string
+	_id?: string
 	name: string
 	isUse: boolean
 }

@@ -1,15 +1,17 @@
-import {Button, Checkbox, Input, Text, Tooltip} from '@chakra-ui/react'
+import { Button, Checkbox, Input, Text, Tooltip } from '@chakra-ui/react'
 import moment from 'moment'
-import {useMemo, useRef, useState} from 'react'
-import {toast} from 'react-hot-toast'
-import {typeEnum} from '../../../common/enum'
+import { useMemo, useRef, useState } from 'react'
+import { toast } from 'react-hot-toast'
+import { PAGE_SIZE_ADMIN, typeEnum } from '../../../common/enum'
+import { sortByAlphabetical } from '../../../common/utils'
 import Pagination from '../../../components/pagination'
-import {useDeleteOrderMutation, useGetAllOrdersQuery} from '../../../hooks/orderHooks'
-import {Order} from '../../../types/Order'
+import { useDeleteOrderMutation, useGetAllOrdersQuery } from '../../../hooks/orderHooks'
+import { ApiError } from '../../../types/ApiError'
+import { Order } from '../../../types/Order'
+import { getError } from '../../../utils'
+import LoadingCenter from '../../components/loadingCenter'
 import ModalCustomer from './modalCreateAndEdit'
 import './style.scss'
-import {getError} from '../../../utils'
-import {ApiError} from '../../../types/ApiError'
 
 type Props = {}
 
@@ -19,23 +21,8 @@ type TypeModal = {
 	order: Order
 }
 
-const sortByAlphabetical = (data: any, key: string) => {
-	const newDataSort = [...data]
-	newDataSort.sort(function (a: any, b: any) {
-		if (a[key] < b[key]) {
-			return -1
-		}
-		if (a[key] > b[key]) {
-			return 1
-		}
-		return 0
-	})
-	return newDataSort
-}
-let PageSize = 10
-
 export default function Orders({}: Props) {
-	const {data, refetch} = useGetAllOrdersQuery()
+	const {data, refetch, isLoading} = useGetAllOrdersQuery()
 	const {mutateAsync: deleteOrder} = useDeleteOrderMutation()
 	const [currentPage, setCurrentPage] = useState(1)
 	const searchRef = useRef<HTMLInputElement>(null)
@@ -67,8 +54,8 @@ export default function Orders({}: Props) {
 	})
 
 	const currentTableData = useMemo(() => {
-		const firstPageIndex = (currentPage - 1) * PageSize
-		const lastPageIndex = firstPageIndex + PageSize
+		const firstPageIndex = (currentPage - 1) * PAGE_SIZE_ADMIN
+		const lastPageIndex = firstPageIndex + PAGE_SIZE_ADMIN
 		if (data) {
 			const dataInTable = data.slice(firstPageIndex, lastPageIndex)
 			const dataAfterSort = sortByAlphabetical(dataInTable, 'name')
@@ -224,11 +211,19 @@ export default function Orders({}: Props) {
 					</div>
 					<div className='table-content'>
 						<table cellPadding='0' cellSpacing='0'>
-							<tbody>{renderBody(dataShow)}</tbody>
+							<tbody>
+								{isLoading ? (
+									<div className='center-table-loading'>
+										<LoadingCenter />
+									</div>
+								) : (
+									renderBody(dataShow)
+								)}
+							</tbody>
 						</table>
 					</div>
 					<div className='table__pagination'>
-						<Pagination siblingCount={1} currentPage={currentPage} totalCount={data ? data.length : 0} pageSize={PageSize} onPageChange={(page) => setCurrentPage(page)} />
+						<Pagination siblingCount={1} currentPage={currentPage} totalCount={data ? data.length : 0} pageSize={PAGE_SIZE_ADMIN} onPageChange={(page) => setCurrentPage(page)} />
 					</div>
 				</div>
 				{showModal.show && <ModalCustomer showModal={showModal} setShowModal={setShowModal} handleRefetchData={refetch} />}

@@ -1,14 +1,15 @@
-import {Button, Checkbox, Input, Text, Tooltip} from '@chakra-ui/react'
-import {useMemo, useRef, useState} from 'react'
-import {typeEnum} from '../../../common/enum'
+import { Button, Checkbox, Input, Text, Tooltip } from '@chakra-ui/react'
+import { useMemo, useRef, useState } from 'react'
+import { toast } from 'react-hot-toast'
+import { PAGE_SIZE_ADMIN, typeEnum } from '../../../common/enum'
 import Pagination from '../../../components/pagination'
-import {useDeleteUserMutation, useGetAllUsersQuery} from '../../../hooks/userHooks'
-import {UserInfo} from '../../../types/UserInfo'
+import { useDeleteUserMutation, useGetAllUsersQuery } from '../../../hooks/userHooks'
+import { ApiError } from '../../../types/ApiError'
+import { UserInfo } from '../../../types/UserInfo'
+import { getError } from '../../../utils'
+import LoadingCenter from '../../components/loadingCenter'
 import ModalCustomer from './modalCreateAndEdit'
 import './style.scss'
-import {toast} from 'react-hot-toast'
-import {getError} from '../../../utils'
-import {ApiError} from '../../../types/ApiError'
 
 type Props = {}
 
@@ -18,23 +19,8 @@ type TypeModal = {
 	customer: UserInfo
 }
 
-const sortByAlphabetical = (data: any, key: string) => {
-	const newDataSort = [...data]
-	newDataSort.sort(function (a: any, b: any) {
-		if (a[key] < b[key]) {
-			return -1
-		}
-		if (a[key] > b[key]) {
-			return 1
-		}
-		return 0
-	})
-	return newDataSort
-}
-let PageSize = 10
-
 export default function Customers({}: Props) {
-	const {data, refetch} = useGetAllUsersQuery()
+	const {data, refetch, isLoading} = useGetAllUsersQuery()
 	const {mutateAsync: deleteUser} = useDeleteUserMutation()
 	const [currentPage, setCurrentPage] = useState(1)
 	const searchRef = useRef<HTMLInputElement>(null)
@@ -52,8 +38,8 @@ export default function Customers({}: Props) {
 		},
 	})
 	const currentTableData = useMemo(() => {
-		const firstPageIndex = (currentPage - 1) * PageSize
-		const lastPageIndex = firstPageIndex + PageSize
+		const firstPageIndex = (currentPage - 1) * PAGE_SIZE_ADMIN
+		const lastPageIndex = firstPageIndex + PAGE_SIZE_ADMIN
 		if (data) {
 			const dataInTable = data.slice(firstPageIndex, lastPageIndex)
 			setDataShow(dataInTable)
@@ -196,11 +182,19 @@ export default function Customers({}: Props) {
 					</div>
 					<div className='table-content'>
 						<table cellPadding='0' cellSpacing='0'>
-							<tbody>{renderBody(dataShow)}</tbody>
+							<tbody>
+								{isLoading ? (
+									<div className='center-table-loading'>
+										<LoadingCenter />
+									</div>
+								) : (
+									renderBody(dataShow)
+								)}
+							</tbody>
 						</table>
 					</div>
 					<div className='table__pagination'>
-						<Pagination siblingCount={1} currentPage={currentPage} totalCount={data ? data.length : 0} pageSize={PageSize} onPageChange={(page) => setCurrentPage(page)} />
+						<Pagination siblingCount={1} currentPage={currentPage} totalCount={data ? data.length : 0} pageSize={PAGE_SIZE_ADMIN} onPageChange={(page) => setCurrentPage(page)} />
 					</div>
 				</div>
 				{showModal.show && <ModalCustomer showModal={showModal} setShowModal={setShowModal} handleRefectchData={handleRefetchData} />}

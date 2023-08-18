@@ -10,6 +10,12 @@
   }
   .orderPage-container {
     display: flex;
+    .checkout-complete{
+      padding: 10px;
+      font-size: 20px;
+      text-align: center;
+      color: green;
+    }
     .info-box {
       width: calc(70% - 20px);
       padding-right: 20px;
@@ -18,7 +24,8 @@
         padding: 20px;
         border: 1px solid $gray-color;
         .title {
-          font-size: 20px;
+          color: $brown-color;
+          font-size: 24px;
           font-weight: 400;
           text-decoration: underline;
           margin-bottom: 10px;
@@ -31,6 +38,11 @@
           overflow: hidden;
           display: -webkit-box;
           word-wrap: break-word;
+          font-weight: bold;
+          span {
+						padding-left: 10px;
+						font-weight: normal;
+					}
         }
       }
       .payment-box {
@@ -40,7 +52,8 @@
         padding: 20px;
         border: 1px solid $gray-color;
         .title {
-          font-size: 20px;
+          color: $brown-color;
+					font-size: 24px;
           font-weight: 400;
           text-decoration: underline;
           margin-bottom: 10px;
@@ -52,14 +65,23 @@
           -webkit-box-orient: vertical;
           overflow: hidden;
           display: -webkit-box;
+          font-weight: bold;
+          span {
+						padding-left: 10px;
+						font-weight: normal;
+					}
         }
       }
       .item-box {
         padding: 20px;
         border: 1px solid $gray-color;
         border-radius: 4px;
+        max-height: 600px;
+        overflow: hidden;
+        overflow-y: auto;
         .title {
-          font-size: 20px;
+          color: $brown-color;
+					font-size: 24px;
           font-weight: 500;
           text-decoration: underline;
           margin-bottom: 20px;

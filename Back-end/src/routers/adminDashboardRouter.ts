@@ -1,7 +1,8 @@
 import express, {Request, Response} from 'express'
 import asyncHandler from 'express-async-handler'
 import {UserModel} from '../models/userModel'
-import {OrderModel} from '../models/orderModel'
+import {Order, OrderModel} from '../models/orderModel'
+import { ProductModel } from '../models/productModel'
 
 export const adminDashboardRouter = express.Router()
 adminDashboardRouter.get(
@@ -9,9 +10,7 @@ adminDashboardRouter.get(
 	asyncHandler(async (req: Request, res: Response) => {
 		const users = await UserModel.find()
 		const orders = await OrderModel.find()
-		console.log(orders)
-
-		const products = await OrderModel.find()
+		const products = await ProductModel.find()
 		const totalIncome = orders.reduce((acc, val) => {
 			return acc + val.totalPrice
 		}, 0)
@@ -76,12 +75,70 @@ adminDashboardRouter.get(
 	'/top-customers',
 	asyncHandler(async (req: Request, res: Response) => {
 		const users = await UserModel.find()
-
+		const orders = await OrderModel.find()
+		const allUserOrdered: any[] = []
+		orders.forEach((order: any) => {
+			if (order.isPaid) {
+				allUserOrdered.push({
+					userId: order.user,
+					price: order.totalPrice,
+				})
+			}
+		})
+		const converUserById = allUserOrdered.map((item: any) => {
+			const userFind: any = users.find((val: any) => val._id + '' == item.userId)
+			return {
+				_id: userFind?._id,
+				email: userFind?.email,
+				name: userFind?.name,
+				orderQuantity: 1,
+				price: item.price,
+			}
+		})
+		const result = converUserById.reduce((acc: any[], value: any) => {
+			if (acc.length == 0) {
+				acc.push(value)
+			} else {
+				const idx = acc.findIndex((item) => item._id === value._id)
+				if (idx != -1) {
+					acc[idx].orderQuantity = acc[idx].orderQuantity + 1
+				} else {
+					acc.push(value)
+				}
+			}
+			return acc
+		}, [])
+		if (result.length > 10) {
+			res.json(result.slice(0, 10))
+		} else {
+			res.json(result)
+		}
 	})
 )
 adminDashboardRouter.get(
 	'/top-products',
 	asyncHandler(async (req: Request, res: Response) => {
-		
+		const orders = await OrderModel.find()
+		const allProductOrdered: any[] = []
+		orders.forEach((order: Order) => {
+			if (order.isPaid) {
+				allProductOrdered.push(...order.orderItems)
+			}
+		})
+		const result = allProductOrdered.reduce((acc: any[], value: any) => {
+			if (acc.length == 0) {
+				acc.push(value)
+			} else {
+				const idx = acc.findIndex((item) => item._id === value._id)
+				if (idx != -1) {
+					acc[idx].quantity = acc[idx].quantity + value.quantity
+					acc[idx].price = acc[idx].price + value.price
+				} else {
+					acc.push(value)
+				}
+			}
+			return acc
+		}, [])
+		res.json(result)
 	})
 )

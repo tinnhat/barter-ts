@@ -1,58 +1,16 @@
 import {Button, Input, Text, Tooltip} from '@chakra-ui/react'
 import {useMemo, useRef, useState} from 'react'
 import {toast} from 'react-hot-toast'
-import {typeEnum} from '../../../common/enum'
+import {PAGE_SIZE_ADMIN, typeEnum} from '../../../common/enum'
+import {sortByAlphabetical} from '../../../common/utils'
 import Pagination from '../../../components/pagination'
 import {useDeleteProductMutation, useGetProductsQuery} from '../../../hooks/productHooks'
-import {useDeleteUserMutation} from '../../../hooks/userHooks'
+import {ApiError} from '../../../types/ApiError'
 import {Product} from '../../../types/Product'
+import {getError} from '../../../utils'
+import LoadingCenter from '../../components/loadingCenter'
 import ModalCustomer from './modalCreateAndEdit'
 import './style.scss'
-import { getError } from '../../../utils'
-import { ApiError } from '../../../types/ApiError'
-
-// const dataSample = [
-// 	{
-// 		_id: '1',
-// 		name: 'Nike slim shirt',
-// 		slug: 'nike-slim-shirt',
-// 		price: 120,
-// 		description: 'lorem1231231231231',
-// 		image: 'https://i0.wp.com/www.flutterbeads.com/wp-content/uploads/2022/01/add-image-in-flutter-hero.png?fit=2850%2C1801&ssl=1',
-// 		category: 'Shirts',
-// 		countInStock: 120,
-// 	},
-// 	{
-// 		_id: '2',
-// 		name: 'Nike slim shirt 2',
-// 		slug: 'nike-slim-shirt-2',
-// 		price: 2200,
-// 		description: 'lorem1231231231231',
-// 		image: 'https://i0.wp.com/www.flutterbeads.com/wp-content/uploads/2022/01/add-image-in-flutter-hero.png?fit=2850%2C1801&ssl=1',
-// 		category: 'Shirts special',
-// 		countInStock: 920,
-// 	},
-// 	{
-// 		_id: '3',
-// 		name: 'Nike slim shirt 3',
-// 		slug: 'nike-slim-shirt-3',
-// 		price: 1020,
-// 		description: 'lorem1231231231231',
-// 		image: 'https://i0.wp.com/www.flutterbeads.com/wp-content/uploads/2022/01/add-image-in-flutter-hero.png?fit=2850%2C1801&ssl=1',
-// 		category: 'Shirts',
-// 		countInStock: 110,
-// 	},
-// 	{
-// 		_id: '4',
-// 		name: 'Nike slim shirt 4',
-// 		slug: 'nike-slim-shirt-4',
-// 		price: 990,
-// 		description: 'lorem1231231231231',
-// 		image: 'https://i0.wp.com/www.flutterbeads.com/wp-content/uploads/2022/01/add-image-in-flutter-hero.png?fit=2850%2C1801&ssl=1',
-// 		category: 'Shirts special',
-// 		countInStock: 10,
-// 	},
-// ]
 
 type Props = {}
 
@@ -62,23 +20,8 @@ type TypeModal = {
 	product: Product
 }
 
-const sortByAlphabetical = (data: any, key: string) => {
-	const newDataSort = [...data]
-	newDataSort.sort(function (a: any, b: any) {
-		if (a[key] < b[key]) {
-			return -1
-		}
-		if (a[key] > b[key]) {
-			return 1
-		}
-		return 0
-	})
-	return newDataSort
-}
-let PageSize = 10
-
 export default function Products({}: Props) {
-	const {data, refetch} = useGetProductsQuery()
+	const {data, refetch, isLoading} = useGetProductsQuery()
 	const {mutateAsync: deleteProduct} = useDeleteProductMutation()
 	const [currentPage, setCurrentPage] = useState(1)
 	const searchRef = useRef<HTMLInputElement>(null)
@@ -94,12 +37,13 @@ export default function Products({}: Props) {
 			description: '',
 			image: '',
 			category: '',
+			categoryId: '',
 			countInStock: 0,
 		},
 	})
 	const currentTableData = useMemo(() => {
-		const firstPageIndex = (currentPage - 1) * PageSize
-		const lastPageIndex = firstPageIndex + PageSize
+		const firstPageIndex = (currentPage - 1) * PAGE_SIZE_ADMIN
+		const lastPageIndex = firstPageIndex + PAGE_SIZE_ADMIN
 		if (data) {
 			const dataInTable = data.slice(firstPageIndex, lastPageIndex)
 			const dataAfterSort = sortByAlphabetical(dataInTable, 'name')
@@ -122,6 +66,7 @@ export default function Products({}: Props) {
 				description: '',
 				image: '',
 				category: '',
+				categoryId: '',
 				countInStock: 0,
 			},
 		})
@@ -181,16 +126,16 @@ export default function Products({}: Props) {
 		}
 	}
 	const handleDeleteProduct = async (id: string) => {
-    try {
-      const result = await deleteProduct(id)
-      console.log(result);
-      if(result){
-        toast.success('Delete product successfully')
-        refetch()
-      }
-    } catch (error) {
-      toast.error(getError(error as ApiError))
-    }
+		try {
+			const result = await deleteProduct(id)
+			console.log(result)
+			if (result) {
+				toast.success('Delete product successfully')
+				refetch()
+			}
+		} catch (error) {
+			toast.error(getError(error as ApiError))
+		}
 	}
 
 	const handleSearchByName = () => {
@@ -237,11 +182,19 @@ export default function Products({}: Props) {
 					</div>
 					<div className='table-content'>
 						<table cellPadding='0' cellSpacing='0'>
-							<tbody>{renderBody(dataShow)}</tbody>
+							<tbody>
+								{isLoading ? (
+									<div className='center-table-loading'>
+										<LoadingCenter />
+									</div>
+								) : (
+									renderBody(dataShow)
+								)}
+							</tbody>
 						</table>
 					</div>
 					<div className='table__pagination'>
-						<Pagination siblingCount={1} currentPage={currentPage} totalCount={data ? data.length : 0} pageSize={PageSize} onPageChange={(page) => setCurrentPage(page)} />
+						<Pagination siblingCount={1} currentPage={currentPage} totalCount={data ? data.length : 0} pageSize={PAGE_SIZE_ADMIN} onPageChange={(page) => setCurrentPage(page)} />
 					</div>
 				</div>
 				{showModal.show && <ModalCustomer showModal={showModal} setShowModal={setShowModal} handleRefectchData={handleRefetchData} />}
