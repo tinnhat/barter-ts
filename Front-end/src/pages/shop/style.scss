@@ -3,6 +3,7 @@
 .shop {
 	padding: 40px 0;
 	background-color: $bkg-shop-color;
+
 	&-container {
 		display: flex;
 		margin-bottom: 20px;
@@ -135,6 +136,42 @@
 			display: flex;
 			flex-wrap: wrap;
 			gap: 20px;
+		}
+	}
+	.paginationBttns {
+		height: 20px;
+		list-style: none;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		a {
+			display: block;
+			margin: 4px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 28px;
+			height: 28px;
+			border-radius: 50%;
+			border: 1px solid $brown-color;
+			color: $brown-color;
+			cursor: pointer;
+			&:hover {
+				color: white;
+				background-color: $brown-color;
+			}
+		}
+	}
+	.paginationActive {
+		a {
+			color: white;
+			background-color: $brown-color;
+		}
+	}
+	.paginationDisabled {
+		a {
+			color: grey;
+			background-color: grey;
 		}
 	}
 	@media screen and (max-width: 1023.98px) {

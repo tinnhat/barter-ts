@@ -1,10 +1,8 @@
 import { Button, Checkbox, Input, Text, Tooltip } from '@chakra-ui/react'
 import moment from 'moment'
-import { useMemo, useRef, useState } from 'react'
+import { useRef, useState,useEffect } from 'react'
 import { toast } from 'react-hot-toast'
-import { PAGE_SIZE_ADMIN, typeEnum } from '../../../common/enum'
-import { sortByAlphabetical } from '../../../common/utils'
-import Pagination from '../../../components/pagination'
+import { typeEnum } from '../../../common/enum'
 import { useDeleteOrderMutation, useGetAllOrdersQuery } from '../../../hooks/orderHooks'
 import { ApiError } from '../../../types/ApiError'
 import { Order } from '../../../types/Order'
@@ -12,6 +10,7 @@ import { getError } from '../../../utils'
 import LoadingCenter from '../../components/loadingCenter'
 import ModalCustomer from './modalCreateAndEdit'
 import './style.scss'
+import ReactPaginate from 'react-paginate'
 
 type Props = {}
 
@@ -24,9 +23,10 @@ type TypeModal = {
 export default function Orders({}: Props) {
 	const {data, refetch, isLoading} = useGetAllOrdersQuery()
 	const {mutateAsync: deleteOrder} = useDeleteOrderMutation()
-	const [currentPage, setCurrentPage] = useState(1)
+	
 	const searchRef = useRef<HTMLInputElement>(null)
 	const [dataShow, setDataShow] = useState<Order[]>([])
+	const [pageNumber, setPageNumber] = useState(0)
 	const [showModal, setShowModal] = useState<TypeModal>({
 		show: false,
 		type: typeEnum.Add,
@@ -52,19 +52,6 @@ export default function Orders({}: Props) {
 			totalPrice: 0,
 		},
 	})
-
-	const currentTableData = useMemo(() => {
-		const firstPageIndex = (currentPage - 1) * PAGE_SIZE_ADMIN
-		const lastPageIndex = firstPageIndex + PAGE_SIZE_ADMIN
-		if (data) {
-			const dataInTable = data.slice(firstPageIndex, lastPageIndex)
-			const dataAfterSort = sortByAlphabetical(dataInTable, 'name')
-			dataAfterSort.sort((x) => (x.isDelete ? 1 : -1))
-			setDataShow(dataAfterSort)
-			return dataAfterSort
-		}
-		return []
-	}, [currentPage, data])
 
 	const handleOpen = () => {
 		setShowModal({
@@ -150,9 +137,10 @@ export default function Orders({}: Props) {
 	const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const newValue = e.target.value
 		if (newValue === '') {
-			setDataShow(currentTableData!)
+			setDataShow(data!)
 		}
 	}
+
 	const handleDeleteOrder = async (id: string) => {
 		try {
 			const result = await deleteOrder(id)
@@ -181,7 +169,16 @@ export default function Orders({}: Props) {
 			}
 		}
 	}
-
+  useEffect(() => {
+    setDataShow(data!)
+  }, [data])
+  const CatePerPage = 10
+	const pagesVisited = pageNumber * CatePerPage
+	const orderShow = dataShow && dataShow.slice(pagesVisited, pagesVisited + CatePerPage)
+	const pageCount = dataShow && Math.ceil(dataShow.length / CatePerPage)
+	const changePage = ({selected}: {selected: number}) => {
+		setPageNumber(selected)
+	}
 	return (
 		<>
 			<div className='orders'>
@@ -200,7 +197,7 @@ export default function Orders({}: Props) {
 								<tr>
 									<th className='table-column__orderId'>Order Id</th>
 									<th className='table-column__ownerId'>Owner Id</th>
-									<th className='table-column__method'>Payment method</th>
+									<th className='table-column__method'>Payment</th>
 									<th className='table-column__total'>Total Price</th>
 									<th className='table-column__paid'>Paid</th>
 									<th className='table-column__createAt'>Create Date</th>
@@ -217,14 +214,22 @@ export default function Orders({}: Props) {
 										<LoadingCenter />
 									</div>
 								) : (
-									renderBody(dataShow)
+									renderBody(orderShow)
 								)}
 							</tbody>
 						</table>
 					</div>
-					<div className='table__pagination'>
-						<Pagination siblingCount={1} currentPage={currentPage} totalCount={data ? data.length : 0} pageSize={PAGE_SIZE_ADMIN} onPageChange={(page) => setCurrentPage(page)} />
-					</div>
+          <ReactPaginate
+							previousLabel={<i className="fa-solid fa-chevron-left"></i>}
+							nextLabel={<i className="fa-solid fa-chevron-right"></i>}
+							pageCount={pageCount}
+							onPageChange={changePage}
+							containerClassName='paginationBttns'
+							previousLinkClassName='previousBttns'
+							nextLinkClassName='nextBttn'
+							disabledClassName='nextBttn'
+							activeClassName='paginationActive'
+						/>
 				</div>
 				{showModal.show && <ModalCustomer showModal={showModal} setShowModal={setShowModal} handleRefetchData={refetch} />}
 			</div>

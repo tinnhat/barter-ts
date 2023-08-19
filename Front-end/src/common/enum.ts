@@ -26,5 +26,3 @@ export const widthModalForModalAddProduct = {
   lg:'80vw',
   xl:'80vw',
 }
-export const PAGE_SIZE_ADMIN = 10
-export const PAGE_SIZE_SHOP = 12
