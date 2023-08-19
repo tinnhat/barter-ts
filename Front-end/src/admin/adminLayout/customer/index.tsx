@@ -1,15 +1,15 @@
-import { Button, Checkbox, Input, Text, Tooltip } from '@chakra-ui/react'
-import { useMemo, useRef, useState } from 'react'
-import { toast } from 'react-hot-toast'
-import { PAGE_SIZE_ADMIN, typeEnum } from '../../../common/enum'
-import Pagination from '../../../components/pagination'
-import { useDeleteUserMutation, useGetAllUsersQuery } from '../../../hooks/userHooks'
-import { ApiError } from '../../../types/ApiError'
-import { UserInfo } from '../../../types/UserInfo'
-import { getError } from '../../../utils'
+import {Button, Checkbox, Input, Text, Tooltip} from '@chakra-ui/react'
+import {useEffect, useRef, useState} from 'react'
+import {toast} from 'react-hot-toast'
+import {typeEnum} from '../../../common/enum'
+import {useDeleteUserMutation, useGetAllUsersQuery} from '../../../hooks/userHooks'
+import {ApiError} from '../../../types/ApiError'
+import {UserInfo} from '../../../types/UserInfo'
+import {getError} from '../../../utils'
 import LoadingCenter from '../../components/loadingCenter'
 import ModalCustomer from './modalCreateAndEdit'
 import './style.scss'
+import ReactPaginate from 'react-paginate'
 
 type Props = {}
 
@@ -22,9 +22,9 @@ type TypeModal = {
 export default function Customers({}: Props) {
 	const {data, refetch, isLoading} = useGetAllUsersQuery()
 	const {mutateAsync: deleteUser} = useDeleteUserMutation()
-	const [currentPage, setCurrentPage] = useState(1)
 	const searchRef = useRef<HTMLInputElement>(null)
 	const [dataShow, setDataShow] = useState<UserInfo[]>([])
+	const [pageNumber, setPageNumber] = useState(0)
 	const [showModal, setShowModal] = useState<TypeModal>({
 		show: false,
 		type: typeEnum.Add,
@@ -37,16 +37,6 @@ export default function Customers({}: Props) {
 			isDelete: false,
 		},
 	})
-	const currentTableData = useMemo(() => {
-		const firstPageIndex = (currentPage - 1) * PAGE_SIZE_ADMIN
-		const lastPageIndex = firstPageIndex + PAGE_SIZE_ADMIN
-		if (data) {
-			const dataInTable = data.slice(firstPageIndex, lastPageIndex)
-			setDataShow(dataInTable)
-			return dataInTable
-		}
-		return []
-	}, [currentPage, data])
 
 	const handleOpen = () => {
 		setShowModal({
@@ -124,7 +114,7 @@ export default function Customers({}: Props) {
 		if (searchRef.current?.value) {
 			const userArr: UserInfo[] = []
 			data?.forEach((user) => {
-				if (user.email.includes(searchRef.current?.value!)) {
+				if (user.email.toLocaleLowerCase().includes(searchRef.current?.value.toLocaleLowerCase()!)) {
 					userArr.push(user)
 				}
 			})
@@ -138,7 +128,7 @@ export default function Customers({}: Props) {
 	const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const newValue = e.target.value
 		if (newValue === '') {
-			setDataShow(currentTableData!)
+			setDataShow(data!)
 		}
 	}
 	const handleDeleteUser = async (id: string) => {
@@ -153,7 +143,16 @@ export default function Customers({}: Props) {
 			toast.error(message)
 		}
 	}
-
+	useEffect(() => {
+		setDataShow(data!)
+	}, [data])
+	const customerPerPage = 10
+	const pagesVisited = pageNumber * customerPerPage
+	const userShow = dataShow && dataShow.slice(pagesVisited, pagesVisited + customerPerPage)
+	const pageCount = dataShow && Math.ceil(dataShow.length / customerPerPage)
+	const changePage = ({selected}: {selected: number}) => {
+		setPageNumber(selected)
+	}
 	return (
 		<>
 			<div className='customers'>
@@ -188,14 +187,22 @@ export default function Customers({}: Props) {
 										<LoadingCenter />
 									</div>
 								) : (
-									renderBody(dataShow)
+									renderBody(userShow)
 								)}
 							</tbody>
 						</table>
 					</div>
-					<div className='table__pagination'>
-						<Pagination siblingCount={1} currentPage={currentPage} totalCount={data ? data.length : 0} pageSize={PAGE_SIZE_ADMIN} onPageChange={(page) => setCurrentPage(page)} />
-					</div>
+					<ReactPaginate
+						previousLabel={<i className='fa-solid fa-chevron-left'></i>}
+						nextLabel={<i className='fa-solid fa-chevron-right'></i>}
+						pageCount={pageCount}
+						onPageChange={changePage}
+						containerClassName='paginationBttns'
+						previousLinkClassName='previousBttns'
+						nextLinkClassName='nextBttn'
+						disabledClassName='nextBttn'
+						activeClassName='paginationActive'
+					/>
 				</div>
 				{showModal.show && <ModalCustomer showModal={showModal} setShowModal={setShowModal} handleRefectchData={handleRefetchData} />}
 			</div>
