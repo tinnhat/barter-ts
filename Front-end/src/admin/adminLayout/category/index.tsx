@@ -1,9 +1,7 @@
 import { Button, Checkbox, Input, Text, Tooltip } from '@chakra-ui/react'
-import { useMemo, useRef, useState } from 'react'
+import { useRef, useState,useEffect } from 'react'
 import { toast } from 'react-hot-toast'
-import { PAGE_SIZE_ADMIN, typeEnum } from '../../../common/enum'
-import { sortByAlphabetical } from '../../../common/utils'
-import Pagination from '../../../components/pagination'
+import { typeEnum } from '../../../common/enum'
 import { useDeleteCategoryMutation, useGetAllCategory } from '../../../hooks/categoryHooks'
 import { ApiError } from '../../../types/ApiError'
 import { Category } from '../../../types/Category'
@@ -11,6 +9,7 @@ import { getError } from '../../../utils'
 import LoadingCenter from '../../components/loadingCenter'
 import ModalCategory from './modalCreateAndEdit'
 import './style.scss'
+import ReactPaginate from 'react-paginate'
 
 type TypeModal = {
 	show: boolean
@@ -21,9 +20,9 @@ type TypeModal = {
 export default function CategoryPage() {
 	const {data, refetch, isLoading} = useGetAllCategory()
 	const {mutateAsync: deleteCategory} = useDeleteCategoryMutation()
-	const [currentPage, setCurrentPage] = useState(1)
 	const searchRef = useRef<HTMLInputElement>(null)
 	const [dataShow, setDataShow] = useState<Category[]>([])
+	const [pageNumber, setPageNumber] = useState(0)
 	const [showModal, setShowModal] = useState<TypeModal>({
 		show: false,
 		type: typeEnum.Add,
@@ -33,18 +32,6 @@ export default function CategoryPage() {
 			isUse: false,
 		},
 	})
-	const currentTableData = useMemo(() => {
-		const firstPageIndex = (currentPage - 1) * PAGE_SIZE_ADMIN
-		const lastPageIndex = firstPageIndex + PAGE_SIZE_ADMIN
-		if (data) {
-			const dataInTable = data.slice(firstPageIndex, lastPageIndex)
-			const dataAfterSort = sortByAlphabetical(dataInTable, 'name')
-			dataAfterSort.sort((x) => (x.isDelete ? 1 : -1))
-			setDataShow(dataAfterSort)
-			return dataAfterSort
-		}
-		return []
-	}, [currentPage, data])
 
 	const handleOpen = () => {
 		setShowModal({
@@ -101,7 +88,7 @@ export default function CategoryPage() {
 		if (searchRef.current?.value) {
 			const categoryArr: Category[] = []
 			data?.forEach((category) => {
-				if (category.name.includes(searchRef.current?.value!)) {
+				if (category.name.toLowerCase().includes(searchRef.current?.value.toLowerCase()!)) {
 					categoryArr.push(category)
 				}
 			})
@@ -115,7 +102,7 @@ export default function CategoryPage() {
 	const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const newValue = e.target.value
 		if (newValue === '') {
-			setDataShow(currentTableData!)
+			setDataShow(data!)
 		}
 	}
 	const handleDeleteCategory = async (id: string) => {
@@ -129,6 +116,16 @@ export default function CategoryPage() {
 			const message: string = getError(error as ApiError)
 			toast.error(message)
 		}
+	}
+	useEffect(() => {
+		setDataShow(data!)
+	}, [data])
+  const CatePerPage = 10
+	const pagesVisited = pageNumber * CatePerPage
+	const cateShow = dataShow && dataShow.slice(pagesVisited, pagesVisited + CatePerPage)
+	const pageCount = dataShow && Math.ceil(dataShow.length / CatePerPage)
+	const changePage = ({selected}: {selected: number}) => {
+		setPageNumber(selected)
 	}
 
 	return (
@@ -163,14 +160,22 @@ export default function CategoryPage() {
 										<LoadingCenter />
 									</div>
 								) : (
-									renderBody(dataShow)
+									renderBody(cateShow)
 								)}
 							</tbody>
 						</table>
 					</div>
-					<div className='table__pagination'>
-						<Pagination siblingCount={1} currentPage={currentPage} totalCount={data ? data.length : 0} pageSize={PAGE_SIZE_ADMIN} onPageChange={(page) => setCurrentPage(page)} />
-					</div>
+          <ReactPaginate
+							previousLabel={<i className="fa-solid fa-chevron-left"></i>}
+							nextLabel={<i className="fa-solid fa-chevron-right"></i>}
+							pageCount={pageCount}
+							onPageChange={changePage}
+							containerClassName='paginationBttns'
+							previousLinkClassName='previousBttns'
+							nextLinkClassName='nextBttn'
+							disabledClassName='nextBttn'
+							activeClassName='paginationActive'
+						/>
 				</div>
 				{showModal.show && <ModalCategory showModal={showModal} setShowModal={setShowModal} handleRefetchData={handleRefetchData} />}
 			</div>
