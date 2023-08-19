@@ -48,3 +48,6 @@ html {
   cursor: default;
 }
 
+.chakra-modal__content-container{
+  z-index: 9999 !important;
+}

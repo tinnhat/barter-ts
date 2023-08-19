@@ -27,11 +27,7 @@ apiClient.interceptors.response.use(
 			let currentDate = new Date()
 			// JWT exp is in seconds
 			if (decodedToken.exp * 1000 < currentDate.getTime()) {
-				alert('Token is Expire, Please login and try again')
 				localStorage.clear()
-        //check current location to redirect ?
-        const currentLocation = window.location.href
-        alert(currentLocation)
 				if (user.isAdmin) {
 					window.location.href = '/admin/signin'
 				} else {
