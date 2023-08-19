@@ -1,19 +1,16 @@
+import {Button, Input, RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack} from '@chakra-ui/react'
+import {useEffect, useRef, useState} from 'react'
 import {Helmet} from 'react-helmet-async'
 import SingleProduct from '../../components/Product'
 import LoadingBox from '../../components/loadingBox'
 import MessageBox from '../../components/messageBox'
+import {useGetAllCategory} from '../../hooks/categoryHooks'
 import {useGetProductsQuery} from '../../hooks/productHooks'
 import {ApiError} from '../../types/ApiError'
+import {Product} from '../../types/Product'
 import {getError} from '../../utils'
 import './style.scss'
-import {useMemo, useState, useEffect, useRef} from 'react'
-import {PAGE_SIZE_SHOP} from '../../common/enum'
-import {Product} from '../../types/Product'
-import Pagination from '../../components/pagination'
-import {Button, Input} from '@chakra-ui/react'
-import {useGetAllCategory} from '../../hooks/categoryHooks'
-import {Category} from '../../types/Category'
-import {RangeSlider, RangeSliderTrack, RangeSliderFilledTrack, RangeSliderThumb} from '@chakra-ui/react'
+import ReactPaginate from 'react-paginate'
 type FilterType = {
 	name: string
 	categories: string[]
@@ -29,25 +26,18 @@ export default function Shop() {
 	const {data: products, isLoading, error} = useGetProductsQuery()
 	const {data: categories} = useGetAllCategory()
 	const [showCate, setShowCate] = useState<CateShow[]>()
-	const [currentPage, setCurrentPage] = useState(1)
 	const [dataShow, setDataShow] = useState<Product[]>([])
+	const [pageNumber, setPageNumber] = useState(0)
 	const [rangePrice, setRangePrice] = useState([0, 999])
-	const currentDataShow = useMemo(() => {
-		const firstPageIndex = (currentPage - 1) * PAGE_SIZE_SHOP
-		const lastPageIndex = firstPageIndex + PAGE_SIZE_SHOP
-		if (products) {
-			const dataInTable = products.slice(firstPageIndex, lastPageIndex)
-			setDataShow(dataInTable)
-			return dataInTable
-		}
-		return []
-	}, [currentPage, products])
 	const searchRef = useRef<HTMLInputElement>(null)
 	useEffect(() => {
 		if (categories) {
 			setShowCate(categories.map((item) => ({...item, checked: false})))
 		}
 	}, [categories])
+	useEffect(() => {
+		setDataShow(products!)
+	}, [products])
 
 	const handleApplyFilter = () => {
 		const productFilter: Product[] = []
@@ -55,9 +45,6 @@ export default function Shop() {
 		if (searchRef.current) {
 			searchKey = searchRef.current.value
 		}
-    if(!searchKey){
-      return;
-    }
 		products?.forEach((product) => {
 			if (product.name.includes(searchKey)) {
 				const categoryFilter = showCate?.filter((val) => val.checked)
@@ -77,17 +64,12 @@ export default function Shop() {
 		setDataShow(productFilter)
 	}
 	const handleResetFilter = () => {
+		setRangePrice([0, 999])
+		setShowCate(showCate?.map((item) => ({...item, checked: false})))
 		if (searchRef.current) {
 			searchRef.current.value = ''
 		}
-		setRangePrice([0, 999])
-		setShowCate(showCate?.map((item) => ({...item, checked: false})))
-		const firstPageIndex = (currentPage - 1) * PAGE_SIZE_SHOP
-		const lastPageIndex = firstPageIndex + PAGE_SIZE_SHOP
-		if (products) {
-			const dataInTable = products.slice(firstPageIndex, lastPageIndex)
-			setDataShow(dataInTable)
-		}
+    setDataShow(products!)
 	}
 
 	const handleChangeCategory = (e: any, item: CateShow) => {
@@ -98,7 +80,17 @@ export default function Shop() {
 			setShowCate(cloneShowCate)
 		}
 	}
-
+	const productPerPage = 12
+	const pagesVisited = pageNumber * productPerPage
+	const productShow =
+		dataShow &&
+		dataShow.slice(pagesVisited, pagesVisited + productPerPage).map((item) => {
+			return <SingleProduct product={item} key={item._id} />
+		})
+	const pageCount = dataShow && Math.ceil(dataShow.length / productPerPage)
+	const changePage = ({selected}: {selected: number}) => {
+		setPageNumber(selected)
+	}
 	return (
 		<section className='shop'>
 			{isLoading ? (
@@ -151,15 +143,20 @@ export default function Shop() {
 								</div>
 							</div>
 							<div className='list-product'>
-								{dataShow &&
-									dataShow.map((item) => {
-										return <SingleProduct product={item} key={item._id} />
-									})}
+								{productShow}
 							</div>
 						</div>
-						<div className='table__pagination'>
-							<Pagination siblingCount={1} currentPage={currentPage} totalCount={products ? products.length : 0} pageSize={PAGE_SIZE_SHOP} onPageChange={(page) => setCurrentPage(page)} />
-						</div>
+						<ReactPaginate
+							previousLabel={<i className="fa-solid fa-chevron-left"></i>}
+							nextLabel={<i className="fa-solid fa-chevron-right"></i>}
+							pageCount={pageCount}
+							onPageChange={changePage}
+							containerClassName='paginationBttns'
+							previousLinkClassName='previousBttns'
+							nextLinkClassName='nextBttn'
+							disabledClassName='nextBttn'
+							activeClassName='paginationActive'
+						/>
 					</div>
 				</>
 			)}
