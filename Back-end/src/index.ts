@@ -10,7 +10,6 @@ import { blogRouter } from './routers/blogRouter'
 import { keyRouter } from './routers/keyRouter'
 import { orderRouter } from './routers/orderRouter'
 import { productRouter } from './routers/productRouter'
-import { seedRouter } from './routers/seedRouter'
 import { userRouter } from './routers/userRouter'
 import { adminDashboardRouter } from './routers/adminDashboardRouter'
 dotenv.config()
@@ -28,7 +27,6 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/api/products', productRouter)
 app.use('/api/blogs', blogRouter)
 app.use('/api/orders', orderRouter)
-app.use('/api/seed', seedRouter)
 app.use('/api/keys', keyRouter)
 app.use('/api/users', userRouter)
 app.use('/admin/users', userAdminRouter)
