@@ -235,7 +235,6 @@ const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => 
 							</FormLabel>
 							<Select
 								placeholder='Select option'
-								disabled={showModal.type == typeEnum.Edit}
 								value={categorySelected}
 								onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setCategorySelected(e.target.value!)}
 							>
