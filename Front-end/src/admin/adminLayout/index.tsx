@@ -1,16 +1,11 @@
-import {useContext, useEffect} from 'react'
-import {Toaster} from 'react-hot-toast'
-import {Outlet} from 'react-router-dom'
-import {Store} from '../../Store.js'
-import apiClient from '../../apiClient.js'
-import {getDataFromLocalStorage} from '../../utils.js'
+import { Toaster } from 'react-hot-toast'
+import { Outlet } from 'react-router-dom'
 import '../assets/boxicons-2.0.7/css/boxicons.min.css'
 import '../assets/css/_index.scss'
 import Sidebar from '../components/sidebar/index.js'
 import Topnav from '../components/topnav/index.js'
 type Props = {}
 
-const userInfo = getDataFromLocalStorage('userInfo')
 
 export default function AdminLayout({}: Props) {
 	return (

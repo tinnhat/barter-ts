@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react'
-import StatusCard from '../../../components/status-card'
-import {useStatusDashboardMutation} from '../../../../hooks/dashboardHooks'
+import { useEffect, useState } from 'react'
+import { useStatusDashboardMutation } from '../../../../hooks/dashboardHooks'
 import LoadingCenter from '../../../components/loadingCenter'
+import StatusCard from '../../../components/status-card'
 
 type Props = {}
 

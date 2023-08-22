@@ -11,11 +11,7 @@ import {Product} from '../../types/Product'
 import {getError} from '../../utils'
 import './style.scss'
 import ReactPaginate from 'react-paginate'
-type FilterType = {
-	name: string
-	categories: string[]
-	price: number[]
-}
+
 type CateShow = {
 	_id?: string
 	name: string

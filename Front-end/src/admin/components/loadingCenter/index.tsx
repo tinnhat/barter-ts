@@ -1,5 +1,4 @@
-import React from 'react'
-import {BeatLoader} from 'react-spinners'
+import { BeatLoader } from 'react-spinners'
 import './style.scss'
 type Props = {}
 

@@ -1,42 +1,42 @@
 import {
-	Box,
-	Button,
-	FormControl,
-	FormLabel,
-	Input,
-	Modal,
-	ModalBody,
-	ModalContent,
-	ModalFooter,
-	ModalHeader,
-	ModalOverlay,
-	Radio,
-	RadioGroup,
-	Select,
-	Stack,
-	Tab,
-	TabList,
-	TabPanel,
-	TabPanels,
-	Tabs,
-	Text,
-	Textarea,
-	Tooltip,
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Radio,
+  RadioGroup,
+  Select,
+  Stack,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+  Textarea,
+  Tooltip,
 } from '@chakra-ui/react'
-import React, {useEffect, useRef, useState} from 'react'
-import {useForm} from 'react-hook-form'
-import {toast} from 'react-hot-toast'
-import {typeEnum, widthModalForModal} from '../../../../common/enum'
-import {useGetAllUsersQuery} from '../../../../hooks/userHooks'
-import {ApiError} from '../../../../types/ApiError'
-import {CartItem} from '../../../../types/Cart'
-import {Order} from '../../../../types/Order'
-import {UserInfo} from '../../../../types/UserInfo'
-import {getError} from '../../../../utils'
+import React, { useEffect, useRef, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
+import { typeEnum, widthModalForModal } from '../../../../common/enum'
+import { useCreateOrderAdminMutation, useUpdateOrderAdminMutation } from '../../../../hooks/orderHooks'
+import { useGetProductsQuery } from '../../../../hooks/productHooks'
+import { useGetAllUsersQuery } from '../../../../hooks/userHooks'
+import { ApiError } from '../../../../types/ApiError'
+import { CartItem } from '../../../../types/Cart'
+import { Order } from '../../../../types/Order'
+import { Product } from '../../../../types/Product'
+import { UserInfo } from '../../../../types/UserInfo'
+import { getError } from '../../../../utils'
 import './style.scss'
-import {useGetProductsQuery} from '../../../../hooks/productHooks'
-import {Product} from '../../../../types/Product'
-import {useCreateOrderAdminMutation, useUpdateOrderAdminMutation} from '../../../../hooks/orderHooks'
 
 interface IFormInputs {
 	fullName: string
@@ -68,8 +68,6 @@ const ModalCustomer = ({showModal, setShowModal, handleRefetchData}: Props) => {
 		handleSubmit,
 		register,
 		setValue,
-		getValues,
-		watch,
 		formState: {errors},
 	} = useForm<IFormInputs>()
 	const [products, setProducts] = useState(allProduct)

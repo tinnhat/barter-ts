@@ -1,6 +1,5 @@
-import React from 'react'
-import './style.scss'
 import { BeatLoader } from 'react-spinners'
+import './style.scss'
 type Props = {}
 
 export default function SpinnerLoading({}: Props) {
