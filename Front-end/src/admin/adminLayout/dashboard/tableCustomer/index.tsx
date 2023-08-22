@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react'
-import TableCus from '../../../components/table'
-import {useTableCustomerMutation} from '../../../../hooks/dashboardHooks'
+import { useEffect, useState } from 'react'
+import { useTableCustomerMutation } from '../../../../hooks/dashboardHooks'
 import LoadingCenter from '../../../components/loadingCenter'
+import TableCus from '../../../components/table'
 
 type Props = {}
 

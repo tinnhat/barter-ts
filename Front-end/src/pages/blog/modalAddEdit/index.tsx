@@ -1,12 +1,12 @@
-import {Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Textarea} from '@chakra-ui/react'
-import React, {useEffect, useRef, useState} from 'react'
-import {useForm} from 'react-hook-form'
-import {toast} from 'react-hot-toast'
-import apiClient from '../../../apiClient'
-import {BlogType} from '../../../types/Blog'
-import {getDataFromLocalStorage} from '../../../utils'
-import {typeEnum, widthModal} from '../../../common/enum'
+import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from '@chakra-ui/react'
+import React, { useEffect, useRef, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
 import ReactQuill from 'react-quill'
+import apiClient from '../../../apiClient'
+import { typeEnum, widthModal } from '../../../common/enum'
+import { BlogType } from '../../../types/Blog'
+import { getDataFromLocalStorage } from '../../../utils'
 
 type ShowModalType = {
 	show: boolean

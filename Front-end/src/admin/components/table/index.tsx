@@ -1,4 +1,4 @@
-import {Table, TableCaption, TableContainer, Tbody, Td, Text, Tfoot, Th, Thead, Tooltip, Tr} from '@chakra-ui/react'
+import { Text, Tooltip } from '@chakra-ui/react'
 import './style.scss'
 type Props = {
 	isCustomer: boolean

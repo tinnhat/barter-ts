@@ -1,12 +1,12 @@
-import React, {useEffect} from 'react'
-import {getDataFromLocalStorage, getError, saveDataFromLocalStorage} from '../../../utils'
-import {useLocation, useNavigate} from 'react-router-dom'
+import { Button, FormControl, FormLabel, Input, Text } from '@chakra-ui/react'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { Toaster, toast } from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
+import { useSigninAdminMutation } from '../../../hooks/userHooks'
+import { ApiError } from '../../../types/ApiError'
+import { getDataFromLocalStorage, getError, saveDataFromLocalStorage } from '../../../utils'
 import './style.scss'
-import {Button, FormControl, FormLabel, Input, Text} from '@chakra-ui/react'
-import {useForm} from 'react-hook-form'
-import {useSigninAdminMutation} from '../../../hooks/userHooks'
-import {Toaster, toast} from 'react-hot-toast'
-import {ApiError} from '../../../types/ApiError'
 type Props = {}
 interface IFormInputs {
 	email: string
@@ -16,13 +16,11 @@ export default function LoginAdmin({}: Props) {
 	const {
 		handleSubmit,
 		register,
-		setValue,
 		formState: {errors},
 	} = useForm<IFormInputs>()
 	const userInfo = getDataFromLocalStorage('userInfo')
 	const navigate = useNavigate()
-	const {search} = useLocation()
-	const {mutateAsync: signin, isLoading} = useSigninAdminMutation()
+	const {mutateAsync: signin} = useSigninAdminMutation()
 
 	const onSubmit = async (values: IFormInputs) => {
 		try {
