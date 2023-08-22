@@ -20,6 +20,7 @@ export const convertProductToCartItem = (product: Product): CartItem => {
   const cartItem: CartItem = {
     _id: product._id,
     name: product.name,
+    category: product.category,
     countInStock: product.countInStock,
     slug: product.slug,
     image: product.image,

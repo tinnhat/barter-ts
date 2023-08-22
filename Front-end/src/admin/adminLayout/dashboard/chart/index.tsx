@@ -1,8 +1,6 @@
-import React, {useState, useEffect} from 'react'
+import { useEffect, useState } from 'react'
 import Chart from 'react-apexcharts'
-
-import {useChartDashboardMutation} from '../../../../hooks/dashboardHooks'
-import SpinnerLoading from '../../../../components/loadingSuspense'
+import { useChartDashboardMutation } from '../../../../hooks/dashboardHooks'
 import LoadingCenter from '../../../components/loadingCenter'
 
 type Props = {}
