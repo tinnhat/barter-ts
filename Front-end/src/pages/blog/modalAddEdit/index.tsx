@@ -57,7 +57,6 @@ export default function ModalEditAddBlog({isShowModal, setShowModal, handleRefec
 			...content,
 			content: html,
 		})
-		console.log(content.content)
 	}
 
 	const handleCloseModal = () => {
