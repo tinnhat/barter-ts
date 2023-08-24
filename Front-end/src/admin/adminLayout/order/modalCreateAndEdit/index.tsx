@@ -1,41 +1,41 @@
 import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Radio,
-  RadioGroup,
-  Select,
-  Stack,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  Text,
-  Textarea,
-  Tooltip,
+	Box,
+	Button,
+	FormControl,
+	FormLabel,
+	Input,
+	Modal,
+	ModalBody,
+	ModalContent,
+	ModalFooter,
+	ModalHeader,
+	ModalOverlay,
+	Radio,
+	RadioGroup,
+	Select,
+	Stack,
+	Tab,
+	TabList,
+	TabPanel,
+	TabPanels,
+	Tabs,
+	Text,
+	Textarea,
+	Tooltip,
 } from '@chakra-ui/react'
-import React, { useEffect, useRef, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { toast } from 'react-hot-toast'
-import { typeEnum, widthModalForModal } from '../../../../common/enum'
-import { useCreateOrderAdminMutation, useUpdateOrderAdminMutation } from '../../../../hooks/orderHooks'
-import { useGetProductsQuery } from '../../../../hooks/productHooks'
-import { useGetAllUsersQuery } from '../../../../hooks/userHooks'
-import { ApiError } from '../../../../types/ApiError'
-import { CartItem } from '../../../../types/Cart'
-import { Order } from '../../../../types/Order'
-import { Product } from '../../../../types/Product'
-import { UserInfo } from '../../../../types/UserInfo'
-import { getError } from '../../../../utils'
+import React, {useEffect, useRef, useState} from 'react'
+import {useForm} from 'react-hook-form'
+import {toast} from 'react-hot-toast'
+import {typeEnum, widthModalForModal} from '../../../../common/enum'
+import {useCreateOrderAdminMutation, useUpdateOrderAdminMutation} from '../../../../hooks/orderHooks'
+import {useGetProductsQuery} from '../../../../hooks/productHooks'
+import {useGetAllUsersQuery} from '../../../../hooks/userHooks'
+import {ApiError} from '../../../../types/ApiError'
+import {CartItem} from '../../../../types/Cart'
+import {Order} from '../../../../types/Order'
+import {Product} from '../../../../types/Product'
+import {UserInfo} from '../../../../types/UserInfo'
+import {getError} from '../../../../utils'
 import './style.scss'
 
 interface IFormInputs {
@@ -174,7 +174,6 @@ const ModalCustomer = ({showModal, setShowModal, handleRefetchData}: Props) => {
 		setLoading(true)
 		try {
 			const result = await createOrderAdmin(values)
-			console.log(result)
 			if (result) {
 				toast.success('Create order successfully')
 				handleCloseModal()
@@ -376,10 +375,14 @@ const ModalCustomer = ({showModal, setShowModal, handleRefetchData}: Props) => {
 																				<img src={product.image} alt='' />
 																			</div>
 																			<div className='item-name'>
-																				<Text noOfLines={1}>{product.name}</Text>
+																				<Tooltip label={product.name}>
+																					<Text noOfLines={1}>{product.name}</Text>
+																				</Tooltip>
 																			</div>
 																			<div className='item-category'>
-																				<Text noOfLines={1}>{product.category}</Text>
+																				<Tooltip label={product.name}>
+																					<Text noOfLines={1}>{product.category}</Text>
+																				</Tooltip>
 																			</div>
 																			<div className='item-quantity'>
 																				<Input defaultValue={product.quantity} onChange={(e) => handleChangeAddToOrder(e, product)} type='number' min={0} max={9999} />

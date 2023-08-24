@@ -121,7 +121,6 @@ export default function Products({}: Props) {
 	const handleDeleteProduct = async (id: string) => {
 		try {
 			const result = await deleteProduct(id)
-			console.log(result)
 			if (result) {
 				toast.success('Delete product successfully')
 				refetch()

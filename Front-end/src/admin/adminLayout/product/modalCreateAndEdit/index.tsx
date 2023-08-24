@@ -191,7 +191,6 @@ const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => 
 			...description,
 			description: html,
 		})
-		console.log(description.description)
 	}
 
 	return (
