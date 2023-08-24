@@ -11,7 +11,8 @@ productAdminRouter.post(
 	isAuthAdmin,
 	asyncHandler(async (req: Request, res: Response) => {
 		const {image, category, categoryId, countInStock, description, name, price} = req.body
-		const nameRemoveWhiteSpace = name.replace(/\s+/g, ' ').trim()
+    const noSpecialCharacters = name.replace(/[^a-zA-Z0-9 ]/g, '');
+		const nameRemoveWhiteSpace = noSpecialCharacters.replace(/\s+/g, ' ').trim()
 		const slug = nameRemoveWhiteSpace.split(' ').join('-')
 		try {
 			const newProduct = await ProductModel.create({

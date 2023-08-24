@@ -12,6 +12,7 @@ export default function Header({}: Props) {
 	const [showAccountInfo, setShowAccountInfo] = useState(false)
 	const [showCart, setShowCart] = useState(false)
 	const ref: any = useRef()
+	const refAccount: any = useRef()
 	const {state, dispatch} = useContext(Store)
 	const {
 		cart: {cartItems},
@@ -35,9 +36,13 @@ export default function Header({}: Props) {
 		ref: ref,
 		handler: () => setShowCart(false),
 	})
-  const handleRemoveFromCart = (item:CartItem) => {
-    dispatch({type: 'CART_REMOVE_ITEM', payload: item})
-  }
+	useOutsideClick({
+		ref: refAccount,
+		handler: () => setShowAccountInfo(false),
+	})
+	const handleRemoveFromCart = (item: CartItem) => {
+		dispatch({type: 'CART_REMOVE_ITEM', payload: item})
+	}
 	return (
 		<header className='header'>
 			<div className='header-info-container'>
@@ -73,7 +78,7 @@ export default function Header({}: Props) {
 									<i className='fa-regular fa-user'></i>
 									<p className='title-account'>account</p>
 									{showAccountInfo ? (
-										<div className='account-sub'>
+										<div className='account-sub' ref={refAccount}>
 											<p className='account-item' onClick={() => navigate('/my-account')}>
 												Profile
 											</p>
@@ -105,7 +110,13 @@ export default function Header({}: Props) {
 										<div className='close'>
 											<i className='fa-solid fa-xmark' onClick={handleHideCart}></i>
 										</div>
-										{cartItems.length > 0 ? <p className='cart-info__title'>Cart</p> : <a href='/shop' className='text-shopping'>Shopping now</a>}
+										{cartItems.length > 0 ? (
+											<p className='cart-info__title'>Cart</p>
+										) : (
+											<a href='/shop' className='text-shopping'>
+												Shopping now
+											</a>
+										)}
 
 										<ul className='list-items'>
 											{cartItems.map((item: CartItem) => {

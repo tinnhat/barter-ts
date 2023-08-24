@@ -23,7 +23,7 @@ ordersAdminRouter.post(
 		if (req.body.orderItems.length === 0) {
 			res.status(400).json({message: 'Cart is empty'})
 		} else {
-			const user = await UserModel.findById(req.user._id)
+			const user = await UserModel.findById(req.body.user)
 			if (user && !user.isDelete) {
 				if (req.body.orderItems.length > 0) {
 					const createdOrder = await OrderModel.create({
@@ -37,7 +37,7 @@ ordersAdminRouter.post(
 						shippingPrice: req.body.shippingPrice,
 						taxPrice: req.body.taxPrice,
 						totalPrice: req.body.totalPrice,
-						user: req.user._id,
+						user: user._id,
 						isPaid: req.body.isPaid,
 						isDelivered: req.body.isDelivered,
 					} as Order)
@@ -66,26 +66,25 @@ ordersAdminRouter.patch(
 			const user = await UserModel.findById(req.user._id)
 			if (user && !user.isDelete) {
 				const order = await OrderModel.findById({_id: req.params.id})
-        if(order){
-          const {isDelivered, isPaid, itemsPrice, orderItems, paymentMethod, shippingPrice,taxPrice,totalPrice,shippingAddress} = req.body
-          order.isDelivered = isDelivered
-          order.isPaid = isPaid
-          order.itemsPrice = itemsPrice
-          order.orderItems = orderItems
-          order.paymentMethod = paymentMethod
-          order.shippingPrice = shippingPrice
-          order.taxPrice = taxPrice
-          order.totalPrice = totalPrice
-          order.shippingAddress = shippingAddress
-          order.save()
-          res.json(order)
-          return
-        }
-        else{
-          res.status(401).json({
-            message: 'Order not found',
-          })
-        }
+				if (order) {
+					const {isDelivered, isPaid, itemsPrice, orderItems, paymentMethod, shippingPrice, taxPrice, totalPrice, shippingAddress} = req.body
+					order.isDelivered = isDelivered
+					order.isPaid = isPaid
+					order.itemsPrice = itemsPrice
+					order.orderItems = orderItems
+					order.paymentMethod = paymentMethod
+					order.shippingPrice = shippingPrice
+					order.taxPrice = taxPrice
+					order.totalPrice = totalPrice
+					order.shippingAddress = shippingAddress
+					order.save()
+					res.json(order)
+					return
+				} else {
+					res.status(401).json({
+						message: 'Order not found',
+					})
+				}
 			} else {
 				res.status(401).json({
 					message: 'Owner has been deleted',

@@ -30,7 +30,7 @@ export default function SingleProduct({product}: {product: ProductType}) {
 		<>
 			<a href={`/product/${product.slug}`} className='product-box'>
 				<div className='box-img-add-cart'>
-					<img src={product.image} alt='' />
+					<img src={product.image} alt='' loading='lazy' />
 
 					{!product.countInStock ? (
 						<Button className='btn-disable' disabled>
@@ -48,13 +48,11 @@ export default function SingleProduct({product}: {product: ProductType}) {
 						</Button>
 					)}
 				</div>
-
 				<Tooltip label={product.category}>
 					<Text className='product-tag' noOfLines={1}>
 						{product.category}
 					</Text>
 				</Tooltip>
-
 				<Tooltip label={product.name}>
 					<Text className='product-name' noOfLines={1}>
 						{product.name}
