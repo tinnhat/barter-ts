@@ -108,7 +108,7 @@ const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => 
 		}
 	}
 	const handleResetPassword = () => {
-		toast.success('Check your email to reset password')
+		toast.success('Feature is develop,Please try later')
 	}
 
 	return (

@@ -85,6 +85,11 @@ export default function Shop() {
 		})
 	const pageCount = dataShow && Math.ceil(dataShow.length / productPerPage)
 	const changePage = ({selected}: {selected: number}) => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth"
+    });
 		setPageNumber(selected)
 	}
 	return (
