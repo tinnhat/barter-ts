@@ -73,7 +73,6 @@ orderRouter.patch(
 				const listItems = order.orderItems
 				listItems.forEach((item: any) => {
 					const idx = products.findIndex((product) => product._id == item._id)
-          console.log(idx);
 					if (idx !== -1) {
 						products[idx].countInStock -= Number(item.quantity)
             item.countInStock = products[idx].countInStock

@@ -1,4 +1,4 @@
-import {Button, Input, useOutsideClick} from '@chakra-ui/react'
+import {Button, Input, Text, Tooltip, useOutsideClick} from '@chakra-ui/react'
 import React, {useContext, useRef, useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import {Store} from '../../Store'
@@ -10,9 +10,12 @@ type Props = {}
 export default function Header({}: Props) {
 	const navigate = useNavigate()
 	const [showAccountInfo, setShowAccountInfo] = useState(false)
+	const [showSearch, setShowSearch] = useState(false)
 	const [showCart, setShowCart] = useState(false)
+	const [keyWordSearch, setKeyWordSearch] = useState('')
 	const ref: any = useRef()
 	const refAccount: any = useRef()
+	const refSearch: any = useRef()
 	const {state, dispatch} = useContext(Store)
 	const {
 		cart: {cartItems},
@@ -40,8 +43,16 @@ export default function Header({}: Props) {
 		ref: refAccount,
 		handler: () => setShowAccountInfo(false),
 	})
+	useOutsideClick({
+		ref: refSearch,
+		handler: () => setShowSearch(false),
+	})
 	const handleRemoveFromCart = (item: CartItem) => {
 		dispatch({type: 'CART_REMOVE_ITEM', payload: item})
+	}
+	const handleSearch = () => {
+		console.log(keyWordSearch)
+		setShowSearch(true)
 	}
 	return (
 		<header className='header'>
@@ -65,12 +76,56 @@ export default function Header({}: Props) {
 							</a>
 						</div>
 						<div className='header-search'>
-							<Input type='text' name='' id='' className='header-search-input' />
-							<i className='fa-solid fa-magnifying-glass icon-search'></i>
+							<Input type='text' name='' id='' className='header-search-input' onChange={(e) => setKeyWordSearch(e.target.value)} />
+							<i className='fa-solid fa-magnifying-glass icon-search' onClick={handleSearch}></i>
+							{showSearch && (
+								<div className='review-search' ref={refSearch}>
+									<ul className='list-product-search'>
+										<li className='item'>
+											<a href='' className='item-link'>
+												<img src='https://image.shutterstock.com/image-vector/dotted-spiral-vortex-royaltyfree-images-600w-2227567913.jpg' alt='' />
+
+												<Text className='item-name' noOfLines={2}>
+													{'123123123131231312312123123123131231312312123123123131231312312123123123131231312312'}
+												</Text>
+
+												<p className='item-price'>$45</p>
+											</a>
+										</li>
+										<li className='item'>
+											<a href='' className='item-link'>
+												<img src='https://image.shutterstock.com/image-vector/dotted-spiral-vortex-royaltyfree-images-600w-2227567913.jpg' alt='' />
+												<Text className='item-name' noOfLines={2}>
+													{'123123123131231312312123123123131231312312123123123131231312312123123123131231312312'}
+												</Text>
+												<p className='item-price'>$45</p>
+											</a>
+										</li>
+										<li className='item'>
+											<a href='' className='item-link'>
+												<img src='https://image.shutterstock.com/image-vector/dotted-spiral-vortex-royaltyfree-images-600w-2227567913.jpg' alt='' />
+												<Text className='item-name' noOfLines={2}>
+													{'123123123131231312312123123123131231312312123123123131231312312123123123131231312312'}
+												</Text>
+												<p className='item-price'>$45</p>
+											</a>
+										</li>
+										<li className='item'>
+											<a href='' className='item-link'>
+												<img src='https://image.shutterstock.com/image-vector/dotted-spiral-vortex-royaltyfree-images-600w-2227567913.jpg' alt='' />
+												<Text className='item-name' noOfLines={2}>
+													{'123123123131231312312123123123131231312312123123123131231312312123123123131231312312'}
+												</Text>
+												<p className='item-price'>$45</p>
+											</a>
+										</li>
+									</ul>
+								</div>
+							)}
 						</div>
 						{/* search on mobile */}
 						<div className='header-search-input-mobile'>
-							<i className='fa-solid fa-magnifying-glass icon-search'></i>
+            <i className="fa-solid fa-magnifying-glass"></i>
 						</div>
 						<div className='header-user'>
 							{!(JSON.stringify(userInfo) === '{}') ? (
