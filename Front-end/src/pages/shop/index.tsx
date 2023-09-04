@@ -57,6 +57,7 @@ export default function Shop() {
 				}
 			}
 		})
+		changePage({selected: 0})
 		setDataShow(productFilter)
 	}
 	const handleResetFilter = () => {
@@ -65,7 +66,7 @@ export default function Shop() {
 		if (searchRef.current) {
 			searchRef.current.value = ''
 		}
-    setDataShow(products!)
+		setDataShow(products!)
 	}
 
 	const handleChangeCategory = (e: any, item: CateShow) => {
@@ -85,11 +86,11 @@ export default function Shop() {
 		})
 	const pageCount = dataShow && Math.ceil(dataShow.length / productPerPage)
 	const changePage = ({selected}: {selected: number}) => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth"
-    });
+		window.scrollTo({
+			top: 0,
+			left: 0,
+			behavior: 'smooth',
+		})
 		setPageNumber(selected)
 	}
 	return (
@@ -143,13 +144,11 @@ export default function Shop() {
 									</Button>
 								</div>
 							</div>
-							<div className='list-product'>
-								{productShow}
-							</div>
+							<div className='list-product'>{productShow}</div>
 						</div>
 						<ReactPaginate
-							previousLabel={<i className="fa-solid fa-chevron-left"></i>}
-							nextLabel={<i className="fa-solid fa-chevron-right"></i>}
+							previousLabel={<i className='fa-solid fa-chevron-left'></i>}
+							nextLabel={<i className='fa-solid fa-chevron-right'></i>}
 							pageCount={pageCount}
 							onPageChange={changePage}
 							containerClassName='paginationBttns'
