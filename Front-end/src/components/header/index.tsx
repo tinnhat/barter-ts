@@ -1,11 +1,11 @@
-import {Button, Input, Text, Tooltip, useOutsideClick} from '@chakra-ui/react'
-import React, {useContext, useRef, useState} from 'react'
-import {Link, useNavigate} from 'react-router-dom'
-import {Store} from '../../Store'
+import { Button, Input, Text, useOutsideClick } from '@chakra-ui/react'
+import React, { useContext, useRef, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { Store } from '../../Store'
 import logo from '../../assets/img/logo.png'
-import {CartItem} from '../../types/Cart'
+import { useGetProductsQuery } from '../../hooks/productHooks'
+import { CartItem } from '../../types/Cart'
 import './style.scss'
-import {useGetProductsQuery} from '../../hooks/productHooks'
 type Props = {}
 
 export default function Header({}: Props) {

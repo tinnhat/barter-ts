@@ -49,6 +49,7 @@ export default function OrderPage({}: Props) {
 	const paypalbuttonTransactionProps: PayPalButtonsComponentProps = {
 		style: {layout: 'vertical'},
 		createOrder(data, actions) {
+      console.info(data)      
 			return actions.order
 				.create({
 					purchase_units: [
@@ -64,6 +65,7 @@ export default function OrderPage({}: Props) {
 				})
 		},
 		onApprove(data, actions) {
+      console.info(data)
 			return actions.order!.capture().then(async (details) => {
 				try {
 					await payOrder({orderId: orderId!, ...details})

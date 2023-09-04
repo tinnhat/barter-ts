@@ -1,15 +1,14 @@
-import React, {useContext, useEffect, useState} from 'react'
-import {useLocation, useNavigate} from 'react-router-dom'
-import {Store} from '../../Store'
-import {useSignupMutation} from '../../hooks/userHooks'
-import {useForm} from 'react-hook-form'
+import { Button, FormLabel, Input, Text } from '@chakra-ui/react'
+import { useContext, useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet-async'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { Store } from '../../Store'
+import { useSignupMutation } from '../../hooks/userHooks'
+import { ApiError } from '../../types/ApiError'
+import { getError, saveDataFromLocalStorage } from '../../utils'
 import './style.scss'
-import {getError, saveDataFromLocalStorage} from '../../utils'
-import {ApiError} from '../../types/ApiError'
-import {Helmet} from 'react-helmet-async'
-import {Button, FormLabel, Input, Text} from '@chakra-ui/react'
-import {toast} from 'react-hot-toast'
-import {REGEX_PHONE} from '../../common/enum'
 type Props = {}
 
 interface IFormInputs {
@@ -27,7 +26,6 @@ export default function Register({}: Props) {
 	const {
 		handleSubmit,
 		register,
-		setValue,
 		formState: {errors},
 	} = useForm<IFormInputs>()
 	const navigate = useNavigate()
@@ -40,7 +38,7 @@ export default function Register({}: Props) {
 	const [phone, setPhone] = useState('')
 	const [confirmPassword, setConfirmPassword] = useState('')
 
-	const onSubmit = async (values: IFormInputs) => {
+	const onSubmit = async () => {
 		if (password !== confirmPassword) {
 			toast.error('Passwords do not match')
 			return

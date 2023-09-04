@@ -1,13 +1,13 @@
-import {Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Radio, RadioGroup, Stack, Text} from '@chakra-ui/react'
-import React, {useEffect, useRef, useState} from 'react'
-import {useForm} from 'react-hook-form'
-import {REGEX_PHONE, typeEnum, widthModal} from '../../../../common/enum'
-import {UserInfo} from '../../../../types/UserInfo'
+import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Radio, RadioGroup, Stack, Text } from '@chakra-ui/react'
+import React, { useEffect, useRef, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
+import { typeEnum, widthModal } from '../../../../common/enum'
+import { useAdminSignupMutation, useAdminUpdateInforMutation } from '../../../../hooks/userHooks'
+import { ApiError } from '../../../../types/ApiError'
+import { UserInfo } from '../../../../types/UserInfo'
+import { getError } from '../../../../utils'
 import './style.scss'
-import {useAdminSignupMutation, useAdminUpdateInforMutation} from '../../../../hooks/userHooks'
-import {toast} from 'react-hot-toast'
-import {getError} from '../../../../utils'
-import {ApiError} from '../../../../types/ApiError'
 
 interface IFormInputs {
 	name: string
