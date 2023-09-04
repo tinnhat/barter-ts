@@ -47,3 +47,12 @@ html {
   background-color: $gray-color !important;
   cursor: default;
 }
+
+@keyframes hideToShow {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}

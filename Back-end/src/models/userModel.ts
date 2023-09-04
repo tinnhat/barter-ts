@@ -7,7 +7,7 @@ export class User {
   public name!: string
   @prop({ required: true, unique: true })
   public email!: string
-  @prop({ required: true })
+  @prop({ required: false })
   public phone?: string
   @prop({ required: true })
   public password!: string

@@ -1,18 +1,24 @@
-import {Button, Input, useOutsideClick} from '@chakra-ui/react'
-import React, {useContext, useRef, useState} from 'react'
-import {Link, useNavigate} from 'react-router-dom'
-import {Store} from '../../Store'
+import { Button, Input, Text, useOutsideClick } from '@chakra-ui/react'
+import React, { useContext, useRef, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { Store } from '../../Store'
 import logo from '../../assets/img/logo.png'
-import {CartItem} from '../../types/Cart'
+import { useGetProductsQuery } from '../../hooks/productHooks'
+import { CartItem } from '../../types/Cart'
 import './style.scss'
 type Props = {}
 
 export default function Header({}: Props) {
 	const navigate = useNavigate()
+	const {data: allProduct} = useGetProductsQuery()
 	const [showAccountInfo, setShowAccountInfo] = useState(false)
+	const [showSearch, setShowSearch] = useState(false)
 	const [showCart, setShowCart] = useState(false)
+	const [productSearchShow, setProductSearchShow] = useState<any[]>([])
+	const [keyWordSearch, setKeyWordSearch] = useState('')
 	const ref: any = useRef()
 	const refAccount: any = useRef()
+	const refSearch: any = useRef()
 	const {state, dispatch} = useContext(Store)
 	const {
 		cart: {cartItems},
@@ -40,8 +46,37 @@ export default function Header({}: Props) {
 		ref: refAccount,
 		handler: () => setShowAccountInfo(false),
 	})
+	useOutsideClick({
+		ref: refSearch,
+		handler: () => setShowSearch(false),
+	})
 	const handleRemoveFromCart = (item: CartItem) => {
 		dispatch({type: 'CART_REMOVE_ITEM', payload: item})
+	}
+	const handleSearch = () => {
+		if (keyWordSearch) {
+			const productsFind: any[] = []
+			allProduct?.forEach((product) => {
+				if (product.name.toLocaleLowerCase().includes(keyWordSearch.toLocaleLowerCase()!)) {
+					productsFind.push(product)
+				}
+			})
+			if (productsFind.length > 0) {
+				console.log(productsFind)
+				setProductSearchShow(productsFind)
+			}
+		} else {
+			setProductSearchShow([])
+		}
+		setShowSearch(true)
+	}
+	const handleClickNavigate = (link: string) => {
+		navigate(link)
+		window.scrollTo({
+			top: 0,
+			left: 0,
+			behavior: 'smooth',
+		})
 	}
 	return (
 		<header className='header'>
@@ -65,12 +100,35 @@ export default function Header({}: Props) {
 							</a>
 						</div>
 						<div className='header-search'>
-							<Input type='text' name='' id='' className='header-search-input' />
-							<i className='fa-solid fa-magnifying-glass icon-search'></i>
+							<Input type='text' name='' id='' className='header-search-input' onChange={(e) => setKeyWordSearch(e.target.value)} />
+							<i className='fa-solid fa-magnifying-glass icon-search' onClick={handleSearch}></i>
+							{showSearch && (
+								<div className='review-search' ref={refSearch}>
+									<ul className='list-product-search'>
+										{productSearchShow.length > 0 ? (
+											productSearchShow.map((product) => {
+												return (
+													<li className='item' key={product._id}>
+														<a href={`/product/${product.slug}`} className='item-link'>
+															<img src={product.image} alt='' />
+															<Text className='item-name' noOfLines={2}>
+																{product.name}
+															</Text>
+															<p className='item-price'>${product.price}</p>
+														</a>
+													</li>
+												)
+											})
+										) : (
+											<div className='no-product'>No product found</div>
+										)}
+									</ul>
+								</div>
+							)}
 						</div>
 						{/* search on mobile */}
 						<div className='header-search-input-mobile'>
-							<i className='fa-solid fa-magnifying-glass icon-search'></i>
+							<i className='fa-solid fa-magnifying-glass'></i>
 						</div>
 						<div className='header-user'>
 							{!(JSON.stringify(userInfo) === '{}') ? (
@@ -79,10 +137,10 @@ export default function Header({}: Props) {
 									<p className='title-account'>account</p>
 									{showAccountInfo ? (
 										<div className='account-sub' ref={refAccount}>
-											<p className='account-item' onClick={() => navigate('/my-account')}>
+											<p className='account-item' onClick={() => handleClickNavigate('/my-account')}>
 												Profile
 											</p>
-											<p className='account-item' onClick={() => navigate('/signin?redirect=/order-history')}>
+											<p className='account-item' onClick={() => handleClickNavigate('/order-history')}>
 												My order
 											</p>
 											{userInfo?.isAdmin ? (
