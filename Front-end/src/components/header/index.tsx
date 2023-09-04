@@ -5,13 +5,16 @@ import {Store} from '../../Store'
 import logo from '../../assets/img/logo.png'
 import {CartItem} from '../../types/Cart'
 import './style.scss'
+import {useGetProductsQuery} from '../../hooks/productHooks'
 type Props = {}
 
 export default function Header({}: Props) {
 	const navigate = useNavigate()
+	const {data: allProduct} = useGetProductsQuery()
 	const [showAccountInfo, setShowAccountInfo] = useState(false)
 	const [showSearch, setShowSearch] = useState(false)
 	const [showCart, setShowCart] = useState(false)
+	const [productSearchShow, setProductSearchShow] = useState<any[]>([])
 	const [keyWordSearch, setKeyWordSearch] = useState('')
 	const ref: any = useRef()
 	const refAccount: any = useRef()
@@ -51,8 +54,29 @@ export default function Header({}: Props) {
 		dispatch({type: 'CART_REMOVE_ITEM', payload: item})
 	}
 	const handleSearch = () => {
-		console.log(keyWordSearch)
+		if (keyWordSearch) {
+			const productsFind: any[] = []
+			allProduct?.forEach((product) => {
+				if (product.name.toLocaleLowerCase().includes(keyWordSearch.toLocaleLowerCase()!)) {
+					productsFind.push(product)
+				}
+			})
+			if (productsFind.length > 0) {
+				console.log(productsFind)
+				setProductSearchShow(productsFind)
+			}
+		} else {
+			setProductSearchShow([])
+		}
 		setShowSearch(true)
+	}
+	const handleClickNavigate = (link: string) => {
+		navigate(link)
+		window.scrollTo({
+			top: 0,
+			left: 0,
+			behavior: 'smooth',
+		})
 	}
 	return (
 		<header className='header'>
@@ -81,51 +105,30 @@ export default function Header({}: Props) {
 							{showSearch && (
 								<div className='review-search' ref={refSearch}>
 									<ul className='list-product-search'>
-										<li className='item'>
-											<a href='' className='item-link'>
-												<img src='https://image.shutterstock.com/image-vector/dotted-spiral-vortex-royaltyfree-images-600w-2227567913.jpg' alt='' />
-
-												<Text className='item-name' noOfLines={2}>
-													{'123123123131231312312123123123131231312312123123123131231312312123123123131231312312'}
-												</Text>
-
-												<p className='item-price'>$45</p>
-											</a>
-										</li>
-										<li className='item'>
-											<a href='' className='item-link'>
-												<img src='https://image.shutterstock.com/image-vector/dotted-spiral-vortex-royaltyfree-images-600w-2227567913.jpg' alt='' />
-												<Text className='item-name' noOfLines={2}>
-													{'123123123131231312312123123123131231312312123123123131231312312123123123131231312312'}
-												</Text>
-												<p className='item-price'>$45</p>
-											</a>
-										</li>
-										<li className='item'>
-											<a href='' className='item-link'>
-												<img src='https://image.shutterstock.com/image-vector/dotted-spiral-vortex-royaltyfree-images-600w-2227567913.jpg' alt='' />
-												<Text className='item-name' noOfLines={2}>
-													{'123123123131231312312123123123131231312312123123123131231312312123123123131231312312'}
-												</Text>
-												<p className='item-price'>$45</p>
-											</a>
-										</li>
-										<li className='item'>
-											<a href='' className='item-link'>
-												<img src='https://image.shutterstock.com/image-vector/dotted-spiral-vortex-royaltyfree-images-600w-2227567913.jpg' alt='' />
-												<Text className='item-name' noOfLines={2}>
-													{'123123123131231312312123123123131231312312123123123131231312312123123123131231312312'}
-												</Text>
-												<p className='item-price'>$45</p>
-											</a>
-										</li>
+										{productSearchShow.length > 0 ? (
+											productSearchShow.map((product) => {
+												return (
+													<li className='item' key={product._id}>
+														<a href={`/product/${product.slug}`} className='item-link'>
+															<img src={product.image} alt='' />
+															<Text className='item-name' noOfLines={2}>
+																{product.name}
+															</Text>
+															<p className='item-price'>${product.price}</p>
+														</a>
+													</li>
+												)
+											})
+										) : (
+											<div className='no-product'>No product found</div>
+										)}
 									</ul>
 								</div>
 							)}
 						</div>
 						{/* search on mobile */}
 						<div className='header-search-input-mobile'>
-            <i className="fa-solid fa-magnifying-glass"></i>
+							<i className='fa-solid fa-magnifying-glass'></i>
 						</div>
 						<div className='header-user'>
 							{!(JSON.stringify(userInfo) === '{}') ? (
@@ -134,10 +137,10 @@ export default function Header({}: Props) {
 									<p className='title-account'>account</p>
 									{showAccountInfo ? (
 										<div className='account-sub' ref={refAccount}>
-											<p className='account-item' onClick={() => navigate('/my-account')}>
+											<p className='account-item' onClick={() => handleClickNavigate('/my-account')}>
 												Profile
 											</p>
-											<p className='account-item' onClick={() => navigate('/signin?redirect=/order-history')}>
+											<p className='account-item' onClick={() => handleClickNavigate('/order-history')}>
 												My order
 											</p>
 											{userInfo?.isAdmin ? (

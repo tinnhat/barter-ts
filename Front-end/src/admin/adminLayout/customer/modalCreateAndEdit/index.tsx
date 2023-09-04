@@ -133,10 +133,6 @@ const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => 
 								isInvalid={!!errors.name}
 								{...register('name', {
 									required: 'Name is required',
-									minLength: {
-										value: 10,
-										message: 'Name at least 10 characters',
-									},
 								})}
 							/>
 							<Text color='red'>{errors.name && errors.name.message}</Text>
@@ -164,13 +160,7 @@ const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => 
 							id='phone'
 							placeholder='Enter your phone'
 							isInvalid={!!errors.phone}
-							{...register('phone', {
-								required: 'Phone is required',
-								pattern: {
-									value: REGEX_PHONE,
-									message: 'Invalid Phone number',
-								},
-							})}
+							{...register('phone')}
 						/>
 						<Text color='red'>{errors.phone && errors.phone.message}</Text>
 
