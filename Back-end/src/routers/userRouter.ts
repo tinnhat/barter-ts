@@ -93,6 +93,10 @@ userRouter.patch(
 userRouter.post(
 	'/signup',
 	asyncHandler(async (req: Request, res: Response) => {
+		const userExist = await UserModel.findOne({email: req.body.email})
+    if (userExist) {
+			res.status(400).json({message: 'User already exists,Please use another email'})
+		}
 		const user = await UserModel.create({
 			name: req.body.name,
 			email: req.body.email,

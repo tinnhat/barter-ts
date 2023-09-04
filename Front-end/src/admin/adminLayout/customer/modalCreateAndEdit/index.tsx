@@ -1,13 +1,13 @@
-import {Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Radio, RadioGroup, Stack, Text} from '@chakra-ui/react'
-import React, {useEffect, useRef, useState} from 'react'
-import {useForm} from 'react-hook-form'
-import {REGEX_PHONE, typeEnum, widthModal} from '../../../../common/enum'
-import {UserInfo} from '../../../../types/UserInfo'
+import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Radio, RadioGroup, Stack, Text } from '@chakra-ui/react'
+import React, { useEffect, useRef, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
+import { typeEnum, widthModal } from '../../../../common/enum'
+import { useAdminSignupMutation, useAdminUpdateInforMutation } from '../../../../hooks/userHooks'
+import { ApiError } from '../../../../types/ApiError'
+import { UserInfo } from '../../../../types/UserInfo'
+import { getError } from '../../../../utils'
 import './style.scss'
-import {useAdminSignupMutation, useAdminUpdateInforMutation} from '../../../../hooks/userHooks'
-import {toast} from 'react-hot-toast'
-import {getError} from '../../../../utils'
-import {ApiError} from '../../../../types/ApiError'
 
 interface IFormInputs {
 	name: string
@@ -108,7 +108,7 @@ const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => 
 		}
 	}
 	const handleResetPassword = () => {
-		toast.success('Check your email to reset password')
+		toast.success('Feature is develop,Please try later')
 	}
 
 	return (
@@ -133,10 +133,6 @@ const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => 
 								isInvalid={!!errors.name}
 								{...register('name', {
 									required: 'Name is required',
-									minLength: {
-										value: 10,
-										message: 'Name at least 10 characters',
-									},
 								})}
 							/>
 							<Text color='red'>{errors.name && errors.name.message}</Text>
@@ -164,13 +160,7 @@ const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => 
 							id='phone'
 							placeholder='Enter your phone'
 							isInvalid={!!errors.phone}
-							{...register('phone', {
-								required: 'Phone is required',
-								pattern: {
-									value: REGEX_PHONE,
-									message: 'Invalid Phone number',
-								},
-							})}
+							{...register('phone')}
 						/>
 						<Text color='red'>{errors.phone && errors.phone.message}</Text>
 
