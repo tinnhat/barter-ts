@@ -1,12 +1,31 @@
 @import '../../assets/style/_color.scss';
 
 .product {
+	padding: 50px 0;
+	background-color: $bkg-gray-color;
+	&-des-box {
+		background-color: $color-white;
+		padding: 10px;
+		border-radius: 4px;
+		.description-title {
+			font-weight: bold;
+		}
+		.product-desr {
+			font-size: 15px;
+			line-height: 1.4;
+			margin-bottom: 40px;
+		}
+	}
+
 	&-container {
 		display: flex;
-		margin: 80px 0;
+		margin-bottom: 20px;
+		padding: 10px;
+		background-color: $color-white;
+		border-radius: 4px;
 		.picture {
 			width: 40%;
-      height: auto;
+			height: auto;
 			margin-right: 20px;
 			img {
 				object-fit: cover;
@@ -26,12 +45,6 @@
 				}
 				font-size: 20px;
 				margin: 10px 0;
-			}
-			.product-desr {
-				font-size: 15px;
-				line-height: 1.4;
-				width: 80%;
-				margin-bottom: 40px;
 			}
 			.count-in-stock {
 				display: flex;
@@ -55,7 +68,7 @@
 			.product-action {
 				display: flex;
 				align-items: center;
-				margin-bottom: 10px;
+				margin: 20px 0;
 				input {
 					padding: 10px;
 					width: 100px;
@@ -75,10 +88,7 @@
 					border-radius: 22px;
 				}
 			}
-      .description-title{
-        margin-bottom: 10px;
-        font-weight: bold;
-      }
+
 			.category {
 				margin-bottom: 20px;
 				span {
