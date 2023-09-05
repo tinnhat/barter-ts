@@ -1,104 +1,117 @@
 @import '../../assets/style/_color.scss';
 
 .orderHis {
-  margin: 40px 0;
-  .orderHis-container {
-    .title {
-      font-size: 30px;
-      font-weight: 500;
-      text-align: center;
-      margin-bottom: 60px;
-    }
-  }
-  .orderHis-table {
-    table {
-      border: 1px solid #ccc;
-      border-collapse: collapse;
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      table-layout: fixed;
-    }
-
-    table caption {
-      font-size: 1.5em;
-      margin: 0.5em 0 0.75em;
-    }
-
-    table tr {
-      background-color: #f8f8f8;
-      border: 1px solid #ddd;
-      padding: 0.35em;
-    }
-
-    table th,
-    table td {
-      padding: 0.625em;
-      text-align: center;
-    }
-
-    table th {
-      font-size: 0.85em;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    @media screen and (max-width: 600px) {
-      table {
-        border: 0;
+	margin: 40px 0;
+	.orderHis-container {
+		.title {
+			font-size: 30px;
+			font-weight: 500;
+			text-align: center;
+			margin-bottom: 60px;
+		}
+	}
+	.orderHis-table {
+    overflow: hidden;
+    overflow-y: auto; 
+    height: 500px; 
+		table {
+			border: 1px solid #ccc;
+			border-collapse: collapse;
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			table-layout: fixed;
+      
+      tbody{
+        width: 500px;
       }
+		}
+		
 
-      table caption {
-        font-size: 1.3em;
-      }
+		table caption {
+			font-size: 1.5em;
+			margin: 0.5em 0 0.75em;
+		}
 
-      table thead {
-        border: none;
-        clip: rect(0 0 0 0);
-        height: 1px;
-        margin: -1px;
-        overflow: hidden;
-        padding: 0;
-        position: absolute;
-        width: 1px;
-      }
+		table tr {
+			background-color: #f8f8f8;
+			border: 1px solid #ddd;
+			padding: 0.35em;
+		}
 
-      table tr {
-        border-bottom: 3px solid #ddd;
-        display: block;
-        margin-bottom: 0.625em;
-        &.td:first-child {
-          -webkit-line-clamp: 1;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          display: -webkit-box;
-        }
-      }
+		table th,
+		table td {
+			padding: 0.625em;
+			text-align: center;
+		}
 
-      table td {
-        border-bottom: 1px solid #ddd;
-        display: block;
-        font-size: 0.8em;
-      }
+		table th {
+			font-size: 0.85em;
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+			position: sticky;
+      top: 0;
+			background-color: $brown-color;
+			color: $color-white;
+			z-index: 2;
+		}
 
-      table td::before {
-        content: attr(data-label);
-        float: left;
-        font-weight: bold;
-        text-transform: uppercase;
-      }
+		@media screen and (max-width: 600px) {
+			table {
+				border: 0;
+			}
 
-      table td:last-child {
-        border-bottom: 0;
-      }
-    }
-    .btn-detail {
-      padding: 10px;
-      border-radius: 10px;
-      border: none;
-      outline: none;
-      color: #fff;
-      background-color: $brown-color;
-    }
-  }
+			table caption {
+				font-size: 1.3em;
+			}
+
+			table thead {
+				border: none;
+				clip: rect(0 0 0 0);
+				height: 1px;
+				margin: -1px;
+				overflow: hidden;
+				padding: 0;
+				position: absolute;
+				width: 1px;
+			}
+
+			table tr {
+				border-bottom: 3px solid #ddd;
+				display: block;
+				margin-bottom: 0.625em;
+				&.td:first-child {
+					-webkit-line-clamp: 1;
+					-webkit-box-orient: vertical;
+					overflow: hidden;
+					display: -webkit-box;
+				}
+			}
+
+			table td {
+				border-bottom: 1px solid #ddd;
+				display: block;
+				font-size: 0.8em;
+			}
+
+			table td::before {
+				content: attr(data-label);
+				float: left;
+				font-weight: bold;
+				text-transform: uppercase;
+			}
+
+			table td:last-child {
+				border-bottom: 0;
+			}
+		}
+		.btn-detail {
+			padding: 10px;
+			border-radius: 10px;
+			border: none;
+			outline: none;
+			color: #fff;
+			background-color: $brown-color;
+		}
+	}
 }
