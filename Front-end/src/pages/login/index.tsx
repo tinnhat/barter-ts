@@ -51,7 +51,10 @@ export default function Login({}: Props) {
 						<p className='label-input'>Email</p>
 						<Input required type='email' name='' id='' onChange={(e) => setEmail(e.target.value)} />
 						<p className='label-input'>Password</p>
-						<Input required type='password' name='' id='' onChange={(e) => setPassword(e.target.value)} />
+						<Input className='input-password' required type='password' name='' id='' onChange={(e) => setPassword(e.target.value)} />
+            <p className='link-forgot'>
+							<span onClick={() => navigate('/forgot-password')}>Forgot your password</span>
+						</p>
 						<Button type='submit' className='btn-login' disabled={isLoading}>
 							Sign In
 						</Button>
