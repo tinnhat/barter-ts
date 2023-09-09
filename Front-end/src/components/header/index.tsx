@@ -62,7 +62,6 @@ export default function Header({}: Props) {
 				}
 			})
 			if (productsFind.length > 0) {
-				console.log(productsFind)
 				setProductSearchShow(productsFind)
 			}
 		} else {

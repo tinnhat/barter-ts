@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from 'express'
+import {NextFunction, Request, Response} from 'express'
 import jwt from 'jsonwebtoken'
-import { User } from './models/userModel'
+import {User} from './models/userModel'
 export const generateToken = (user: User) => {
 	return jwt.sign(
 		{
@@ -49,13 +49,25 @@ export const isAuthAdmin = (req: Request, res: Response, next: NextFunction) => 
 			isDelete: boolean
 			token: string
 		}
-    if(req.user.isAdmin){
-      next()
-    }
-    else{
-      res.status(403).json({message: 'Permission denied'})
-    }
+		if (req.user.isAdmin) {
+			next()
+		} else {
+			res.status(403).json({message: 'Permission denied'})
+		}
 	} else {
 		res.status(401).json({message: 'No Token'})
 	}
+}
+
+export function generatePass() {
+	let pass = ''
+	let str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' + 'abcdefghijklmnopqrstuvwxyz0123456789@#$'
+
+	for (let i = 1; i <= 8; i++) {
+		let char = Math.floor(Math.random() * str.length + 1)
+
+		pass += str.charAt(char)
+	}
+
+	return pass
 }
