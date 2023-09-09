@@ -16,6 +16,13 @@ export const useSigninAdminMutation = () =>
 		},
 	})
 
+export const useForgotPasswordMutation = () =>
+	useMutation({
+		mutationFn: async ({email}: {email: string}) => {
+			return (await apiClient.post(`api/users/forgot-password`, {email})).data
+		},
+	})
+
 export const useSignupMutation = () =>
 	useMutation({
 		mutationFn: async ({email, password, phone, name}: {email: string; password: string; phone: string; name: string}) => {

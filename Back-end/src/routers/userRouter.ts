@@ -3,7 +3,9 @@ import bcrypt, {hashSync} from 'bcryptjs'
 import express, {Request, Response} from 'express'
 import asyncHandler from 'express-async-handler'
 import {User, UserModel} from '../models/userModel'
-import {generateToken, isAuth, isAuthAdmin} from '../utils'
+import {generatePass, generateToken, isAuth, isAuthAdmin} from '../utils'
+import nodemailer from 'nodemailer'
+import Mailgen from 'mailgen'
 
 export const userRouter = express.Router()
 
@@ -59,6 +61,74 @@ userRouter.post(
 	})
 )
 
+userRouter.post(
+	'/forgot-password',
+	asyncHandler(async (req: Request, res: Response) => {
+		const {email} = req.body
+		const user = await UserModel.findOne({email})
+		if (user) {
+			let config = {
+				service: 'gmail',
+				auth: {
+					user: process.env.USER_MAIL,
+					pass: process.env.PASSWORD_MAIL,
+				},
+			}
+
+			let transporter = nodemailer.createTransport(config)
+
+			let MailGenerator = new Mailgen({
+				theme: 'default',
+				product: {
+					name: 'Barter',
+					link: 'https://mailgen.js/',
+				},
+			})
+
+			const passwordGenerator = generatePass()
+			const newPass = bcrypt.hashSync(passwordGenerator)
+			user.password = newPass
+			user.save()
+
+			let response = {
+				body: {
+					name: user.name,
+					intro: 'You have received this email because a password reset request for your account was received.',
+					action: {
+						instructions: 'This is your new password',
+						button: {
+							color: '#DC4D2F',
+							text: passwordGenerator,
+							link: '',
+						},
+					},
+					outro: 'Please change your password when login first time.',
+				},
+			}
+
+			let mail = MailGenerator.generate(response)
+
+			let message = {
+				from: process.env.USER_MAIL,
+				to: email,
+				subject: 'Reset Password',
+				html: mail,
+			}
+
+			transporter
+				.sendMail(message)
+				.then(() => {
+					return res.status(201).json({message: 'Send email successfully'})
+				})
+				.catch((error) => {
+					return res.status(500).json({error})
+				})
+		} else {
+			res.status(401).json({message: 'Email not found'})
+		}
+	})
+)
+
 userRouter.patch(
 	'/edit/:id',
 	isAuth,
@@ -94,7 +164,7 @@ userRouter.post(
 	'/signup',
 	asyncHandler(async (req: Request, res: Response) => {
 		const userExist = await UserModel.findOne({email: req.body.email})
-    if (userExist) {
+		if (userExist) {
 			res.status(400).json({message: 'User already exists,Please use another email'})
 		}
 		const user = await UserModel.create({
@@ -113,4 +183,3 @@ userRouter.post(
 		})
 	})
 )
-
