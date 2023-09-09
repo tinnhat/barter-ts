@@ -1,12 +1,12 @@
-import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Radio, RadioGroup, Stack, Text } from '@chakra-ui/react'
-import React, { useEffect, useRef, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { toast } from 'react-hot-toast'
-import { typeEnum, widthModal } from '../../../../common/enum'
-import { useAdminSignupMutation, useAdminUpdateInforMutation } from '../../../../hooks/userHooks'
-import { ApiError } from '../../../../types/ApiError'
-import { UserInfo } from '../../../../types/UserInfo'
-import { getError } from '../../../../utils'
+import {Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Radio, RadioGroup, Stack, Text} from '@chakra-ui/react'
+import React, {useEffect, useRef, useState} from 'react'
+import {useForm} from 'react-hook-form'
+import {toast} from 'react-hot-toast'
+import {typeEnum, widthModal} from '../../../../common/enum'
+import {useAdminSignupMutation, useAdminUpdateInforMutation, useForgotPasswordMutation} from '../../../../hooks/userHooks'
+import {ApiError} from '../../../../types/ApiError'
+import {UserInfo} from '../../../../types/UserInfo'
+import {getError} from '../../../../utils'
 import './style.scss'
 
 interface IFormInputs {
@@ -36,6 +36,7 @@ const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => 
 	} = useForm<IFormInputs>()
 	const {mutateAsync: signup} = useAdminSignupMutation()
 	const {mutateAsync: editUser} = useAdminUpdateInforMutation()
+	const {mutateAsync: fotgotPassword, isLoading} = useForgotPasswordMutation()
 	const [loading, setLoading] = useState(false)
 	const [role, setRole] = useState('1')
 	const handleCloseModal = () => {
@@ -107,8 +108,17 @@ const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => 
 			setLoading(false)
 		}
 	}
-	const handleResetPassword = () => {
-		toast.success('Feature is develop,Please try later')
+	const handleResetPassword = async () => {
+		try {
+			const data = await fotgotPassword({
+				email: showModal.customer.email,
+			})
+			if (data) {
+				toast.success('Please check email to new password')
+			}
+		} catch (err: unknown) {
+			toast.error(getError(err as ApiError))
+		}
 	}
 
 	return (
@@ -155,13 +165,7 @@ const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => 
 						<FormLabel mt={2} htmlFor='phone'>
 							Phone
 						</FormLabel>
-						<Input
-							type='tel'
-							id='phone'
-							placeholder='Enter your phone'
-							isInvalid={!!errors.phone}
-							{...register('phone')}
-						/>
+						<Input type='tel' id='phone' placeholder='Enter your phone' isInvalid={!!errors.phone} {...register('phone')} />
 						<Text color='red'>{errors.phone && errors.phone.message}</Text>
 
 						{showModal.type === typeEnum.Add ? (
@@ -186,7 +190,9 @@ const ModalCustomer = ({showModal, setShowModal, handleRefectchData}: Props) => 
 								<FormLabel mt={2} htmlFor='password'>
 									Password
 								</FormLabel>
-								<Button onClick={handleResetPassword}>Reset Password</Button>
+								<Button onClick={handleResetPassword} isLoading={isLoading}>
+									Reset Password
+								</Button>
 							</>
 						)}
 						<FormLabel htmlFor='title'>Role</FormLabel>
