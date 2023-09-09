@@ -1,42 +1,51 @@
 @import '../../assets/style/_color.scss';
 
-.login{
-  margin: 60px 0;
-  .login-container,.register-container{
-    padding: 20px;
-    width: 40%;
-    margin: auto;
-    .title{
-      font-size: 32px;
+.login {
+	margin: 60px 0;
+	.login-container,
+	.register-container {
+		padding: 20px;
+		width: 40%;
+		margin: auto;
+		.title {
+			font-size: 32px;
+			font-weight: 500;
+			margin-bottom: 40px;
+		}
+		.label-input {
+			font-size: 18px;
+			margin-bottom: 10px;
+		}
+		input {
+			width: 100%;
+			padding: 10px;
+			border-radius: 26px;
+			outline: none;
+			margin-bottom: 20px;
+		}
+		.input-password {
+			margin-bottom: 10px;
+		}
+		.btn-login {
+			padding: 12px 40px;
+			border: none;
+			color: #fff;
+			background-color: $black-color;
+			border-radius: 20px;
+			margin-bottom: 5px;
+		}
+		.link-forgot {
+			color: $brown-color;
       font-weight: 500;
-      margin-bottom: 40px;
-    }
-    .label-input{
-      font-size: 18px;
       margin-bottom: 10px;
-    }
-    input{
-      width: 100%;
-      padding: 10px;
-      border-radius: 26px;
-      outline: none;
-      border: 1px solid $gray-color;
-      margin-bottom: 20px;
-    }
-    .btn-login{
-      padding: 12px 40px;
-      border: none;
-      color: #fff;
-      background-color: $black-color;
-      border-radius: 20px;
-      margin-bottom: 5px;
-    }
-    .link-create{
-      span{
-        color: $brown-color;
-        margin-left: 10px;
-        cursor: pointer;
-      }
-    }
-  }
+      cursor: pointer;
+		}
+		.link-create {
+			span {
+				color: $brown-color;
+				margin-left: 10px;
+				cursor: pointer;
+			}
+		}
+	}
 }

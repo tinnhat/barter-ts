@@ -34,6 +34,7 @@ import {
 	Shop,
 	SingleBlog,
 	CategoryPage,
+  ForgotPassword,
 } from './pages'
 import SpinnerLoading from './components/loadingSuspense/index.tsx'
 import LoginAdmin from './admin/adminLayout/login/index.tsx'
@@ -53,6 +54,7 @@ const router = createBrowserRouter(
 				<Route path='blog' element={<Blog />} />
 				<Route path='signin' element={<Login />} />
 				<Route path='signup' element={<Register />} />
+				<Route path='forgot-password' element={<ForgotPassword />} />
 				<Route path='blog/:id' element={<SingleBlog />} />
 				<Route path='' element={<PrivateRoute />}>
 					<Route path='shipping' element={<Shipping />} />
