@@ -1,0 +1,57 @@
+@import '../../assets/style/_color.scss';
+
+.forgot {
+	.banner {
+		background-image: url('../../assets/img/contact-banner.jpg');
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 10em;
+		&-title {
+			font-size: 60px;
+			font-weight: 600;
+			color: #fff;
+		}
+	}
+	.forgot-container {
+		width: 90%;
+		margin: auto;
+		margin-top: 60px;
+		margin-bottom: 100px;
+		.forgot-title {
+			line-height: 1.4;
+			margin-bottom: 20px;
+		}
+		.forgot-box {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			form {
+				width: 100%;
+
+				.forgot-label {
+					font-weight: 600;
+					margin-bottom: 6px;
+				}
+				.input-email-forgot {
+					width: 40%;
+					margin-bottom: 10px;
+					padding: 10px;
+					border-radius: 26px;
+					outline: none;
+				}
+				.btn-reset {
+					padding: 12px 40px;
+					border: none;
+					color: #fff;
+					background-color: $black-color;
+					border-radius: 20px;
+					margin-bottom: 5px;
+				}
+			}
+		}
+	}
+}

@@ -19,6 +19,7 @@ const ProductDetail = lazy(() => import('./product'))
 const Register = lazy(() => import('./register'))
 const Shipping = lazy(() => import('./shipping'))
 const Shop = lazy(() => import('./shop'))
+const ForgotPassword = lazy(() => import('./forgotPassword'))
 const DashboardAdmin = lazy(() => import('../admin/adminLayout/dashboard'))
 const Customers = lazy(() => import('../admin/adminLayout/customer'))
 const Products = lazy(() => import('../admin/adminLayout/product'))
@@ -49,5 +50,6 @@ export {
 	Customers,
 	Products,
 	Orders,
-  CategoryPage
+  CategoryPage,
+  ForgotPassword
 }
