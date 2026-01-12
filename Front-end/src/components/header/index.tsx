@@ -51,53 +51,68 @@ export default function Header() {
 			<Image src={logo} alt='logo' boxSize='48px' objectFit='contain' />
 		  </RouterLink>
 					<Input
-			placeholder='Search products...'
-			value={keyword}
-			onChange={(e) => setKeyword(e.target.value)}
-			width={{base: '160px', md: '360px'}}
-			bg='gray.50'
-			_placeholder={{color: 'gray.400'}}
-		  />
+						aria-label='Search products'
+						placeholder='Search products...'
+						value={keyword}
+						onChange={(e) => setKeyword(e.target.value)}
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') handleSearch()
+						}}
+						width={{base: '160px', md: '360px'}}
+						bg='gray.50'
+						_placeholder={{color: 'gray.400'}}
+					/>
 					<IconButton
 						aria-label='search'
 						onClick={handleSearch}
 						icon={<svg viewBox='0 0 24 24' width='18' height='18'><path d='M21 21l-4.35-4.35' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'/><circle cx='11' cy='11' r='6' stroke='currentColor' strokeWidth='2' fill='none'/></svg>}
+						variant='ghost'
+						aria-haspopup='false'
 					/>
 		</HStack>
 
 		<HStack spacing={4} align='center'>
-		  {userInfo && Object.keys(userInfo).length ? (
-			<Menu>
-						<MenuButton as={Button} rightIcon={<svg viewBox='0 0 24 24' width='16' height='16'><path d='M6 9l6 6 6-6' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' fill='none'/></svg>}>
-				Account
-			  </MenuButton>
-			  <MenuList>
-				<MenuItem as={RouterLink} to='/my-account'>Profile</MenuItem>
-				<MenuItem as={RouterLink} to='/order-history'>My orders</MenuItem>
-				{userInfo?.isAdmin ? <MenuItem as='a' href='/admin'>Admin</MenuItem> : null}
-				<Divider />
-				<MenuItem onClick={handleSignOut}>Sign out</MenuItem>
-			  </MenuList>
-			</Menu>
-		  ) : (
-			<Button as={RouterLink} to='/signin' colorScheme='brand' variant='ghost'>
-			  Login Now
-			</Button>
-		  )}
+					{userInfo && Object.keys(userInfo).length ? (
+						<Menu>
+							<MenuButton
+								as={Button}
+								rightIcon={<svg viewBox='0 0 24 24' width='16' height='16'><path d='M6 9l6 6 6-6' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' fill='none'/></svg>}
+								aria-label='Account menu'
+							>
+								Account
+							</MenuButton>
+							<MenuList>
+								<MenuItem as={RouterLink} to='/my-account'>Profile</MenuItem>
+								<MenuItem as={RouterLink} to='/order-history'>My orders</MenuItem>
+								{userInfo?.isAdmin ? <MenuItem as='a' href='/admin'>Admin</MenuItem> : null}
+								<Divider />
+								<MenuItem onClick={handleSignOut}>Sign out</MenuItem>
+							</MenuList>
+						</Menu>
+					) : (
+						<Button as={RouterLink} to='/signin' colorScheme='brand' variant='ghost' aria-label='Sign in'>
+							Login Now
+						</Button>
+					)}
 
-		  <Menu>
-			<MenuButton as={IconButton} aria-label='Cart' icon={<svg viewBox='0 0 24 24' width='20' height='20'><path d='M7 4h-2l-1 2v2h2l3 6h8l3-6h2v-2l-1-2h-2l-1 2h-10z' fill='currentColor' /></svg>}>
-			  {cartItems.length > 0 ? (
-				<Badge ml='-3' mt='-6' colorScheme='red' borderRadius='full'>
-				  {cartItems.length}
-				</Badge>
-			  ) : null}
-			</MenuButton>
+					<Menu>
+						<MenuButton as={Box} aria-label='Cart menu' position='relative'>
+							<IconButton
+								aria-label='Cart'
+								icon={<svg viewBox='0 0 24 24' width='20' height='20'><path d='M7 4h-2l-1 2v2h2l3 6h8l3-6h2v-2l-1-2h-2l-1 2h-10z' fill='currentColor' /></svg>}
+								variant='ghost'
+							/>
+							{cartItems.length > 0 ? (
+								<Badge position='absolute' top='-1' right='-1' colorScheme='red' borderRadius='full' fontSize='0.7em'>
+									{cartItems.length}
+								</Badge>
+							) : null}
+						</MenuButton>
 			<MenuList minW='300px'>
 			  <VStack align='stretch' spacing={2} px={3} py={2}>
-				{cartItems.length === 0 ? (
-				  <Text>No items in cart</Text>
-				) : (
+								{cartItems.length === 0 ? (
+									<Text>No items in cart</Text>
+								) : (
 				  cartItems.map((it: any) => (
 					<HStack key={it._id} justify='space-between'>
 					  <HStack>
@@ -109,9 +124,9 @@ export default function Header() {
 						  </Text>
 						</VStack>
 					  </HStack>
-					  <Button size='sm' variant='ghost' onClick={() => dispatch({type: 'CART_REMOVE_ITEM', payload: it})}>
-						Remove
-					  </Button>
+											<Button size='sm' variant='ghost' onClick={() => dispatch({type: 'CART_REMOVE_ITEM', payload: it})} aria-label={`Remove ${it.name}`}>
+												Remove
+											</Button>
 					</HStack>
 				  ))
 				)}
