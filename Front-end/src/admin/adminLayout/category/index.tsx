@@ -8,7 +8,6 @@ import { Category } from '../../../types/Category'
 import { getError } from '../../../utils'
 import LoadingCenter from '../../components/loadingCenter'
 import ModalCategory from './modalCreateAndEdit'
-import './style.scss'
 import ReactPaginate from 'react-paginate'
 
 type TypeModal = {

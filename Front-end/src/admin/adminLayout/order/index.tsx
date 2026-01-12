@@ -9,7 +9,6 @@ import { Order } from '../../../types/Order'
 import { getError } from '../../../utils'
 import LoadingCenter from '../../components/loadingCenter'
 import ModalCustomer from './modalCreateAndEdit'
-import './style.scss'
 import ReactPaginate from 'react-paginate'
 
 type Props = {}

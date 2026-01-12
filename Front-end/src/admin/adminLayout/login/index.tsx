@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom'
 import { useSigninAdminMutation } from '../../../hooks/userHooks'
 import { ApiError } from '../../../types/ApiError'
 import { getDataFromLocalStorage, getError, saveDataFromLocalStorage } from '../../../utils'
-import './style.scss'
 type Props = {}
 interface IFormInputs {
 	email: string
