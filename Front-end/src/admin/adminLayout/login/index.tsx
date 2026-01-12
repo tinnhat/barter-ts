@@ -1,4 +1,4 @@
-import { Button, FormControl, FormLabel, Input, Text } from '@chakra-ui/react'
+import { Button, FormControl, FormLabel, Input, Text, Box, Heading } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Toaster, toast } from 'react-hot-toast'
@@ -41,44 +41,34 @@ export default function LoginAdmin({}: Props) {
 	}, [userInfo])
 	return (
 		<>
-			<main className='admin-login'>
-				<div className='admin-login-container'>
-					<div className='box-login'>
-						<h1 className='box-login__title'>Login</h1>
-						<form className='login-form' onSubmit={handleSubmit(onSubmit)}>
-							<FormControl>
-								<FormLabel htmlFor='email'>Email</FormLabel>
-								<Input
-									id='email'
-									placeholder='Enter your email'
-									isInvalid={!!errors.email}
-									{...register('email', {
-										required: 'Email is required',
-									})}
-								/>
-								<Text color='red'>{errors.email && errors.email.message}</Text>
-								<FormLabel mt={3} htmlFor='password'>
-									Password
-								</FormLabel>
-								<Input
-									type='password'
-									id='password'
-									placeholder='Enter your password'
-									isInvalid={!!errors.password}
-									{...register('password', {
-										required: 'Password is required',
-									})}
-								/>
-								<Text color='red'>{errors.password && errors.password.message}</Text>
-								<Button mt={4} className='btn-admin-login' type='submit'>
-									Login
-								</Button>
-							</FormControl>
-						</form>
-					</div>
-				</div>
-			</main>
-			<Toaster position='bottom-right' reverseOrder={false} />
+			<Box minH="100vh" display="grid" placeItems="center" bg="gray.50">
+				<Box bg="white" p={8} rounded="md" boxShadow="sm" w={{ base: '90%', md: '420px' }}>
+					<Heading size="lg" mb={4}>Admin Login</Heading>
+					<form onSubmit={handleSubmit(onSubmit)}>
+						<FormControl>
+							<FormLabel htmlFor="email">Email</FormLabel>
+							<Input
+								id="email"
+								placeholder="Enter your email"
+								isInvalid={!!errors.email}
+								{...register('email', { required: 'Email is required' })}
+							/>
+							<Text color="red">{errors.email && errors.email.message}</Text>
+							<FormLabel mt={3} htmlFor="password">Password</FormLabel>
+							<Input
+								type="password"
+								id="password"
+								placeholder="Enter your password"
+								isInvalid={!!errors.password}
+								{...register('password', { required: 'Password is required' })}
+							/>
+							<Text color="red">{errors.password && errors.password.message}</Text>
+							<Button mt={4} width="full" type="submit">Login</Button>
+						</FormControl>
+					</form>
+				</Box>
+			</Box>
+			<Toaster position="bottom-right" reverseOrder={false} />
 		</>
 	)
 }

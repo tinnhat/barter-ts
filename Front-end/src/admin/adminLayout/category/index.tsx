@@ -1,4 +1,4 @@
-import { Button, Checkbox, Input, Text, Tooltip } from '@chakra-ui/react'
+import { Button, Checkbox, Input, Text, Tooltip, Table, Thead, Tbody, Tr, Th, Td, Box } from '@chakra-ui/react'
 import { useRef, useState,useEffect } from 'react'
 import { toast } from 'react-hot-toast'
 import { typeEnum } from '../../../common/enum'
@@ -59,29 +59,27 @@ export default function CategoryPage() {
 	const renderBody = (data: Category[]) => {
 		return (
 			data &&
-			data.map((category: Category, idx: number) => {
-				return (
-					<tr className={`row-table ${idx % 2 === 0 ? 'row-even' : ''} ${category.isUse ? 'category-disabled' : ''}`} key={category._id}>
-						<td className='table-column__id'>
-							<Tooltip label={category._id}>
-								<Text noOfLines={1}>{category._id}</Text>
-							</Tooltip>
-						</td>
-						<td className='table-column__name'>
-							<Tooltip label={category.name}>
-								<Text noOfLines={1}>{category.name}</Text>
-							</Tooltip>
-						</td>
-						<td className='table-column__use'>
-							<Checkbox isChecked={category.isUse ? true : false} readOnly />
-						</td>
-						<td className='table-column__action'>
-							<i className='fa-solid icon-edit fa-pen-to-square' onClick={() => handleEdit(category)}></i>
-							<i className='fa-solid icon-delete fa-trash' onClick={() => handleDeleteCategory(category._id!)}></i>
-						</td>
-					</tr>
-				)
-			})
+			data.map((category: Category, idx: number) => (
+				<Tr key={category._id} bg={idx % 2 === 0 ? 'white' : 'gray.50'}>
+					<Td>
+						<Tooltip label={category._id}>
+							<Text noOfLines={1}>{category._id}</Text>
+						</Tooltip>
+					</Td>
+					<Td>
+						<Tooltip label={category.name}>
+							<Text noOfLines={1}>{category.name}</Text>
+						</Tooltip>
+					</Td>
+					<Td>
+						<Checkbox isChecked={category.isUse ? true : false} readOnly />
+					</Td>
+					<Td>
+						<i className='fa-solid icon-edit fa-pen-to-square' onClick={() => handleEdit(category)}></i>
+						<i className='fa-solid icon-delete fa-trash' onClick={() => handleDeleteCategory(category._id!)}></i>
+					</Td>
+				</Tr>
+			))
 		)
 	}
 	const handleSearchByName = () => {
@@ -139,32 +137,25 @@ export default function CategoryPage() {
 						<i className='fa-solid fa-magnifying-glass icon-search' onClick={handleSearchByName}></i>
 					</div>
 				</div>
-				<div className='category-table'>
-					<div className='table-header'>
-						<table cellPadding='0' cellSpacing='0'>
-							<thead>
-								<tr>
-									<th className='table-column__id'>ID</th>
-									<th className='table-column__name'>Name</th>
-									<th className='table-column__use'>In Use</th>
-									<th className='table-column__action'>Action</th>
-								</tr>
-							</thead>
-						</table>
-					</div>
-					<div className='table-content'>
-						<table cellPadding='0' cellSpacing='0'>
-							<tbody>
-								{isLoading ? (
-									<div className='center-table-loading'>
-										<LoadingCenter />
-									</div>
-								) : (
-									renderBody(cateShow)
-								)}
-							</tbody>
-						</table>
-					</div>
+				<Box className='category-table'>
+					{isLoading ? (
+						<Box className='center-table-loading'>
+							<LoadingCenter />
+						</Box>
+					) : (
+						<Table variant='simple' size='sm'>
+							<Thead bg='gray.50'>
+								<Tr>
+									<Th>ID</Th>
+									<Th>Name</Th>
+									<Th>In Use</Th>
+									<Th>Action</Th>
+								</Tr>
+							</Thead>
+							<Tbody>{renderBody(cateShow)}</Tbody>
+						</Table>
+					)}
+				</Box>
           <ReactPaginate
 							previousLabel={<i className="fa-solid fa-chevron-left"></i>}
 							nextLabel={<i className="fa-solid fa-chevron-right"></i>}
