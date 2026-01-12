@@ -8,6 +8,7 @@ import {HelmetProvider} from 'react-helmet-async'
 import {Route, RouterProvider, createBrowserRouter, createRoutesFromElements} from 'react-router-dom'
 import App from './App.tsx'
 import {StoreProvider} from './Store.tsx'
+import theme from './theme'
 import './assets/style/_main.scss'
 import {
 	About,
@@ -82,7 +83,7 @@ const router = createBrowserRouter(
 const queryClient = new QueryClient()
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
-		<ChakraProvider>
+		<ChakraProvider theme={theme}>
 			<StoreProvider>
 				<PayPalScriptProvider options={{'client-id': 'sb'}} deferLoading={true}>
 					<HelmetProvider>

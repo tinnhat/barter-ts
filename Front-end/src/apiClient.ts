@@ -3,7 +3,8 @@ import {getDataFromLocalStorage} from './utils'
 import jwt_decode from 'jwt-decode'
 
 const apiClient = axios.create({
-	baseURL: 'https://barter-ts.onrender.com/',
+	// baseURL: 'https://barter-ts.onrender.com/',
+  baseURL: 'http://localhost:4000/',
 	headers: {
 		'Content-type': 'application/json',
 	},
