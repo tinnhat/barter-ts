@@ -1,5 +1,4 @@
 import { Center, Spinner } from '@chakra-ui/react'
-import './style.scss'
 
 type Props = {}
 

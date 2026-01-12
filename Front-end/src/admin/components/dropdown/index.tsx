@@ -1,6 +1,5 @@
 import { ReactNode } from 'react'
 import { Menu, MenuButton, MenuList, MenuItem, Button, Badge, Box } from '@chakra-ui/react'
-import './dropdown.scss'
 
 type Props = {
 	icon?: string

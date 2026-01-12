@@ -1,5 +1,4 @@
 import { Stat, StatNumber, StatLabel, Box, Tooltip, Text } from '@chakra-ui/react'
-import './style.scss'
 
 type Props = {
 	icon: string
