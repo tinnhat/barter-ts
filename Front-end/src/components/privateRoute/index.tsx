@@ -5,11 +5,12 @@ import {Store} from '../../Store'
 type Props = {}
 
 export default function PrivateRoute({}: Props) {
-	const {state: userInfo} = useContext(Store)
+	const { state } = useContext(Store)
+	const { userInfo } = state
 
-	if (JSON.stringify(userInfo.userInfo) !== '{}') {
+	if (userInfo && Object.keys(userInfo).length > 0) {
 		return <Outlet />
 	} else {
-		return <Navigate to='/signin' />
+		return <Navigate to="/signin" />
 	}
 }
