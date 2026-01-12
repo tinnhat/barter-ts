@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react'
-import './style.scss'
+
 import {useLocation, useNavigate} from 'react-router-dom'
 import {Store} from '../../Store'
 import {getError, saveDataFromLocalStorage} from '../../utils'

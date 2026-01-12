@@ -8,8 +8,6 @@ import { useGetAllBlogs } from '../../hooks/blogHooks'
 import { BlogType } from '../../types/Blog'
 import { getDataFromLocalStorage } from '../../utils'
 import ModalEditAddBlog from './modalAddEdit'
-
-import './style.scss'
 import { typeEnum } from '../../common/enum'
 type Props = {}
 

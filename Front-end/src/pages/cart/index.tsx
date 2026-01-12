@@ -4,7 +4,7 @@ import {Helmet} from 'react-helmet-async'
 import {useNavigate} from 'react-router-dom'
 import {Store} from '../../Store'
 import {CartItem} from '../../types/Cart'
-import './style.scss'
+ 
 import { toast } from 'react-hot-toast'
 type Props = {}
 

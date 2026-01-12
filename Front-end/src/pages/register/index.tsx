@@ -8,7 +8,7 @@ import { Store } from '../../Store'
 import { useSignupMutation } from '../../hooks/userHooks'
 import { ApiError } from '../../types/ApiError'
 import { getError, saveDataFromLocalStorage } from '../../utils'
-import './style.scss'
+ 
 type Props = {}
 
 interface IFormInputs {

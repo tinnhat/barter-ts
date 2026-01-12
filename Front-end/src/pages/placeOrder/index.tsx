@@ -6,7 +6,7 @@ import { Store } from '../../Store'
 import { useCreateOrderMutation } from '../../hooks/orderHooks'
 import { ApiError } from '../../types/ApiError'
 import { getError } from '../../utils'
-import './style.scss'
+ 
 type Props = {}
 const round2 = (num: number) => Math.round(num * 100 + Number.EPSILON) / 100 // 123.2345 => 123.23
 export default function PlaceOrder({}: Props) {

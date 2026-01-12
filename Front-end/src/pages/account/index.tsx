@@ -6,7 +6,7 @@ import {Store} from '../../Store'
 import {REGEX_PASSWORD, REGEX_PHONE} from '../../common/enum'
 import {useUpdateInforMutation} from '../../hooks/userHooks'
 import {getDataFromLocalStorage} from '../../utils'
-import './style.scss'
+ 
 type Props = {}
 
 interface IFormInputs {
