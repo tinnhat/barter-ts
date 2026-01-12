@@ -1,4 +1,4 @@
-import { Button, Checkbox, Input, Text, Tooltip } from '@chakra-ui/react'
+import { Button, Checkbox, Input, Text, Tooltip, Table, Thead, Tbody, Tr, Th, Td, Box } from '@chakra-ui/react'
 import moment from 'moment'
 import { useRef, useState,useEffect } from 'react'
 import { toast } from 'react-hot-toast'
@@ -91,47 +91,42 @@ export default function Orders({}: Props) {
 	const renderBody = (data: Order[]) => {
 		return (
 			data &&
-			data.map((order: Order, idx: number) => {
-				return (
-					<tr className={`row-table ${idx % 2 === 0 ? 'row-even' : ''}`} key={order._id}>
-						<td className='table-column__orderId'>
-							<Tooltip label={order._id}>
-								<Text noOfLines={1}>{order._id}</Text>
-							</Tooltip>
-						</td>
-						<td className='table-column__ownerId'>
-							<Tooltip label={order.user + ''}>
-								<Text noOfLines={1}>{order.user + ''}</Text>
-							</Tooltip>
-						</td>
-						<td className='table-column__method'>
-							<Tooltip label={order.paymentMethod}>
-								<Text noOfLines={1}>{order.paymentMethod}</Text>
-							</Tooltip>
-						</td>
-						<td className='table-column__total'>
-							<Tooltip label={order.totalPrice}>
-								<Text noOfLines={1}>$ {order.totalPrice}</Text>
-							</Tooltip>
-						</td>
-						<td className='table-column__paid'>
-							<Checkbox isChecked={order.isPaid ? true : false} readOnly />
-						</td>
-						<td className='table-column__createAt'>
-							<Tooltip label={moment(order.createdAt).format('MM-DD-YYYY')}>
-								<Text noOfLines={1}>{moment(order.createdAt).format('MM-DD-YYYY')} </Text>
-							</Tooltip>
-						</td>
-
-						<td className='table-column__action'>
-							<>
-								<i className='fa-solid fa-pen-to-square' onClick={() => handleEdit(order)}></i>
-								<i className='fa-solid fa-trash' onClick={() => handleDeleteOrder(order._id!)}></i>
-							</>
-						</td>
-					</tr>
-				)
-			})
+			data.map((order: Order, idx: number) => (
+				<Tr key={order._id} bg={idx % 2 === 0 ? 'white' : 'gray.50'}>
+					<Td>
+						<Tooltip label={order._id}>
+							<Text noOfLines={1}>{order._id}</Text>
+						</Tooltip>
+					</Td>
+					<Td>
+						<Tooltip label={order.user + ''}>
+							<Text noOfLines={1}>{order.user + ''}</Text>
+						</Tooltip>
+					</Td>
+					<Td>
+						<Tooltip label={order.paymentMethod}>
+							<Text noOfLines={1}>{order.paymentMethod}</Text>
+						</Tooltip>
+					</Td>
+					<Td>
+						<Tooltip label={order.totalPrice}>
+							<Text noOfLines={1}>$ {order.totalPrice}</Text>
+						</Tooltip>
+					</Td>
+					<Td>
+						<Checkbox isChecked={order.isPaid ? true : false} readOnly />
+					</Td>
+					<Td>
+						<Tooltip label={moment(order.createdAt).format('MM-DD-YYYY')}>
+							<Text noOfLines={1}>{moment(order.createdAt).format('MM-DD-YYYY')} </Text>
+						</Tooltip>
+					</Td>
+					<Td>
+						<i className='fa-solid fa-pen-to-square' onClick={() => handleEdit(order)}></i>
+						<i className='fa-solid fa-trash' onClick={() => handleDeleteOrder(order._id!)}></i>
+					</Td>
+				</Tr>
+			))
 		)
 	}
 	const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -190,35 +185,28 @@ export default function Orders({}: Props) {
 						<i className='fa-solid fa-magnifying-glass icon-search' onClick={handleSearchById}></i>
 					</div>
 				</div>
-				<div className='orders-table'>
-					<div className='table-header'>
-						<table cellPadding='0' cellSpacing='0'>
-							<thead>
-								<tr>
-									<th className='table-column__orderId'>Order Id</th>
-									<th className='table-column__ownerId'>Owner Id</th>
-									<th className='table-column__method'>Payment</th>
-									<th className='table-column__total'>Total Price</th>
-									<th className='table-column__paid'>Paid</th>
-									<th className='table-column__createAt'>Create Date</th>
-									<th className='table-column__action'>Actions</th>
-								</tr>
-							</thead>
-						</table>
-					</div>
-					<div className='table-content'>
-						<table cellPadding='0' cellSpacing='0'>
-							<tbody>
-								{isLoading ? (
-									<div className='center-table-loading'>
-										<LoadingCenter />
-									</div>
-								) : (
-									renderBody(orderShow)
-								)}
-							</tbody>
-						</table>
-					</div>
+				<Box className='orders-table'>
+					{isLoading ? (
+						<Box className='center-table-loading'>
+							<LoadingCenter />
+						</Box>
+					) : (
+						<Table variant='simple' size='sm'>
+							<Thead bg='gray.50'>
+								<Tr>
+									<Th>Order Id</Th>
+									<Th>Owner Id</Th>
+									<Th>Payment</Th>
+									<Th>Total Price</Th>
+									<Th>Paid</Th>
+									<Th>Create Date</Th>
+									<Th>Actions</Th>
+								</Tr>
+							</Thead>
+							<Tbody>{renderBody(orderShow)}</Tbody>
+						</Table>
+					)}
+				</Box>
           <ReactPaginate
 							previousLabel={<i className="fa-solid fa-chevron-left"></i>}
 							nextLabel={<i className="fa-solid fa-chevron-right"></i>}

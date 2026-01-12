@@ -1,4 +1,4 @@
-import {Button, Checkbox, Input, Text, Tooltip} from '@chakra-ui/react'
+import {Button, Checkbox, Input, Text, Tooltip, Table, Thead, Tbody, Tr, Th, Td, Box} from '@chakra-ui/react'
 import {useEffect, useRef, useState} from 'react'
 import {toast} from 'react-hot-toast'
 import {typeEnum} from '../../../common/enum'
@@ -66,48 +66,46 @@ export default function Customers({}: Props) {
 	const renderBody = (data: UserInfo[]) => {
 		return (
 			data &&
-			data.map((user: UserInfo, idx: number) => {
-				return (
-					<tr className={`row-table ${idx % 2 === 0 ? 'row-even' : ''} ${user.isDelete ? 'user-deleted' : ''}`} key={user._id}>
-						<td className='table-column__id'>
-							<Tooltip label={user._id}>
-								<Text noOfLines={1}>{user._id}</Text>
-							</Tooltip>
-						</td>
-						<td className='table-column__email'>
-							<Tooltip label={user.email}>
-								<Text noOfLines={1}>{user.email}</Text>
-							</Tooltip>
-						</td>
-						<td className='table-column__name'>
-							<Tooltip label={user.name}>
-								<Text noOfLines={1}>{user.name}</Text>
-							</Tooltip>
-						</td>
-						<td className='table-column__phone'>
-							<Tooltip label={user.phone}>
-								<Text noOfLines={1}>{user.phone}</Text>
-							</Tooltip>
-						</td>
-						<td className='table-column__role'>
-							<Checkbox isChecked={user.isAdmin ? true : false} readOnly />
-						</td>
-						<td className='table-column__action'>
-							{user.isDelete ? (
-								<>
-									<i className='fa-solid  fa-pen-to-square not-action'></i>
-									<i className='fa-solid fa-trash not-action'></i>
-								</>
-							) : (
-								<>
-									<i className='fa-solid icon-edit fa-pen-to-square' onClick={() => handleEdit(user)}></i>
-									<i className='fa-solid icon-delete fa-trash' onClick={() => handleDeleteUser(user._id)}></i>
-								</>
-							)}
-						</td>
-					</tr>
-				)
-			})
+			data.map((user: UserInfo, idx: number) => (
+				<Tr key={user._id} bg={idx % 2 === 0 ? 'white' : 'gray.50'}>
+					<Td>
+						<Tooltip label={user._id}>
+							<Text noOfLines={1}>{user._id}</Text>
+						</Tooltip>
+					</Td>
+					<Td>
+						<Tooltip label={user.email}>
+							<Text noOfLines={1}>{user.email}</Text>
+						</Tooltip>
+					</Td>
+					<Td>
+						<Tooltip label={user.name}>
+							<Text noOfLines={1}>{user.name}</Text>
+						</Tooltip>
+					</Td>
+					<Td>
+						<Tooltip label={user.phone}>
+							<Text noOfLines={1}>{user.phone}</Text>
+						</Tooltip>
+					</Td>
+					<Td>
+						<Checkbox isChecked={user.isAdmin ? true : false} readOnly />
+					</Td>
+					<Td>
+						{user.isDelete ? (
+							<>
+								<i className='fa-solid  fa-pen-to-square not-action'></i>
+								<i className='fa-solid fa-trash not-action'></i>
+							</>
+						) : (
+							<>
+								<i className='fa-solid icon-edit fa-pen-to-square' onClick={() => handleEdit(user)}></i>
+								<i className='fa-solid icon-delete fa-trash' onClick={() => handleDeleteUser(user._id)}></i>
+							</>
+						)}
+					</Td>
+				</Tr>
+			))
 		)
 	}
 	const handleSearchByEmail = () => {
@@ -164,34 +162,27 @@ export default function Customers({}: Props) {
 						<i className='fa-solid fa-magnifying-glass icon-search' onClick={handleSearchByEmail}></i>
 					</div>
 				</div>
-				<div className='customers-table'>
-					<div className='table-header'>
-						<table cellPadding='0' cellSpacing='0'>
-							<thead>
-								<tr>
-									<th className='table-column__id'>ID</th>
-									<th className='table-column__email'>Email</th>
-									<th className='table-column__name'>Name</th>
-									<th className='table-column__phone'>Phone</th>
-									<th className='table-column__role'>Admin</th>
-									<th className='table-column__action'>Action</th>
-								</tr>
-							</thead>
-						</table>
-					</div>
-					<div className='table-content'>
-						<table cellPadding='0' cellSpacing='0'>
-							<tbody>
-								{isLoading ? (
-									<div className='center-table-loading'>
-										<LoadingCenter />
-									</div>
-								) : (
-									renderBody(userShow)
-								)}
-							</tbody>
-						</table>
-					</div>
+				<Box className='customers-table'>
+					{isLoading ? (
+						<Box className='center-table-loading'>
+							<LoadingCenter />
+						</Box>
+					) : (
+						<Table variant='simple' size='sm'>
+							<Thead bg='gray.50'>
+								<Tr>
+									<Th>ID</Th>
+									<Th>Email</Th>
+									<Th>Name</Th>
+									<Th>Phone</Th>
+									<Th>Admin</Th>
+									<Th>Action</Th>
+								</Tr>
+							</Thead>
+							<Tbody>{renderBody(userShow)}</Tbody>
+						</Table>
+					)}
+				</Box>
 					<ReactPaginate
 						previousLabel={<i className='fa-solid fa-chevron-left'></i>}
 						nextLabel={<i className='fa-solid fa-chevron-right'></i>}

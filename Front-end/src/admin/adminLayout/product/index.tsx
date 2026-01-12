@@ -1,4 +1,4 @@
-import { Button, Input, Text, Tooltip } from '@chakra-ui/react'
+import { Button, Input, Text, Tooltip, Table, Thead, Tbody, Tr, Th, Td, Box, Image } from '@chakra-ui/react'
 import { useEffect, useRef, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { typeEnum } from '../../../common/enum'
@@ -79,37 +79,33 @@ export default function Products({}: Props) {
 	const renderBody = (data: Product[]) => {
 		return (
 			data &&
-			data.map((product: Product, idx: number) => {
-				return (
-					<tr className={`row-table ${idx % 2 === 0 ? 'row-even' : ''}`} key={product._id}>
-						<td className='table-column__img'>
-							<img src={product.image} alt='' />
-						</td>
-						<td className='table-column__name'>
-							<Tooltip label={product.name}>
-								<Text noOfLines={1}>{product.name}</Text>
-							</Tooltip>
-						</td>
-						<td className='table-column__category'>
-							<Tooltip label={product.category}>
-								<Text noOfLines={1}>{product.category}</Text>
-							</Tooltip>
-						</td>
-						<td className='table-column__price'>
-							<Tooltip label={product.price}>
-								<Text noOfLines={1}>$ {product.price}</Text>
-							</Tooltip>
-						</td>
-						<td className='table-column__quantity'>{product.countInStock}</td>
-						<td className='table-column__action'>
-							<>
-								<i className='fa-solid icon-edit fa-pen-to-square' onClick={() => handleEdit(product)}></i>
-								<i className='fa-solid icon-delete fa-trash' onClick={() => handleDeleteProduct(product._id!)}></i>
-							</>
-						</td>
-					</tr>
-				)
-			})
+			data.map((product: Product, idx: number) => (
+				<Tr key={product._id} bg={idx % 2 === 0 ? 'white' : 'gray.50'}>
+					<Td>
+						<Image src={product.image} alt={product.name} boxSize='48px' objectFit='cover' />
+					</Td>
+					<Td>
+						<Tooltip label={product.name}>
+							<Text noOfLines={1}>{product.name}</Text>
+						</Tooltip>
+					</Td>
+					<Td>
+						<Tooltip label={product.category}>
+							<Text noOfLines={1}>{product.category}</Text>
+						</Tooltip>
+					</Td>
+					<Td>
+						<Tooltip label={product.price}>
+							<Text noOfLines={1}>$ {product.price}</Text>
+						</Tooltip>
+					</Td>
+					<Td>{product.countInStock}</Td>
+					<Td>
+						<i className='fa-solid icon-edit fa-pen-to-square' onClick={() => handleEdit(product)}></i>
+						<i className='fa-solid icon-delete fa-trash' onClick={() => handleDeleteProduct(product._id!)}></i>
+					</Td>
+				</Tr>
+			))
 		)
 	}
 	const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -164,34 +160,27 @@ export default function Products({}: Props) {
 						<i className='fa-solid fa-magnifying-glass icon-search' onClick={handleSearchByName}></i>
 					</div>
 				</div>
-				<div className='products-table'>
-					<div className='table-header'>
-						<table cellPadding='0' cellSpacing='0'>
-							<thead>
-								<tr>
-									<th className='table-column__img'>Picture</th>
-									<th className='table-column__name'>Name</th>
-									<th className='table-column__category'>Category</th>
-									<th className='table-column__price'>Price</th>
-									<th className='table-column__quantity'>Quantity</th>
-									<th className='table-column__action'>Action</th>
-								</tr>
-							</thead>
-						</table>
-					</div>
-					<div className='table-content'>
-						<table cellPadding='0' cellSpacing='0'>
-							<tbody>
-								{isLoading ? (
-									<div className='center-table-loading'>
-										<LoadingCenter />
-									</div>
-								) : (
-									renderBody(productShow)
-								)}
-							</tbody>
-						</table>
-					</div>
+				<Box className='products-table'>
+					{isLoading ? (
+						<Box className='center-table-loading'>
+							<LoadingCenter />
+						</Box>
+					) : (
+						<Table variant='simple' size='sm'>
+							<Thead bg='gray.50'>
+								<Tr>
+									<Th>Picture</Th>
+									<Th>Name</Th>
+									<Th>Category</Th>
+									<Th>Price</Th>
+									<Th>Quantity</Th>
+									<Th>Action</Th>
+								</Tr>
+							</Thead>
+							<Tbody>{renderBody(productShow)}</Tbody>
+						</Table>
+					)}
+				</Box>
           <ReactPaginate
 							previousLabel={<i className="fa-solid fa-chevron-left"></i>}
 							nextLabel={<i className="fa-solid fa-chevron-right"></i>}
