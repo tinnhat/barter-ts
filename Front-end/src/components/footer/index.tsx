@@ -1,119 +1,63 @@
-import logoFooter from "../../assets/img/barter-footer-logo.png"
-import "./style.scss"
+/** @jsxImportSource react */
+import {Box, Container, Grid, GridItem, Heading, Text, VStack, HStack, Image, Link} from '@chakra-ui/react'
+import logoFooter from '../../assets/img/barter-footer-logo.png'
+
 const Footer = () => {
   return (
-    <>
-      <div className='bags'>
-        <a href='#'>
-          <img src={logoFooter} alt='' />
-        </a>
-      </div>
-      <footer className='footer'>
-        <div className='container-lg'>
-          <ul className='footer-container'>
-            <li className='footer-column'>
-              <h2 className='footer-title'>Contact Info</h2>
-              <p className='footer-text'>
-                Street 238,52 tempor Donec ultricies mattis nulla.
-              </p>
-              <p className='footer-text'>Phone: +1 234 567 890</p>
-              <p className='footer-text'>Fax: +1 234 567 890</p>
-              <p className='footer-text'>Email: info@example.com</p>
-            </li>
-            <li className='footer-column'>
-              <h2 className='footer-title'>My Account</h2>
-              <p className='footer-item'>
-                <span>
-                  <i className='fa-solid fa-chevron-right'></i>
-                </span>
+    <Box as='footer' bg='gray.50' mt={12}>
+      <Container maxW='container.xl' py={8}>
+        <HStack spacing={8} align='start'>
+          <VStack align='start'>
+            <Image src={logoFooter} alt='logo' boxSize='120px' objectFit='contain' />
+            <Text color='gray.600'>Street 238,52 tempor Donec ultricies mattis nulla.</Text>
+            <Text color='gray.600'>Phone: +1 234 567 890</Text>
+            <Text color='gray.600'>Email: info@example.com</Text>
+          </VStack>
+
+          <Grid templateColumns={{base: 'repeat(1,1fr)', md: 'repeat(3,1fr)'}} gap={6} flex='1'>
+            <GridItem>
+              <Heading as='h3' size='sm' mb={3}>
                 My Account
-              </p>
-              <p className='footer-item'>
-                <span>
-                  <i className='fa-solid fa-chevron-right'></i>
-                </span>
-                Login
-              </p>
-              <p className='footer-item'>
-                <span>
-                  <i className='fa-solid fa-chevron-right'></i>
-                </span>
-                Cart
-              </p>
-              <p className='footer-item'>
-                <span>
-                  <i className='fa-solid fa-chevron-right'></i>
-                </span>
-                Checkout
-              </p>
-            </li>
-            <li className='footer-column'>
-              <h2 className='footer-title'>Information</h2>
-              <p className='footer-item'>
-                <span>
-                  <i className='fa-solid fa-chevron-right'></i>
-                </span>
-                About Us
-              </p>
-              <p className='footer-item'>
-                <span>
-                  <i className='fa-solid fa-chevron-right'></i>
-                </span>
-                Careers
-              </p>
-              <p className='footer-item'>
-                <span>
-                  <i className='fa-solid fa-chevron-right'></i>
-                </span>
-                Privacy Policy
-              </p>
-              <p className='footer-item'>
-                <span>
-                  <i className='fa-solid fa-chevron-right'></i>
-                </span>
-                Delivery Information
-              </p>
-              <p className='footer-item'>
-                <span>
-                  <i className='fa-solid fa-chevron-right'></i>
-                </span>
-                Terms & Condition
-              </p>
-            </li>
-            <li className='footer-column'>
-              <h2 className='footer-title'>Customer Services</h2>
-              <p className='footer-item'>
-                <span>
-                  <i className='fa-solid fa-chevron-right'></i>
-                </span>
-                Shipping Policy
-              </p>
-              <p className='footer-item'>
-                <span>
-                  <i className='fa-solid fa-chevron-right'></i>
-                </span>
-                Return Policy
-              </p>
-              <p className='footer-item'>
-                <span>
-                  <i className='fa-solid fa-chevron-right'></i>
-                </span>
-                Refunds & Compensation
-              </p>
-              <p className='footer-item'>
-                <span>
-                  <i className='fa-solid fa-chevron-right'></i>
-                </span>
-                Guarantee
-              </p>
-            </li>
-          </ul>
-        </div>
-      </footer>
-      <div className='copyright'>
-        <p>Copyright &copy; 2023 By NT99</p>
-      </div>
-    </>
+              </Heading>
+              <VStack align='start' spacing={2}>
+                <Link href='#'>My Account</Link>
+                <Link href='/signin'>Login</Link>
+                <Link href='/cart'>Cart</Link>
+                <Link href='/checkout'>Checkout</Link>
+              </VStack>
+            </GridItem>
+            <GridItem>
+              <Heading as='h3' size='sm' mb={3}>
+                Information
+              </Heading>
+              <VStack align='start' spacing={2}>
+                <Link href='/about'>About Us</Link>
+                <Link href='/careers'>Careers</Link>
+                <Link href='/privacy'>Privacy Policy</Link>
+                <Link href='/delivery'>Delivery Information</Link>
+                <Link href='/terms'>Terms & Condition</Link>
+              </VStack>
+            </GridItem>
+            <GridItem>
+              <Heading as='h3' size='sm' mb={3}>
+                Customer Services
+              </Heading>
+              <VStack align='start' spacing={2}>
+                <Link href='/shipping'>Shipping Policy</Link>
+                <Link href='/returns'>Return Policy</Link>
+                <Link href='/refunds'>Refunds & Compensation</Link>
+                <Link href='/guarantee'>Guarantee</Link>
+              </VStack>
+            </GridItem>
+          </Grid>
+        </HStack>
+      </Container>
+      <Box bg='gray.100' py={3}>
+        <Container maxW='container.xl'>
+          <Text fontSize='sm' color='gray.600'>Copyright © 2023 By NT99</Text>
+        </Container>
+      </Box>
+    </Box>
   )
 }
 
