@@ -1,11 +1,12 @@
-import { BeatLoader } from 'react-spinners'
+import { Center, Spinner } from '@chakra-ui/react'
 import './style.scss'
+
 type Props = {}
 
 export default function LoadingCenter({}: Props) {
 	return (
-		<div className='loading-center'>
-			<BeatLoader color='#a88057' />
-		</div>
+		<Center py={8}>
+			<Spinner size="xl" color="brand.500" />
+		</Center>
 	)
 }

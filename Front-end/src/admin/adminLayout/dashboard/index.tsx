@@ -1,37 +1,32 @@
 import CardTotalInfo from './cardTotalInfo'
 import ChartDashboard from './chart'
-import './style.scss'
 import TableCustomers from './tableCustomer'
 import TableProducts from './tableProduct'
+import { SimpleGrid, Box, Heading } from '@chakra-ui/react'
 
 function DashboardAdmin() {
 	return (
-		<div className='dashboard-admin'>
-			<div className='row'>
-				<div className='col-6'>
+		<Box p={4}>
+			<SimpleGrid columns={{ base: 1, md: 2 }} spacing={6} mb={6}>
+				<Box>
 					<CardTotalInfo />
-				</div>
-				<div className='col-6'>
+				</Box>
+				<Box>
 					<ChartDashboard />
-				</div>
-				<div className='col-6'>
-					<div className='card'>
-						<div className='card__header'>
-							<h3>Top Customers</h3>
-							<TableCustomers />
-						</div>
-					</div>
-				</div>
-				<div className='col-6'>
-					<div className='card'>
-						<div className='card__header'>
-							<h3>Top Products</h3>
-							<TableProducts />
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+				</Box>
+			</SimpleGrid>
+
+			<SimpleGrid columns={{ base: 1, md: 2 }} spacing={6}>
+				<Box bg="white" p={4} rounded="md" boxShadow="sm">
+					<Heading size="sm" mb={3}>Top Customers</Heading>
+					<TableCustomers />
+				</Box>
+				<Box bg="white" p={4} rounded="md" boxShadow="sm">
+					<Heading size="sm" mb={3}>Top Products</Heading>
+					<TableProducts />
+				</Box>
+			</SimpleGrid>
+		</Box>
 	)
 }
 
