@@ -1,43 +1,40 @@
-import fastDelivery from "../../assets/img/fast-delivery.png"
-import returnPolicy from "../../assets/img/return-policy.png"
-import secure from "../../assets/img/secure-checkout.png"
-import specicalDiscount from "../../assets/img/special-discount.png"
-import "./style.scss"
+/** @jsxImportSource react */
+import {Box, Container, Heading, Text, Button, HStack, VStack, Image} from '@chakra-ui/react'
+import fastDelivery from '../../assets/img/fast-delivery.png'
+import returnPolicy from '../../assets/img/return-policy.png'
+import secure from '../../assets/img/secure-checkout.png'
+import specicalDiscount from '../../assets/img/special-discount.png'
 
-type Props = {}
-
-export default function Banner({}: Props) {
+export default function Banner() {
   return (
-    <section className='banner'>
-      <div className='container-lg'>
-        <div className='banner-container'>
-          <p className='banner-sub-title'>Get ready for</p>
-          <h1 className='banner-title'>Stylish Bags</h1>
-          <p className='banner-text'>
-            Vestibulum rutrum, ligula non faucibus fringilla, sem erat feugiat
-            sapiena rhoncus.
-          </p>
-          <a href="/shop" className='btn-buy-now'>Buy Now</a>
-        </div>
-      </div>
-      <div className='banner-sub'>
-        <div className='banner-sub__box'>
-          <img src={fastDelivery} alt='' />
-          <p className='banner-sub__title'>Fast Delivery</p>
-        </div>
-        <div className='banner-sub__box'>
-          <img src={specicalDiscount} alt='' />
-          <p className='banner-sub__title'>Special Discount</p>
-        </div>
-        <div className='banner-sub__box'>
-          <img src={secure} alt='' />
-          <p className='banner-sub__title'>Secure Checkout</p>
-        </div>
-        <div className='banner-sub__box'>
-          <img src={returnPolicy} alt='' />
-          <p className='banner-sub__title'>30 days Returns Policy</p>
-        </div>
-      </div>
-    </section>
+    <Box as='section' bg='linear-gradient(180deg, rgba(255,255,255,0.0), rgba(250,250,250,1))' py={12}>
+      <Container maxW='container.xl'>
+        <VStack align='start' spacing={4} mb={8}>
+          <Text color='gray.500' fontSize='lg'>Get ready for</Text>
+          <Heading as='h1' size='2xl'>Stylish Bags</Heading>
+          <Text color='gray.600' maxW='xl'>Vestibulum rutrum, ligula non faucibus fringilla, sem erat feugiat sapiena rhoncus.</Text>
+          <Button as='a' href='/shop' colorScheme='brand' size='lg'>Buy Now</Button>
+        </VStack>
+
+        <HStack spacing={8} justify='space-between'>
+          <HStack spacing={4} align='center'>
+            <Image src={fastDelivery} boxSize='48px' />
+            <Text>Fast Delivery</Text>
+          </HStack>
+          <HStack spacing={4} align='center'>
+            <Image src={specicalDiscount} boxSize='48px' />
+            <Text>Special Discount</Text>
+          </HStack>
+          <HStack spacing={4} align='center'>
+            <Image src={secure} boxSize='48px' />
+            <Text>Secure Checkout</Text>
+          </HStack>
+          <HStack spacing={4} align='center'>
+            <Image src={returnPolicy} boxSize='48px' />
+            <Text>30 days Returns Policy</Text>
+          </HStack>
+        </HStack>
+      </Container>
+    </Box>
   )
 }
