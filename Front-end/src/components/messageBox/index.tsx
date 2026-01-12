@@ -1,5 +1,7 @@
-import { Alert } from '@chakra-ui/react'
-import './style.scss'
+/** @jsxImportSource react */
+import {Alert, AlertIcon, Box} from '@chakra-ui/react'
+import React from 'react'
+
 export default function MessageBox({
   status = 'info',
   children,
@@ -8,8 +10,11 @@ export default function MessageBox({
   children: React.ReactNode
 }) {
   return (
-    <div className='messageBox'>
-      <Alert status={status}>{children}</Alert>
-    </div>
+    <Box role='status' aria-live='polite' my={3}>
+      <Alert status={status} borderRadius='md'>
+        <AlertIcon />
+        {children}
+      </Alert>
+    </Box>
   )
 }
