@@ -1,4 +1,4 @@
-import {Text, Tooltip} from '@chakra-ui/react'
+import { Stat, StatNumber, StatLabel, Box, Tooltip, Text } from '@chakra-ui/react'
 import './style.scss'
 
 type Props = {
@@ -7,20 +7,17 @@ type Props = {
 	title: string
 }
 
-export default function StatusCard({icon, count, title}: Props) {
+export default function StatusCard({ icon, count, title }: Props) {
 	return (
-		<div className='status-card'>
-			<div className='status-card__icon'>
-				<i className={icon}></i>
-			</div>
-			<div className='status-card__info'>
-				<h4>
+		<Box bg="white" p={4} rounded="md" boxShadow="sm">
+			<Stat>
+				<StatNumber>
 					<Tooltip label={count}>
-						<Text noOfLines={1}>{count}</Text>
+						<Text as="span">{count}</Text>
 					</Tooltip>
-				</h4>
-				<span>{title}</span>
-			</div>
-		</div>
+				</StatNumber>
+				<StatLabel>{title}</StatLabel>
+			</Stat>
+		</Box>
 	)
 }

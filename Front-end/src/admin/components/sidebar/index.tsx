@@ -1,25 +1,9 @@
-import {useEffect, useState} from 'react'
-import {Link} from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import sidebar_items from '../../assets/JsonData/sidebar_routes.json'
-import './sidebar.scss'
-import {Helmet} from 'react-helmet-async'
-type Props = {
-	icon: string
-	title: string
-	active: boolean
-	handleClick: () => void
-}
-const SidebarItems = (props: Props) => {
-	const active = props.active ? 'active' : ''
-	return (
-		<div className='sidebar__item' onClick={() => props.handleClick()}>
-			<div className={`sidebar__item-inner ${active}`}>
-				<i className={props.icon}></i>
-				<span>{props.title}</span>
-			</div>
-		</div>
-	)
-}
+import { Helmet } from 'react-helmet-async'
+import { VStack, Box, Text, HStack, Icon } from '@chakra-ui/react'
+
 function Sidebar() {
 	const [activeItem, setActiveItem] = useState(0)
 	const path = window.location.pathname
@@ -34,27 +18,35 @@ function Sidebar() {
 	const handleClick = (id: number) => {
 		setActiveItem(id)
 	}
+
 	return (
 		<>
 			<Helmet>
 				<title>Admin</title>
 			</Helmet>
-			<div className='sidebar'>
-				<div className='sidebar__logo'>
-					<p className='sidebar__logo-text'>Barter</p>
-				</div>
-				{sidebar_items.map((item, idx) => {
-					return (
-						<Link to={item.route} key={idx}>
-							<SidebarItems title={item.display_name} icon={item.icon} active={idx === activeItem} handleClick={() => handleClick(idx)} />
+			<Box as="nav" bg="white" w="64" minH="100vh" borderRightWidth="1px" p={4}>
+				<Box mb={6}>
+					<Text fontSize="xl" fontWeight="bold">Barter</Text>
+				</Box>
+				<VStack align="stretch" spacing={1}>
+					{sidebar_items.map((item, idx) => (
+						<Link to={item.route} key={idx} onClick={() => handleClick(idx)}>
+							<HStack
+								spacing={3}
+								p={3}
+								borderRadius="md"
+								bg={idx === activeItem ? 'gray.100' : 'transparent'}
+								_hover={{ bg: 'gray.50' }}
+							>
+								<Icon as={() => <i className={item.icon} />} />
+								<Text>{item.display_name}</Text>
+							</HStack>
 						</Link>
-					)
-				})}
-			</div>
+					))}
+				</VStack>
+			</Box>
 		</>
 	)
 }
-
-Sidebar.propTypes = {}
 
 export default Sidebar
