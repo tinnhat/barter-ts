@@ -1,4 +1,3 @@
-/** @jsxImportSource react */
 import React, {useContext, useState} from 'react'
 import {
 	Box,
@@ -21,6 +20,7 @@ import {Link as RouterLink, useNavigate} from 'react-router-dom'
 import {Store} from '../../Store'
 import logo from '../../assets/img/logo.png'
 import {useGetProductsQuery} from '../../hooks/productHooks'
+import './style.scss'
 
 export default function Header() {
   const navigate = useNavigate()

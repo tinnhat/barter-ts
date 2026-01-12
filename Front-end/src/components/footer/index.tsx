@@ -1,4 +1,3 @@
-/** @jsxImportSource react */
 import {Box, Container, Grid, GridItem, Heading, Text, VStack, HStack, Image, Link} from '@chakra-ui/react'
 import logoFooter from '../../assets/img/barter-footer-logo.png'
 

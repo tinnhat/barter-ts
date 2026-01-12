@@ -5,7 +5,8 @@ import {Store} from '../../Store'
 import {useGetOrderDetailsQuery, useGetPaypalClientIdQuery, usePayOrderMutation} from '../../hooks/orderHooks'
 import {ApiError} from '../../types/ApiError'
 import {getError} from '../../utils'
- 
+import './style.scss'
+
 import {Button, Text, Tooltip} from '@chakra-ui/react'
 import {toast} from 'react-hot-toast'
 type Props = {}

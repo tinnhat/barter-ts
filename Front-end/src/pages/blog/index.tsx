@@ -9,6 +9,7 @@ import { BlogType } from '../../types/Blog'
 import { getDataFromLocalStorage } from '../../utils'
 import ModalEditAddBlog from './modalAddEdit'
 import { typeEnum } from '../../common/enum'
+import './style.scss'
 type Props = {}
 
 export default function Blog({}: Props) {

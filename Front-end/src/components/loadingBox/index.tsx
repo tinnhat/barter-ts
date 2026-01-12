@@ -1,4 +1,3 @@
-/** @jsxImportSource react */
 import React from 'react'
 import {Center, Spinner, Box} from '@chakra-ui/react'
 

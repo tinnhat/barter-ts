@@ -166,9 +166,8 @@ export default function CategoryPage() {
 							disabledClassName='nextBttn'
 							activeClassName='paginationActive'
 						/>
+					{showModal.show && <ModalCategory showModal={showModal} setShowModal={setShowModal} handleRefetchData={handleRefetchData} />}
 				</div>
-				{showModal.show && <ModalCategory showModal={showModal} setShowModal={setShowModal} handleRefetchData={handleRefetchData} />}
-			</div>
 		</>
 	)
 }

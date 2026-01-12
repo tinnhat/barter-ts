@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
+import './style.scss'
 import {Store} from '../../Store'
 import {saveDataFromLocalStorage} from '../../utils'
 import {Helmet} from 'react-helmet-async'

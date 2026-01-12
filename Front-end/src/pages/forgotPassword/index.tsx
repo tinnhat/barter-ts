@@ -1,6 +1,7 @@
 import {Button, Input} from '@chakra-ui/react'
 import {useRef} from 'react'
- 
+import './style.scss'
+
 import {toast} from 'react-hot-toast'
 import {useForgotPasswordMutation} from '../../hooks/userHooks'
 import {ApiError} from '../../types/ApiError'

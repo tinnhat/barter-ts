@@ -7,6 +7,7 @@ import {ApiError} from '../../types/ApiError'
 import {useSigninMutation} from '../../hooks/userHooks'
 import {Button, Input} from '@chakra-ui/react'
 import {toast} from 'react-hot-toast'
+import './style.scss'
 type Props = {}
 
 export default function Login({}: Props) {

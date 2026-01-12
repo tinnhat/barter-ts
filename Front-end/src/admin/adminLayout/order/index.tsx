@@ -217,9 +217,8 @@ export default function Orders({}: Props) {
 							disabledClassName='nextBttn'
 							activeClassName='paginationActive'
 						/>
+					{showModal.show && <ModalCustomer showModal={showModal} setShowModal={setShowModal} handleRefetchData={refetch} />}
 				</div>
-				{showModal.show && <ModalCustomer showModal={showModal} setShowModal={setShowModal} handleRefetchData={refetch} />}
-			</div>
 		</>
 	)
 }

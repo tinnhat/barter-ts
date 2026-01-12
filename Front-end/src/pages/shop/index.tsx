@@ -9,6 +9,7 @@ import {useGetProductsQuery} from '../../hooks/productHooks'
 import {ApiError} from '../../types/ApiError'
 import {Product} from '../../types/Product'
 import {getError} from '../../utils'
+import './style.scss'
  
 import ReactPaginate from 'react-paginate'
 

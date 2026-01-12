@@ -8,6 +8,7 @@ import MessageBox from '../../components/messageBox'
 import {useGetProductDetailBySlugQuery} from '../../hooks/productHooks'
 import {ApiError} from '../../types/ApiError'
 import {convertProductToCartItem, getError} from '../../utils'
+import './style.scss'
  
 import parse from 'html-react-parser'
 import {toast} from 'react-hot-toast'

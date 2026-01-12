@@ -193,7 +193,6 @@ export default function Customers({}: Props) {
 						disabledClassName='nextBttn'
 						activeClassName='paginationActive'
 					/>
-				</div>
 				{showModal.show && <ModalCustomer showModal={showModal} setShowModal={setShowModal} handleRefectchData={handleRefetchData} />}
 			</div>
 		</>
