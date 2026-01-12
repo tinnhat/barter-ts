@@ -8,5 +8,9 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/setupTests.ts',
+    transformMode: {
+      // Ensure Vite's plugins (including plugin-react) are applied to TSX/JSX during tests
+      web: [/\.[jt]sx?$/],
+    },
   },
 })
