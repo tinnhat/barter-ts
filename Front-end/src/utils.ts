@@ -9,7 +9,8 @@ export const getError = (error: ApiError) => {
 }
 
 export const getDataFromLocalStorage = (key: string) => {
-  return JSON.parse(localStorage.getItem(key)!)
+  const item = localStorage.getItem(key)
+  return item ? JSON.parse(item) : null
 }
 
 export const saveDataFromLocalStorage = (key: string, value: any) => {

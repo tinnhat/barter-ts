@@ -8,34 +8,36 @@ type Props = {}
 
 export default function Banner({}: Props) {
   return (
-    <section className='banner'>
-      <div className='container-lg'>
-        <div className='banner-container'>
-          <p className='banner-sub-title'>Get ready for</p>
-          <h1 className='banner-title'>Stylish Bags</h1>
-          <p className='banner-text'>
+    <section className='bg-gradient-to-r from-blue-500 to-purple-600 text-white py-20'>
+      <div className='container mx-auto px-4'>
+        <div className='text-center mb-12'>
+          <p className='text-lg mb-4'>Get ready for</p>
+          <h1 className='text-5xl font-bold mb-6'>Stylish Bags</h1>
+          <p className='text-xl mb-8 max-w-2xl mx-auto'>
             Vestibulum rutrum, ligula non faucibus fringilla, sem erat feugiat
             sapiena rhoncus.
           </p>
-          <a href="/shop" className='btn-buy-now'>Buy Now</a>
+          <a href='/shop' className='bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition'>
+            Buy Now
+          </a>
         </div>
-      </div>
-      <div className='banner-sub'>
-        <div className='banner-sub__box'>
-          <img src={fastDelivery} alt='' />
-          <p className='banner-sub__title'>Fast Delivery</p>
-        </div>
-        <div className='banner-sub__box'>
-          <img src={specicalDiscount} alt='' />
-          <p className='banner-sub__title'>Special Discount</p>
-        </div>
-        <div className='banner-sub__box'>
-          <img src={secure} alt='' />
-          <p className='banner-sub__title'>Secure Checkout</p>
-        </div>
-        <div className='banner-sub__box'>
-          <img src={returnPolicy} alt='' />
-          <p className='banner-sub__title'>30 days Returns Policy</p>
+        <div className='grid grid-cols-1 md:grid-cols-4 gap-8'>
+          <div className='text-center'>
+            <img src={fastDelivery} alt='' className='mx-auto mb-4' />
+            <p className='font-semibold'>Fast Delivery</p>
+          </div>
+          <div className='text-center'>
+            <img src={specicalDiscount} alt='' className='mx-auto mb-4' />
+            <p className='font-semibold'>Special Discount</p>
+          </div>
+          <div className='text-center'>
+            <img src={secure} alt='' className='mx-auto mb-4' />
+            <p className='font-semibold'>Secure Checkout</p>
+          </div>
+          <div className='text-center'>
+            <img src={returnPolicy} alt='' className='mx-auto mb-4' />
+            <p className='font-semibold'>30 days Returns Policy</p>
+          </div>
         </div>
       </div>
     </section>

@@ -21,13 +21,15 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
 	async (config) => {
 		const user = getDataFromLocalStorage('userInfo')
-		if (user) {
+		if (user?.token) {
 			let token = user.token
 			let decodedToken: any = jwt_decode(token)
 			let currentDate = new Date()
 			// JWT exp is in seconds
 			if (decodedToken.exp * 1000 < currentDate.getTime()) {
 				localStorage.clear()
+				// Assuming Store is available, but since it's axios interceptor, can't dispatch here easily.
+				// Better to handle in components or remove this check.
 				if (user.isAdmin) {
 					window.location.href = '/admin/signin'
 				} else {

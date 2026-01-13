@@ -17,13 +17,12 @@ function App() {
 			if (!result.data.hasOwnProperty('user') || result.data === 'Token expired') {
 				dispatch({type: 'USER_SIGNOUT'})
 				localStorage.clear()
-				window.location.reload
+				window.location.reload()
 			}
 		} catch (error) {
 			dispatch({type: 'USER_SIGNOUT'})
 			localStorage.clear()
-			window.location.reload
-			throw error
+			window.location.reload()
 		}
 	}
 	useEffect(() => {

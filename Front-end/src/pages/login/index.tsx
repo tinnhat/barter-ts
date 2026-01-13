@@ -48,10 +48,10 @@ export default function Login({}: Props) {
 				<div className='login-container'>
 					<form action='' onSubmit={handleSubmit}>
 						<p className='title'>Sign In</p>
-						<p className='label-input'>Email</p>
-						<Input required type='email' name='' id='' onChange={(e) => setEmail(e.target.value)} />
-						<p className='label-input'>Password</p>
-						<Input className='input-password' required type='password' name='' id='' onChange={(e) => setPassword(e.target.value)} />
+						<label className='label-input' htmlFor='email'>Email</label>
+						<Input required type='email' name='email' id='email' onChange={(e) => setEmail(e.target.value)} />
+						<label className='label-input' htmlFor='password'>Password</label>
+						<Input className='input-password' required type='password' name='password' id='password' onChange={(e) => setPassword(e.target.value)} />
             <p className='link-forgot'>
 							<span onClick={() => navigate('/forgot-password')}>Forgot your password</span>
 						</p>

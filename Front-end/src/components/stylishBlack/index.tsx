@@ -11,60 +11,62 @@ type Props = {}
 export default function StylishBlack({}: Props) {
   return (
     <>
-      <section className='stylish'>
-        <div className='container-lg'>
-          <p className='sub-title'>New From True Brand</p>
-          <h1 className='title'>Stylish black</h1>
-          <p className='text'>
+      <section className='bg-black text-white py-20'>
+        <div className='container mx-auto px-4 text-center'>
+          <p className='text-lg mb-4'>New From True Brand</p>
+          <h1 className='text-5xl font-bold mb-6'>Stylish black</h1>
+          <p className='text-xl mb-8 max-w-2xl mx-auto'>
             Vestibulum rutrum, ligula non faucibus fringilla, sem erat feugiat
             sapiena rhoncus.
           </p>
-          <p className='price'>$ 199.0</p>
-          <a href="/shop" className='btn-shop'>Shop now</a>
+          <p className='text-3xl font-bold mb-8'>$ 199.0</p>
+          <a href='/shop' className='bg-white text-black px-8 py-3 rounded-lg font-semibold hover:bg-gray-200 transition'>
+            Shop now
+          </a>
         </div>
       </section>
-      <section className='bestProduct'>
-        <div className='container-lg'>
-          <div className='bestProduct-container'>
-            <div className='info'>
-              <p className='tag'>Best Product</p>
-              <h1 className='title'>How it works</h1>
-              <ul className='list-info'>
-                <li className='item-info'>
-                  <img src={icon1} alt='' />
-                  <div className='item-info-box'>
-                    <p className='item-info-box__title'>Create Account</p>
-                    <p className='item-info-box__detail'>
+      <section className='py-16 bg-gray-50'>
+        <div className='container mx-auto px-4'>
+          <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 items-center'>
+            <div>
+              <p className='text-blue-600 font-semibold mb-4'>Best Product</p>
+              <h1 className='text-4xl font-bold mb-8'>How it works</h1>
+              <ul className='space-y-6'>
+                <li className='flex items-start space-x-4'>
+                  <img src={icon1} alt='' className='w-12 h-12' />
+                  <div>
+                    <p className='font-semibold mb-2'>Create Account</p>
+                    <p className='text-gray-600'>
                       Vestibulum rutrum, ligula non fauc fringilla, sem erat
                       feugiat sapiena rhoncus.
                     </p>
                   </div>
                 </li>
-                <li className='item-info'>
-                  <img src={icon2} alt='' />
-                  <div className='item-info-box'>
-                    <p className='item-info-box__title'>Choose Design</p>
-                    <p className='item-info-box__detail'>
+                <li className='flex items-start space-x-4'>
+                  <img src={icon2} alt='' className='w-12 h-12' />
+                  <div>
+                    <p className='font-semibold mb-2'>Choose Design</p>
+                    <p className='text-gray-600'>
                       Vestibulum rutrum, ligula non fauc fringilla, sem erat
                       feugiat sapiena rhoncus.
                     </p>
                   </div>
                 </li>
-                <li className='item-info'>
-                  <img src={icon3} alt='' />
-                  <div className='item-info-box'>
-                    <p className='item-info-box__title'>Add to Cart</p>
-                    <p className='item-info-box__detail'>
+                <li className='flex items-start space-x-4'>
+                  <img src={icon3} alt='' className='w-12 h-12' />
+                  <div>
+                    <p className='font-semibold mb-2'>Add to Cart</p>
+                    <p className='text-gray-600'>
                       Vestibulum rutrum, ligula non fauc fringilla, sem erat
                       feugiat sapiena rhoncus.
                     </p>
                   </div>
                 </li>
-                <li className='item-info'>
-                  <img src={icon4} alt='' />
-                  <div className='item-info-box'>
-                    <p className='item-info-box__title'>Order and Payment</p>
-                    <p className='item-info-box__detail'>
+                <li className='flex items-start space-x-4'>
+                  <img src={icon4} alt='' className='w-12 h-12' />
+                  <div>
+                    <p className='font-semibold mb-2'>Order and Payment</p>
+                    <p className='text-gray-600'>
                       Vestibulum rutrum, ligula non fauc fringilla, sem erat
                       feugiat sapiena rhoncus.
                     </p>
@@ -72,8 +74,8 @@ export default function StylishBlack({}: Props) {
                 </li>
               </ul>
             </div>
-            <div className='img'>
-              <img src={bkg} alt='' />
+            <div>
+              <img src={bkg} alt='' className='w-full' />
             </div>
           </div>
         </div>

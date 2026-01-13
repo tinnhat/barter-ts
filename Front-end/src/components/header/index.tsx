@@ -5,7 +5,6 @@ import { Store } from '../../Store'
 import logo from '../../assets/img/logo.png'
 import { useGetProductsQuery } from '../../hooks/productHooks'
 import { CartItem } from '../../types/Cart'
-import './style.scss'
 type Props = {}
 
 export default function Header({}: Props) {
@@ -57,7 +56,7 @@ export default function Header({}: Props) {
 		if (keyWordSearch) {
 			const productsFind: any[] = []
 			allProduct?.forEach((product) => {
-				if (product.name.toLocaleLowerCase().includes(keyWordSearch.toLocaleLowerCase()!)) {
+				if (product.name.toLowerCase().includes(keyWordSearch.toLowerCase())) {
 					productsFind.push(product)
 				}
 			})
@@ -78,175 +77,165 @@ export default function Header({}: Props) {
 		})
 	}
 	return (
-		<header className='header'>
-			<div className='header-info-container'>
-				<div className='container-lg'>
-					<div className='header-box-info'>
-						<div className='box-text'>
-							<p className='header-box-info-text'>Free shipping on orders over $80</p>
-							<p className='header-box-info-text'>sales@yourstorename.com</p>
-						</div>
-						<button className='btn-sub-save'>Subscribe & Save</button>
+		<header className='sticky top-0 z-50 bg-white shadow-md'>
+			<div className='bg-gray-800 text-white py-2'>
+				<div className='container mx-auto px-4 flex justify-between items-center'>
+					<div className='flex space-x-4'>
+						<p>Free shipping on orders over $80</p>
+						<p>sales@yourstorename.com</p>
 					</div>
+					<button className='bg-black text-white px-4 py-2 hover:bg-gray-700 transition'>Subscribe & Save</button>
 				</div>
 			</div>
-			<div className='header-main-container'>
-				<div className='container-lg'>
-					<div className='header-main-box'>
-						<div className='logo'>
-							<a href='/' rel='noopener noreferrer'>
-								<img src={logo} alt='' className='img-log' />
+			<div className='bg-white py-4'>
+				<div className='container mx-auto px-4 flex justify-between items-center'>
+					<div className='flex items-center space-x-8'>
+						<div className='w-48'>
+							<a href='/'>
+								<img src={logo} alt='Logo' className='w-full' />
 							</a>
 						</div>
-						<div className='header-search'>
-							<Input type='text' name='' id='' className='header-search-input' onChange={(e) => setKeyWordSearch(e.target.value)} />
-							<i className='fa-solid fa-magnifying-glass icon-search' onClick={handleSearch}></i>
+						<div className='relative flex-1 max-w-md'>
+							<Input
+								type='text'
+								placeholder='Search products...'
+								className='w-full pl-4 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+								onChange={(e) => setKeyWordSearch(e.target.value)}
+							/>
+							<i className='fa-solid fa-magnifying-glass absolute right-3 top-3 text-gray-400 cursor-pointer' onClick={handleSearch}></i>
 							{showSearch && (
-								<div className='review-search' ref={refSearch}>
-									<ul className='list-product-search'>
+								<div className='absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-lg shadow-lg max-h-64 overflow-y-auto z-10' ref={refSearch}>
+									<ul className='p-2'>
 										{productSearchShow.length > 0 ? (
-											productSearchShow.map((product) => {
-												return (
-													<li className='item' key={product._id}>
-														<a href={`/product/${product.slug}`} className='item-link'>
-															<img src={product.image} alt='' />
-															<Text className='item-name' noOfLines={2}>
+											productSearchShow.map((product) => (
+												<li key={product._id} className='p-2 hover:bg-gray-100'>
+													<a href={`/product/${product.slug}`} className='flex items-center space-x-3'>
+														<img src={product.image} alt='' className='w-12 h-12 object-cover' />
+														<div>
+															<Text className='text-sm font-medium' noOfLines={2}>
 																{product.name}
 															</Text>
-															<p className='item-price'>${product.price}</p>
-														</a>
-													</li>
-												)
-											})
+															<p className='text-sm text-gray-600'>${product.price}</p>
+														</div>
+													</a>
+												</li>
+											))
 										) : (
-											<div className='no-product'>No product found</div>
+											<div className='p-2 text-gray-500'>No product found</div>
 										)}
 									</ul>
 								</div>
 							)}
 						</div>
-						{/* search on mobile */}
-						<div className='header-search-input-mobile'>
-							<i className='fa-solid fa-magnifying-glass'></i>
-						</div>
-						<div className='header-user'>
-							{!(JSON.stringify(userInfo) === '{}') ? (
-								<div className='account' onClick={() => setShowAccountInfo((state) => !state)}>
+					</div>
+					<div className='flex items-center space-x-4'>
+						{userInfo?.token ? (
+							<div className='relative'>
+								<div className='flex items-center space-x-2 cursor-pointer' onClick={() => setShowAccountInfo((state) => !state)}>
 									<i className='fa-regular fa-user'></i>
-									<p className='title-account'>account</p>
-									{showAccountInfo ? (
-										<div className='account-sub' ref={refAccount}>
-											<p className='account-item' onClick={() => handleClickNavigate('/my-account')}>
-												Profile
-											</p>
-											<p className='account-item' onClick={() => handleClickNavigate('/order-history')}>
-												My order
-											</p>
-											{userInfo?.isAdmin ? (
-												<p className='account-item' onClick={() => (window.location.href = '/admin')}>
-													Admin
-												</p>
-											) : null}
-											<p className='account-item' onClick={handleSignOut}>
-												Sign Out
-											</p>
-										</div>
-									) : null}
+									<p>Account</p>
 								</div>
-							) : (
-								<Link className='account-link-header' to={'/signin'}>
-									Login Now
-								</Link>
-							)}
-
-							<div className='cart' onClick={() => setShowCart(true)}>
-								<i className='fa-solid fa-cart-shopping'></i>
-								{cartItems.length ? <p className='item-add-cart'>{cartItems.length}</p> : null}
-								{showCart ? (
-									<div className='cart-info' ref={ref}>
-										<div className='close'>
-											<i className='fa-solid fa-xmark' onClick={handleHideCart}></i>
-										</div>
-										{cartItems.length > 0 ? (
-											<p className='cart-info__title'>Cart</p>
-										) : (
-											<a href='/shop' className='text-shopping'>
-												Shopping now
-											</a>
+								{showAccountInfo && (
+									<div className='absolute top-full right-0 bg-white border border-gray-300 rounded-lg shadow-lg py-2 z-10' ref={refAccount}>
+										<p className='px-4 py-2 hover:bg-gray-100 cursor-pointer' onClick={() => handleClickNavigate('/my-account')}>
+											Profile
+										</p>
+										<p className='px-4 py-2 hover:bg-gray-100 cursor-pointer' onClick={() => handleClickNavigate('/order-history')}>
+											My order
+										</p>
+										{userInfo?.isAdmin && (
+											<p className='px-4 py-2 hover:bg-gray-100 cursor-pointer' onClick={() => (window.location.href = '/admin')}>
+												Admin
+											</p>
 										)}
-
-										<ul className='list-items'>
-											{cartItems.map((item: CartItem) => {
-												return (
-													<li className='item' key={item._id}>
+										<p className='px-4 py-2 hover:bg-gray-100 cursor-pointer' onClick={handleSignOut}>
+											Sign Out
+										</p>
+									</div>
+								)}
+							</div>
+						) : (
+							<Link to='/signin' className='text-blue-600 hover:underline'>
+								Login Now
+							</Link>
+						)}
+						<div className='relative'>
+							<div className='flex items-center space-x-2 cursor-pointer' onClick={() => setShowCart(true)}>
+								<i className='fa-solid fa-cart-shopping'></i>
+								{cartItems.length > 0 && <span className='bg-red-500 text-white text-xs rounded-full px-2 py-1'>{cartItems.length}</span>}
+							</div>
+							{showCart && (
+								<div className='absolute top-full right-0 bg-white border border-gray-300 rounded-lg shadow-lg p-4 w-80 z-10' ref={ref}>
+									<div className='flex justify-between items-center mb-4'>
+										<h3 className='font-semibold'>Cart</h3>
+										<i className='fa-solid fa-xmark cursor-pointer' onClick={handleHideCart}></i>
+									</div>
+									{cartItems.length > 0 ? (
+										<>
+											<ul className='space-y-2 mb-4'>
+												{cartItems.map((item: CartItem) => (
+													<li key={item._id} className='flex items-center space-x-3'>
 														<a href={`/product/${item.slug}`}>
-															<img src={item.image} alt='' />
+															<img src={item.image} alt='' className='w-12 h-12 object-cover' />
 														</a>
-														<div className='item-info'>
-															<a href={`/product/${item.slug}`}>{item.name}</a>
-															<p className='item-info__price'>
-																<span>{item.quantity}</span>
-																<i className='fa-solid fa-xmark'></i>
-																<span>${item.price}</span>
+														<div className='flex-1'>
+															<a href={`/product/${item.slug}`} className='text-sm font-medium'>
+																{item.name}
+															</a>
+															<p className='text-sm text-gray-600'>
+																{item.quantity} x ${item.price}
 															</p>
 														</div>
-														<div className='remove-item'>
-															<i className='fa-solid fa-xmark' onClick={() => handleRemoveFromCart(item)}></i>
-														</div>
+														<i className='fa-solid fa-xmark cursor-pointer text-red-500' onClick={() => handleRemoveFromCart(item)}></i>
 													</li>
-												)
-											})}
-										</ul>
-										{cartItems.length > 0 ? (
-											<>
-												<div className='cart-info__price'>
-													<p className='subtotal'>
-														Subtotal:
-														<span>${cartItems.reduce((acc: number, val: CartItem) => acc + val.price * val.quantity, 0)}</span>
-													</p>
-												</div>
-												<Button className='btn-view-cart' onClick={(e) => handleNavigate(e, '/cart')}>
+												))}
+											</ul>
+											<div className='border-t pt-4'>
+												<p className='font-semibold'>
+													Subtotal: ${cartItems.reduce((acc: number, val: CartItem) => acc + val.price * val.quantity, 0)}
+												</p>
+												<Button className='w-full bg-blue-600 text-white py-2 rounded-lg mt-2 hover:bg-blue-700' onClick={(e) => handleNavigate(e, '/cart')}>
 													View Cart
 												</Button>
-											</>
-										) : null}
-									</div>
-								) : null}
-							</div>
-						</div>
-						{/* menu on mobile */}
-						<div className='header-menu-mobile'>
-							<i className='fa-solid fa-bars'></i>
+											</div>
+										</>
+									) : (
+										<a href='/shop' className='text-blue-600 hover:underline'>
+											Shop now
+										</a>
+									)}
+								</div>
+							)}
 						</div>
 					</div>
 				</div>
 			</div>
-			<div className='header-navbar-container'>
-				<div className='container-navbar'>
-					<nav className='header-navbar'>
-						<ul className='header-navbar-list'>
-							<li className='header-navbar-item'>
-								<a className='header-navbar-item__link' href='/'>
+			<div className='bg-gray-100 py-2'>
+				<div className='container mx-auto px-4'>
+					<nav>
+						<ul className='flex space-x-8'>
+							<li>
+								<a href='/' className='text-gray-700 hover:text-blue-600 font-medium'>
 									Home
 								</a>
 							</li>
-							<li className='header-navbar-item'>
-								<a className='header-navbar-item__link' href='/shop'>
+							<li>
+								<a href='/shop' className='text-gray-700 hover:text-blue-600 font-medium'>
 									Shop
 								</a>
 							</li>
-							<li className='header-navbar-item'>
-								<a className='header-navbar-item__link' href='/about'>
+							<li>
+								<a href='/about' className='text-gray-700 hover:text-blue-600 font-medium'>
 									About
 								</a>
 							</li>
-							<li className='header-navbar-item'>
-								<a className='header-navbar-item__link' href='/blog'>
+							<li>
+								<a href='/blog' className='text-gray-700 hover:text-blue-600 font-medium'>
 									Blog
 								</a>
 							</li>
-							<li className='header-navbar-item'>
-								<a className='header-navbar-item__link' href='/contact'>
+							<li>
+								<a href='/contact' className='text-gray-700 hover:text-blue-600 font-medium'>
 									Contact
 								</a>
 							</li>
